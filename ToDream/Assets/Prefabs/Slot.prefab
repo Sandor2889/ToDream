@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8539821670012590823}
   - component: {fileID: 5529728651934520951}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.35946414, g: 0.6792453, b: 0.33641866, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -105,6 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3235654a94bdfee4aa9519599ca21c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  itemImage: {fileID: 2843577594667326666}
 --- !u!1 &2911159028772223999
 GameObject:
   m_ObjectHideFlags: 0

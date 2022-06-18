@@ -4,10 +4,41 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public Slot[] bag;
+    [SerializeField] private GameObject inventory;
+    [SerializeField] private Slot[] bag;
+    private bool inActive;
 
     private void Awake()
     {
-        bag = GetComponentsInChildren<Slot>();
+        bag = inventory.GetComponentsInChildren<Slot>();
+    }
+
+    private void Update()
+    {
+        // 관리할 위치 정할 것 (캐릭터 or Canvas) 
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ToggleInventory();
+        }
+    }
+
+    // 인벤토리 On/OFF
+    private void ToggleInventory()
+    {
+        inActive = !inActive;
+        inventory.SetActive(inActive);
+    }
+
+    // 아이템 습득
+    public void AcquireItem(Item item)
+    {
+        for (int idx = 0; idx < bag.Length; idx++)
+        {
+            if (bag[idx].item == null)
+            {
+                bag[idx].AddItem(item);
+                return;
+            }
+        }
     }
 }
