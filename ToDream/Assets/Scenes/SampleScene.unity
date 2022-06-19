@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 111800818}
   - component: {fileID: 111800817}
   - component: {fileID: 111800816}
+  - component: {fileID: 111800822}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Player
@@ -448,9 +449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0785222238eceb14cbb79ac4f063114b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 1029971959}
   rigid: {fileID: 111800817}
   coll: {fileID: 111800818}
+  inventory: {fileID: 111800822}
 --- !u!54 &111800817
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -544,6 +545,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &111800822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111800815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7cd6adc58fc504aa8d6a18f5661a62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 51449213}
+  bag: []
 --- !u!224 &122406578 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1670387101893954324, guid: 03fe5ce09acc9fc488fbac852fe2220a, type: 3}
@@ -1843,7 +1858,6 @@ GameObject:
   - component: {fileID: 1029971957}
   - component: {fileID: 1029971956}
   - component: {fileID: 1029971955}
-  - component: {fileID: 1029971959}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1933,20 +1947,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1029971959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1029971954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7cd6adc58fc504aa8d6a18f5661a62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 51449213}
-  bag: []
 --- !u!224 &1047705131 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1670387101893954324, guid: 03fe5ce09acc9fc488fbac852fe2220a, type: 3}

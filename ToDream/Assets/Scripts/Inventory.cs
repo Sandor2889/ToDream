@@ -15,7 +15,6 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        // 관리할 위치 정할 것 (캐릭터 or Canvas) 
         if (Input.GetKeyDown(KeyCode.I))
         {
             ToggleInventory();

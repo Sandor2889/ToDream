@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TestPlayer : MonoBehaviour
 {
-    [SerializeField] private Inventory inventory;
-
+    [Header("<Components>")]
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private CapsuleCollider coll;
+    [SerializeField] private Inventory inventory;
 
     private float moveSpeed = 30f;
 
