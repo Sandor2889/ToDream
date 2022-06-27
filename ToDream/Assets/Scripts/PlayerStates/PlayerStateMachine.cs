@@ -66,7 +66,6 @@ public class PlayerStateMachine : MonoBehaviour
 		if(_currentMovementInput != Vector2.zero)
         {
 			_isMovementPressed = true;
-			Debug.Log(_appliedMovement);
 		}
 		else
         {
