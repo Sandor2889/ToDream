@@ -4,9 +4,11 @@ using UnityEngine;
 
 public enum PlayerStates
 {
+	// Sub
 	Idle,
 	Walk,
 	Run,
+	// Main
 	Grounded,
 	Jump,
 	Fall

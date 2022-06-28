@@ -9,44 +9,72 @@ using UnityEngine;
 public class PlayerStateMachine : MonoBehaviour
 {
 	CharacterController _characterController;
-	PlayerBaseState _currentState;
+	PlayerBaseState _currentState; // Main State
 	PlayerStateFactory _states;
+	Animator _animator;
+	
 	
 	// move variables
 	Vector2 _currentMovementInput;
 	Vector3 _currentMovement;
 	Vector3 _appliedMovement;
+	
+	float _runMultiplier = 1.5f;
+	
 	bool _isMovementPressed;
 	bool _isRunPressed;
 	
+	
 	// gravity variables
 	float _gravity = -9.8f;
-	float _groundedGravity = -0.5f;
+	
 	
 	// jumping variables
 	bool _isJumpPressed = false;
+	float _initialJumpVelocity;
+
 	float _maxJumpHeight = 4.0f;
 	float _maxJumpTime = .75f;
 	bool _isJumping = false;
 	int _isJumpingHash;
 	int _jumpCountHash;
 	
+	Dictionary<int, float> _initialJumpVelocities = new Dictionary<int, float>();
+	Dictionary<int, float> _jumpGravities = new Dictionary<int, float>();
+	
 	// get, set variables
 	public CharacterController _CharacterController { get{return _characterController;} }
 	public PlayerBaseState _CurrentState { get{return _currentState;} set{_currentState = value;} }
+	public Animator _Animator { get{return _animator;} }
+	public float _CurrentMovementY { get{return _currentMovement.y;} set{_currentMovement.y = value;} }
 	public float _AppliedMovementX { get{return _appliedMovement.x;} set{_appliedMovement.x = value;} }
 	public float _AppliedMovementY { get{return _appliedMovement.y;} set{_appliedMovement.y = value;} }
 	public float _AppliedMovementZ { get{return _appliedMovement.z;} set{_appliedMovement.z = value;} }
+	public Vector2 _CurrentMovementInput { get{return _currentMovementInput;} }
+	public float _RunMultiplier { get{return _runMultiplier;} }
+	public bool _IsJumping { get{return _isJumping;} set{_isJumping = value;} }
+
 	public bool _IsMovementPressed { get{return _isMovementPressed;} }
 	public bool _IsRunPressed { get{return _isRunPressed;} }
 	public bool _IsJumpPressed { get{return _isJumpPressed;} }
-	public float _GroundedGravity { get{return _groundedGravity;} }
-	public Vector2 _CurrentMovementInput { get{return _currentMovementInput;} }
+	
+	public float _Gravity { get{return _gravity;} }
+	
+	public Dictionary<int, float> _InitialJumpVelocities { get{return _initialJumpVelocities;} }
+	public Dictionary<int, float> _JumpGravities { get{return _jumpGravities;} }
 	
 	
 	private void Awake()
 	{
+		// Components
 		_characterController = GetComponent<CharacterController>();
+		_animator = GetComponent<Animator>();
+
+		float timeToApex = _maxJumpTime / 2;
+		float initialGravity = (-0.5f * _maxJumpHeight) / timeToApex;
+		_initialJumpVelocity = (0.5f * _maxJumpHeight) / (timeToApex * 2);
+		_InitialJumpVelocities.Add(1, _initialJumpVelocity);
+		_jumpGravities.Add(1, initialGravity);
 		
 		// setup state
 		_states = new PlayerStateFactory(this);
@@ -63,7 +91,8 @@ public class PlayerStateMachine : MonoBehaviour
 	{
 		_currentMovementInput.x = Input.GetAxisRaw("Horizontal");
 		_currentMovementInput.y = Input.GetAxisRaw("Vertical");
-		if(_currentMovementInput != Vector2.zero)
+
+		if (_currentMovementInput != Vector2.zero)
         {
 			_isMovementPressed = true;
 		}
@@ -71,6 +100,25 @@ public class PlayerStateMachine : MonoBehaviour
         {
 			_isMovementPressed = false;
         }
+
+		if (_isMovementPressed && Input.GetKey(KeyCode.LeftShift))
+		{
+			_isRunPressed = true;
+		}
+		else
+		{
+			_isRunPressed = false;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			_isJumpPressed = true;
+		}
+		else if(Input.GetKeyUp(KeyCode.Space))
+		{
+			_isJumpPressed = false;
+		}
+        
 		_currentState.UpdateStates();
 		_characterController.Move(_appliedMovement * 10 * Time.deltaTime);
 		

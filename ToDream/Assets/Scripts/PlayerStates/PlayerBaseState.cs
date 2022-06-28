@@ -4,14 +4,14 @@ using UnityEngine;
 
 public abstract class PlayerBaseState
 {
-	private bool _isRootState = false;
+	private bool _isMainState = false;
 	private PlayerStateMachine _ctx;
 	private PlayerStateFactory _factory;
-	private PlayerBaseState _currentSubState;
-	private PlayerBaseState _currentSuperState;
+	private PlayerBaseState _currentMainState; // 메인 상태
+	private PlayerBaseState _currentSubState; // 서브 상태
 	
 	// get, set variables
-	protected bool _IsRootState { set{_isRootState = value; } }
+	protected bool _IsMainState { set{_isMainState = value; } }
 	protected PlayerStateMachine _Ctx { get{return _ctx; } }
 	protected PlayerStateFactory _Factory { get {return _factory;} }
 	
@@ -23,14 +23,10 @@ public abstract class PlayerBaseState
 	}
 	
 	public abstract void EnterState();
-	
-	public abstract void CheckSwitchState();
-	
-	public abstract void ExitState();
-	
-	public abstract void InitializeSubState();
-	
 	public abstract void UpdateState();
+	public abstract void ExitState();
+	public abstract void CheckSwitchState();
+	public abstract void InitializeSubState();
 	
 	protected void SwitchState(PlayerBaseState newState)
 	{
@@ -40,25 +36,27 @@ public abstract class PlayerBaseState
 		// 새로운 상태 설정
 		newState.EnterState();
 		
-		if(_isRootState)
+		if(_isMainState)
 		{
 			_ctx._CurrentState = newState;
 		}
-        else if (_currentSuperState != null)
+        else if(_currentMainState != null)
         {
-            _currentSuperState.SetSubState(newState);
+            _currentMainState.SetSubState(newState);
         }
     }
 
-    protected void SetSuperState(PlayerBaseState newSuperState)
+    protected void SetMainState(PlayerBaseState newMainState)
     {
-        _currentSuperState = newSuperState;
+        _currentMainState = newMainState;
     }
 
     protected void SetSubState(PlayerBaseState newSubState)
 	{
+ 		if (_currentSubState != null) _currentSubState.ExitState();
 		_currentSubState = newSubState;
-		newSubState.SetSuperState(this);
+		_currentSubState.EnterState();
+		if(_currentMainState == null) _currentSubState.SetMainState(this);	
 	}
 
 	public void UpdateStates()
@@ -66,7 +64,7 @@ public abstract class PlayerBaseState
 		UpdateState();
 		if(_currentSubState != null)
         {
-			_currentSubState.UpdateStates();
+			_currentSubState.UpdateState();
         }
     }
 }
