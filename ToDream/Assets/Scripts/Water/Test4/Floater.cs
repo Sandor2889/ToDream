@@ -8,7 +8,6 @@ public class Floater : MonoBehaviour
     public Rigidbody _rigid;
     public float _depthBeforeSubmertged = 1f;   // 물에 잠기기전의 깊이
     public float _displacementAmount = 3f;  //  변위량
-    //public float _floaterCount = 0;
     public float _waterDrag = 0.99f; // 물 저항력
     public float _waterAngularDrag = 0.5f; // 물 속 회전 저항력
 

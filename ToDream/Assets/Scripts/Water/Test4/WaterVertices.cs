@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaterVertices : MonoBehaviour
 { 
-    public Mesh _mesh;
+    private Mesh _mesh;
     private Vector3[] _vertices;
 
     private void Awake()
