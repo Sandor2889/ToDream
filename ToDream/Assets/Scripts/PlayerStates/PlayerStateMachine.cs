@@ -36,9 +36,12 @@ public class PlayerStateMachine : MonoBehaviour
 	float _maxJumpHeight = 4.0f;
 	float _maxJumpTime = .75f;
 	bool _isJumping = false;
-	int _isJumpingHash;
-	int _jumpCountHash;
 	
+	readonly int _isWalkingHash = Animator.StringToHash("isWalking");
+	readonly int _isRunningHash = Animator.StringToHash("isRunning");
+	readonly int _isJumpingHash = Animator.StringToHash("isJumping");
+	readonly int _isFallingHash = Animator.StringToHash("isFalling");
+
 	Dictionary<int, float> _initialJumpVelocities = new Dictionary<int, float>();
 	Dictionary<int, float> _jumpGravities = new Dictionary<int, float>();
 	
@@ -63,6 +66,11 @@ public class PlayerStateMachine : MonoBehaviour
 	public Dictionary<int, float> _InitialJumpVelocities { get{return _initialJumpVelocities;} }
 	public Dictionary<int, float> _JumpGravities { get{return _jumpGravities;} }
 	
+	public int _IsWalkingHash { get{return _isWalkingHash;} }
+	public int _IsRunningHash { get{return _isRunningHash;} }
+	public int _IsJumingHash { get{return _isJumpingHash;} }
+	public int _IsFallingHash { get {return _isFallingHash;} }
+
 	
 	private void Awake()
 	{
@@ -91,7 +99,7 @@ public class PlayerStateMachine : MonoBehaviour
 	{
 		_currentMovementInput.x = Input.GetAxisRaw("Horizontal");
 		_currentMovementInput.y = Input.GetAxisRaw("Vertical");
-
+		if(_currentMovementInput.x != 0 && _currentMovementInput.y != 0) _currentMovementInput = _currentMovementInput.normalized;
 		if (_currentMovementInput != Vector2.zero)
         {
 			_isMovementPressed = true;
@@ -118,7 +126,7 @@ public class PlayerStateMachine : MonoBehaviour
 		{
 			_isJumpPressed = false;
 		}
-        
+		Debug.Log(_characterController.isGrounded);
 		_currentState.UpdateStates();
 		_characterController.Move(_appliedMovement * 10 * Time.deltaTime);
 		

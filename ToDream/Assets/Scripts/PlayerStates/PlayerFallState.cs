@@ -14,6 +14,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
 	public override void EnterState()
 	{
 		InitializeSubState();
+		_Ctx._Animator.SetBool(_Ctx._IsFallingHash, true);
 	}
 	
 	public override void UpdateState()
@@ -24,7 +25,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
 	
 	public override void ExitState()
 	{
-		
+		_Ctx._Animator.SetBool(_Ctx._IsFallingHash, false);
 	}
 	
 	public override void CheckSwitchState()
@@ -56,6 +57,6 @@ public class PlayerFallState : PlayerBaseState, IRootState
 	{
 		float previousYVelocity = _Ctx._CurrentMovementY;
 		_Ctx._CurrentMovementY = _Ctx._CurrentMovementY + _Ctx._Gravity * Time.deltaTime;
-		_Ctx._AppliedMovementY = (previousYVelocity + _Ctx._CurrentMovementY) * 0.1f;
+		_Ctx._AppliedMovementY = (previousYVelocity + _Ctx._CurrentMovementY) * 0.05f;
 	}
 }

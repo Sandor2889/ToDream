@@ -9,7 +9,8 @@ public class PlayerRunState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		
+		_Ctx._Animator.SetBool(_Ctx._IsWalkingHash, true);
+		_Ctx._Animator.SetBool(_Ctx._IsRunningHash, true);
 	}
 	
 	public override void UpdateState()

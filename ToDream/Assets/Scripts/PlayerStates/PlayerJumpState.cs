@@ -26,6 +26,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 	
 	public override void ExitState()
 	{
+		_Ctx._Animator.SetBool(_Ctx._IsJumingHash, false);
 		_Ctx._IsJumping = false;
 	}
 	
@@ -74,6 +75,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 	
 	private void HandleJump()
 	{
+		_Ctx._Animator.SetBool(_Ctx._IsJumingHash, true);
 		_Ctx._CurrentMovementY = _Ctx._InitialJumpVelocities[1];
 		_Ctx._AppliedMovementY = _Ctx._InitialJumpVelocities[1];
 	}
