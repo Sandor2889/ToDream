@@ -7,22 +7,12 @@ public class TestPlayer : MonoBehaviour
     [Header("<Components>")]
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private CapsuleCollider coll;
-    [SerializeField] private Inventory inventory;
 
     private float moveSpeed = 30f;
 
     private void Update()
     {
         Move();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Item"))
-        {
-            inventory.AcquireItem(collision.gameObject.GetComponent<ItemPickUp>().item);
-            Destroy(collision.gameObject);
-        }
     }
 
 
