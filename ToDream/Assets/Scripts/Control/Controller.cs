@@ -10,4 +10,6 @@ public class Controller : MonoBehaviour
 		set { _controlTarget = value; } 
 		get { return _ControlTarget; } 
 	}
+	
+	
 }

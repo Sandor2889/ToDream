@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerStateMachine : MonoBehaviour
 {
 	CharacterController _characterController;
-	PlayerBaseState _currentState; // Main State
+	PlayerBaseState _currentState; // main State
 	PlayerStateFactory _states;
 	Animator _animator;
 	
@@ -70,7 +70,9 @@ public class PlayerStateMachine : MonoBehaviour
 	public int _IsRunningHash { get{return _isRunningHash;} }
 	public int _IsJumingHash { get{return _isJumpingHash;} }
 	public int _IsFallingHash { get {return _isFallingHash;} }
-
+	
+	PlayerMouseInput mouseInput;
+	PlayerMoveInput moveInput;
 	
 	private void Awake()
 	{
@@ -88,6 +90,9 @@ public class PlayerStateMachine : MonoBehaviour
 		_states = new PlayerStateFactory(this);
 		_currentState = _states.Grounded();
 		_currentState.EnterState();
+		
+		mouseInput = GetComponent<PlayerMouseInput>();
+		moveInput = GetComponent<PlayerMoveInput>();
 	}
 	
 	private void Start()
@@ -126,15 +131,13 @@ public class PlayerStateMachine : MonoBehaviour
 		{
 			_isJumpPressed = false;
 		}
-		Debug.Log(_characterController.isGrounded);
+		float mouseX = Input.GetAxis("Mouse X");
+		float mouseY = Input.GetAxis("Mouse Y");
+		mouseInput.UpdateRotate(mouseX, mouseY);
+		
 		_currentState.UpdateStates();
-		_characterController.Move(_appliedMovement * 10 * Time.deltaTime);
+		Vector3 direction = transform.rotation * new Vector3(_appliedMovement.x, 0, _appliedMovement.z);
 		
-		//HandleRotation();
-	}
-	
-	private void HandleRotation()
-	{
-		
+		_characterController.Move(new Vector3(direction.x, _appliedMovement.y, direction.z) * 10 * Time.deltaTime);
 	}
 }
