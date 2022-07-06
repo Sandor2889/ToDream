@@ -12,7 +12,8 @@ public class PlayerStateMachine : MonoBehaviour
 	PlayerBaseState _currentState; // main State
 	PlayerStateFactory _states;
 	Animator _animator;
-	
+	PlayerMouseInput _mouseInput = new PlayerMouseInput();
+	PlayerMoveInput _moveInput = new PlayerMoveInput();
 	
 	// move variables
 	Vector2 _currentMovementInput;
@@ -71,8 +72,8 @@ public class PlayerStateMachine : MonoBehaviour
 	public int _IsJumingHash { get{return _isJumpingHash;} }
 	public int _IsFallingHash { get {return _isFallingHash;} }
 	
-	PlayerMouseInput mouseInput;
-	PlayerMoveInput moveInput;
+	public Transform _cam;
+	public GameObject _car;
 	
 	private void Awake()
 	{
@@ -90,9 +91,6 @@ public class PlayerStateMachine : MonoBehaviour
 		_states = new PlayerStateFactory(this);
 		_currentState = _states.Grounded();
 		_currentState.EnterState();
-		
-		mouseInput = GetComponent<PlayerMouseInput>();
-		moveInput = GetComponent<PlayerMoveInput>();
 	}
 	
 	private void Start()
@@ -102,8 +100,8 @@ public class PlayerStateMachine : MonoBehaviour
 	
 	private void Update()
 	{
-		_currentMovementInput.x = Input.GetAxisRaw("Horizontal");
-		_currentMovementInput.y = Input.GetAxisRaw("Vertical");
+		_currentMovementInput.x = _moveInput._Horizontal;
+		_currentMovementInput.y = _moveInput._Vertical;
 		if(_currentMovementInput.x != 0 && _currentMovementInput.y != 0) _currentMovementInput = _currentMovementInput.normalized;
 		if (_currentMovementInput != Vector2.zero)
         {
@@ -123,17 +121,27 @@ public class PlayerStateMachine : MonoBehaviour
 			_isRunPressed = false;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(_moveInput._KeyJump))
 		{
 			_isJumpPressed = true;
 		}
-		else if(Input.GetKeyUp(KeyCode.Space))
+		else if(Input.GetKeyUp(_moveInput._KeyJump))
 		{
 			_isJumpPressed = false;
 		}
-		float mouseX = Input.GetAxis("Mouse X");
-		float mouseY = Input.GetAxis("Mouse Y");
-		mouseInput.UpdateRotate(mouseX, mouseY);
+		if(Input.GetKeyDown(_moveInput._KeyUI))
+		{
+			if(_car != null && _car.gameObject.activeSelf == false)
+			{
+				_car.transform.position = this.transform.position;
+				_car.transform.rotation = this.transform.rotation;
+				_car.gameObject.SetActive(true);
+			}
+		}
+		
+		transform.rotation = 
+			Quaternion.Euler(0, _mouseInput.UpdateRotate(_mouseInput._MouseX, _mouseInput._MouseY), 0);
+			
 		
 		_currentState.UpdateStates();
 		Vector3 direction = transform.rotation * new Vector3(_appliedMovement.x, 0, _appliedMovement.z);

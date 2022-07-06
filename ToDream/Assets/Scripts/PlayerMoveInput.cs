@@ -1,16 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerMoveInput : MonoBehaviour
+public class PlayerMoveInput
 {
-	[SerializeField] private float _moveSpeed;
-	private Vector3 _moveForce;
+	private KeyCode _keyJump = KeyCode.Space;
+	private KeyCode _keyUI = KeyCode.C;
 	
-	public void MoveTo(Vector3 direction)
-	{
-		direction = transform.rotation * new Vector3(direction.x, 0, direction.z);
-		
-		_moveForce = new Vector3(direction.x * _moveSpeed, _moveForce.y, direction.z * _moveSpeed);
-	}
+	public float _Vertical { get{return Input.GetAxisRaw("Vertical");} }
+	public float _Horizontal { get{return Input.GetAxisRaw("Horizontal");} }
+	public KeyCode _KeyJump { get{return _keyJump;} }
+	public KeyCode _KeyUI { get{return _keyUI;} }
 }

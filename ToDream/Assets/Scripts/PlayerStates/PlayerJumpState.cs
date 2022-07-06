@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerBaseState, IRootState
 {
+	bool isFalling = false;
+	
 	public PlayerJumpState
 	(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
 	: base(currentContext, playerStateFactory)
@@ -56,11 +58,12 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 	
 	public void HandleGravity()
 	{
-		bool isFalling = _Ctx._CurrentMovementY <= 0.0f;
+		isFalling = _Ctx._CurrentMovementY <= 0.0f || ((_Ctx._CharacterController.collisionFlags & CollisionFlags.Above) != 0);
 		float multiplier = 0.5f;
 		
 		if(isFalling)
 		{
+			if(_Ctx._CurrentMovementY > 0.0f) _Ctx._CurrentMovementY = 0.0f;
 			float previousYVelocity = _Ctx._CurrentMovementY;
 			_Ctx._CurrentMovementY = _Ctx._CurrentMovementY + (_Ctx._JumpGravities[1] * Time.deltaTime);
 			_Ctx._AppliedMovementY = (previousYVelocity + _Ctx._CurrentMovementY) * multiplier;
@@ -79,4 +82,6 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 		_Ctx._CurrentMovementY = _Ctx._InitialJumpVelocities[1];
 		_Ctx._AppliedMovementY = _Ctx._InitialJumpVelocities[1];
 	}
+	
+	
 }

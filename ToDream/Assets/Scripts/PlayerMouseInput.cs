@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerMouseInput : MonoBehaviour
+public class PlayerMouseInput
 {
 	[SerializeField] [Range(0, 10)] private int rotCamXAxisSpeed = 5;
 	[SerializeField] [Range(0, 5)] private int rotCamYAxisSpeed = 3;
@@ -11,12 +9,15 @@ public class PlayerMouseInput : MonoBehaviour
 	private float eulerAngleX;
 	private float eulerAngleY;
 	
-	public void UpdateRotate(float mouseX, float mouseY)
+	public float _MouseX { get{return Input.GetAxis("Mouse X");} }
+	public float _MouseY { get{return Input.GetAxis("Mouse Y");} }
+	
+	public float UpdateRotate(float mouseX, float mouseY)
 	{
 		eulerAngleY += mouseX * rotCamYAxisSpeed;
 		eulerAngleX -= mouseY * rotCamXAxisSpeed;
 		eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
-		transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+		return eulerAngleY;
 	}
 	
 	private float ClampAngle(float angle, float min, float max)
