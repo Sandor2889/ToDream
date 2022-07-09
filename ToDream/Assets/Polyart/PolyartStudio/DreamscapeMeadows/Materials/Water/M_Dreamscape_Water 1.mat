@@ -27,6 +27,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _CubeMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Displace:
         m_Texture: {fileID: 2800000, guid: b166ccd7e871a3948ac1028410a7fe76, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -136,6 +140,7 @@ Material:
     - _Smoothness: 0.488
     - _SpIntensity: 2
     - _SpPower: 300
+    - _SpacPow: 2
     - _Strength: 1
     - _Tiling: 2
     - _TurbulenceDistortionIntensity: 1.84
@@ -151,12 +156,14 @@ Material:
     - _WaveDistortionIntensity1: 0.6
     - _WaveHeight: 0.1
     - _WaveNormalIntensity: 0.249
+    - _WavePower: 0.2
     - _WaveSpeed: 2
     - _WaveTile: 33
     - _WaveTile1: 0
     - _WaveTile2: 20
     - _WaveTiling01: 16
     - _WaveTiling02: 8
+    - _WaveTilling: 25
     - _WorldtoObjectPosition: 0
     - __dirty: 0
     m_Colors:
