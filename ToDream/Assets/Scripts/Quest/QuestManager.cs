@@ -4,22 +4,124 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    public int _questId;
-    Dictionary<int, QuestData> _questList;
+    #region Singleton
+    private static QuestManager _instance;
+    public static QuestManager _Instance
+    {
+        get 
+        {
+            if (_instance == null)
+            {
+                return null;
+            }
+            else
+            {
+                return _instance;
+            }
+        }
+    }
+    #endregion
+
+    public List<Quest> _questList = new List<Quest>();
+    public List<Quest> _currentQuestList = new List<Quest>();
 
     private void Awake()
     {
-        _questList = new Dictionary<int, QuestData>();
-        GenerateData();
+        _instance = this;
     }
 
-    void GenerateData()
+    // 퀘스트 수락
+    public void AcceptQuest(int questId)
     {
-        //_questList.Add(10, new QuestData("Test", new int[] { 1000, 2000 }));
+        for (int idx = 0; idx < _questList.Count; idx++)
+        {
+            if (_questList[idx]._id == questId && _questList[idx]._progress == Quest.QuestProgress.Availavle)
+            {
+                _currentQuestList.Add(_questList[idx]);
+                _questList[idx]._progress = Quest.QuestProgress.Accepted;
+            }
+        }
     }
 
-    public int GetQuestTalkIndex(int id)
+    // 퀘스트 진행 - 퀘스트 아이템 갱신 및 완료 조건
+    public void AddQuestItem(string questObj, int itemAmount)
     {
-        return _questId;
+        for (int idx = 0; idx < _currentQuestList.Count; idx++)
+        {
+            // 아이템 갱신
+            if (_currentQuestList[idx]._objective == questObj && _currentQuestList[idx]._progress == Quest.QuestProgress.Accepted)
+            {
+                _currentQuestList[idx]._objectiveCount += itemAmount;
+            }
+
+            // 퀘스트 완료 조건
+            if (_currentQuestList[idx]._objectiveCount >= _currentQuestList[idx]._objectiveRequirement && _currentQuestList[idx]._progress == Quest.QuestProgress.Accepted)
+            {
+                _currentQuestList[idx]._progress = Quest.QuestProgress.Complete;
+            }
+        }
+    }
+
+    // 퀘스트 완료
+    public void CompletedQuest(int questId)
+    {
+        for (int idx = 0; idx < _currentQuestList.Count; idx++)
+        {
+            if (_currentQuestList[idx]._id == questId && _currentQuestList[idx]._progress == Quest.QuestProgress.Accepted)
+            {
+                _currentQuestList[idx]._progress = Quest.QuestProgress.Done;
+                _currentQuestList.Remove(_currentQuestList[idx]);
+            }
+        }
+    }
+
+    // 퀘스트 포기
+    public void GiveUpQuest(int questId)
+    {
+        for (int idx = 0; idx < _currentQuestList.Count; idx++)
+        {
+            if (_currentQuestList[idx]._id == questId && _currentQuestList[idx]._progress == Quest.QuestProgress.Accepted)
+            {
+                _currentQuestList[idx]._progress = Quest.QuestProgress.Availavle;
+                _currentQuestList[idx]._objectiveCount = 0;
+                _currentQuestList.Remove(_currentQuestList[idx]);
+            }
+        }
+    }
+
+    public bool RequestAvailableQuest(int questId)
+    {
+        for (int idx = 0; idx < _questList.Count; idx++)
+        {
+            if(_questList[idx]._id == questId && _questList[idx]._progress == Quest.QuestProgress.Availavle)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool RequestAcceptQuest(int questId)
+    {
+        for (int idx = 0; idx < _questList.Count; idx++)
+        {
+            if (_questList[idx]._id == questId && _questList[idx]._progress == Quest.QuestProgress.Accepted)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool RequestCompletedQuest(int questId)
+    {
+        for (int idx = 0; idx < _questList.Count; idx++)
+        {
+            if (_questList[idx]._id == questId && _questList[idx]._progress == Quest.QuestProgress.Complete)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
