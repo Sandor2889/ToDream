@@ -874,9 +874,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0b711fab7aa994980312131b266c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quest: {fileID: 11400000, guid: 08d2adff017e68742856fc75bfb7e742, type: 2}
-  _category: {fileID: 11400000, guid: ddf95294bdcd38445a1d71a6fe7ca9fa, type: 2}
-  _target: {fileID: 11400000, guid: 17bb957f9b4e9ee4385c2561f51ed94c, type: 2}
+  _quest: {fileID: 11400000, guid: f1e2cf2be0600e94faef35f4689e9f8b, type: 2}
+  _category: {fileID: 11400000, guid: fe101fed6c6664b4a87b978cca543f7b, type: 2}
+  _target: {fileID: 11400000, guid: 9c4d9bf9f55682c44b584831234c42b9, type: 2}
 --- !u!4 &1436219625
 Transform:
   m_ObjectHideFlags: 0

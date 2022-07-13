@@ -6,9 +6,9 @@ using UnityEngine;
 public class QuestSystem : MonoBehaviour
 {
     #region Events
-    public delegate void QuestRegisteredHandler(Quest newQuest);
-    public delegate void QuestCompletedHandler(Quest quest);
-    public delegate void QuestCanceledHandler(Quest quest);
+    public delegate void QuestRegisteredHandler(Quest newQuest);    // 퀘스트 등록 이벤트 
+    public delegate void QuestCompletedHandler(Quest quest);        // 퀘스트 완료 이벤트
+    public delegate void QuestCanceledHandler(Quest quest);         // 퀘스트 취소 이벤트
     #endregion
 
     #region Singleton
@@ -38,9 +38,9 @@ public class QuestSystem : MonoBehaviour
 
     private QuestDataBase _questDatabase;
 
-    public event QuestRegisteredHandler _onQuestRegistered;
-    public event QuestCompletedHandler _onQuestCompleted;
-    public event QuestCanceledHandler _onQuestCanceled;
+    public event QuestRegisteredHandler _onQuestRegistered; 
+    public event QuestCompletedHandler _onQuestCompleted;   
+    public event QuestCanceledHandler _onQuestCanceled;     
 
     public IReadOnlyList<Quest> _ActiveQuests => _activeQuests;
     public IReadOnlyList<Quest> _CompletedQuests => _completedQuests;
@@ -50,6 +50,7 @@ public class QuestSystem : MonoBehaviour
         _questDatabase = Resources.Load<QuestDataBase>("QuestDatabase");
     }
 
+    // 퀘스트 등록
     public Quest Register(Quest quest)
     {
         var newQuest = quest.Clone();
@@ -66,6 +67,7 @@ public class QuestSystem : MonoBehaviour
         return newQuest;
     }
 
+    // 퀘스트 갱신
     public void ReceiveReport(string category, object target, int successCount)
     {
         ReceiveReport(_activeQuests, category, target, successCount);
