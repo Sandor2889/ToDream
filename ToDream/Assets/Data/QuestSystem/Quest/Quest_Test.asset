@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 043184651bba51b43b4debf3f39c3aac, type: 3}
+  m_Name: Quest_Test
+  m_EditorClassIdentifier: 
+  _category: {fileID: 11400000, guid: ddf95294bdcd38445a1d71a6fe7ca9fa, type: 2}
+  _icon: {fileID: 0}
+  _id: Test ID
+  _displayName: Test
+  _description: Test quest system
+  _taskGroups:
+  - _tasks:
+    - {fileID: 11400000, guid: b60815e011e2cbb45bd0fdda9b4781fe, type: 2}
+  _rewards: []
+  _useAutoComplete: 1
+  _isCancelable: 0
+  _acceptionConditions: []
+  _cancelConditions: []

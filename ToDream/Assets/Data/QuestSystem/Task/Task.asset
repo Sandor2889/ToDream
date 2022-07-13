@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcecac3f8d7c6f545911fff810c730d1, type: 3}
+  m_Name: Task
+  m_EditorClassIdentifier: 
+  _category: {fileID: 11400000, guid: ddf95294bdcd38445a1d71a6fe7ca9fa, type: 2}
+  _id: Kill the slime
+  _description: kill that
+  _action: {fileID: 11400000, guid: f2248b7bbb3c4ec419a665b58f0dd33b, type: 2}
+  _targets:
+  - {fileID: 11400000, guid: 17bb957f9b4e9ee4385c2561f51ed94c, type: 2}
+  _initalSuccessValue: {fileID: 0}
+  _requireAmount: 5
+  canReceiveReportsDuringCompletion: 0
