@@ -7,13 +7,18 @@ public class PlayerController : Controller
 	Vector2 _keyboardInput => new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 	Vector2 _mouseInput => new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 	
-	protected void Update()
+	private void Update()
 	{
 		InputMoveAxis();
 		InputRotateAxis();
 		JumpOrBreak();
 		Boost();
 		InteractKeys();
+	}
+	
+	private void FixedUpdate()
+	{
+		_ControlTarget.FixedMove();
 	}
 	
 	private void InputMoveAxis()

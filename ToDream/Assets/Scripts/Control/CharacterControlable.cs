@@ -21,12 +21,12 @@ public class CharacterControlable : Controlable
 	public bool _IsRunPressed { get{return _isRunPressed;} }
 	public Vector2 _CurrentMovementInput { get{return _currentMovementInput;} }
 	
-	private void OnEnable()
+	protected override void OnEnable()
 	{
 		_eulerAngleY = this.transform.eulerAngles.y;
 	}
 	
-	private void Start()
+	protected override void Start()
 	{
 		_machine = GetComponent<PlayerStateMachine>();
 		_characterController = GetComponent<CharacterController>();
@@ -42,7 +42,12 @@ public class CharacterControlable : Controlable
 		else _isMovementPressed = false;
 		
 		_direction = transform.rotation * new Vector3(_machine._AppliedMovementX, 0, _machine._AppliedMovementZ);
-		_characterController.Move(new Vector3(_direction.x, _machine._AppliedMovementY, _direction.z) * 10 * Time.deltaTime);
+		
+	}
+	
+	public override void FixedMove()
+	{
+		_characterController.Move(new Vector3(_direction.x, _machine._AppliedMovementY, _direction.z) * 10 * Time.fixedDeltaTime);
 	}
 	
 	public override void Rotate(Vector2 input)

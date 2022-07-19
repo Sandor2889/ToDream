@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5940dab52bb004c9d33fb4de82038a, type: 3}
+  m_Name: Flight Character
+  m_EditorClassIdentifier: 
+  _MaxMPS: 140
+  _MaxLiftPower: 48000
+  _FlapLiftPower: 1250
+  _DragFactor: 0.01
+  _FlapDragFactor: 0.0005
+  _PitchSpeed: 20000
+  _RollSpeed: 29000
+  _YawSpeed: 29000
+  _BankingSpeed: 29000
