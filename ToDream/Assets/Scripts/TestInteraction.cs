@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum InterectionObjectType
+public enum InteractionObjectType
 {
     Default,
     NPC,
     Item
 }
 
-public class TestInterection : MonoBehaviour
+public class TestInteraction : MonoBehaviour
 {
     [SerializeField] CharacterController _charac;
     [SerializeField] RaycastHit _hit;
     [SerializeField] LayerMask _mask;
 
     [SerializeField] QuestUI _questUI;
-    [SerializeField] InterectionObjectType _interObj;
+    [SerializeField] InteractionObjectType _interObj;
     [SerializeField] bool _canInterect;
 
     int _npc;
@@ -45,7 +45,7 @@ public class TestInterection : MonoBehaviour
 
             if (_hit.collider.gameObject.layer == _npc)
             {
-                _interObj = InterectionObjectType.NPC;
+                _interObj = InteractionObjectType.NPC;
             }
         }
         else
@@ -62,10 +62,10 @@ public class TestInterection : MonoBehaviour
         {
             switch (_interObj)
             {
-                case InterectionObjectType.NPC:
+                case InteractionObjectType.NPC:
                     OpenQuestUI();
                     break;
-                case InterectionObjectType.Item:
+                case InteractionObjectType.Item:
                     // ½ÇÇà
                     break;
                 default:
@@ -81,8 +81,8 @@ public class TestInterection : MonoBehaviour
         
         if (quest._QuestState != QuestState.Avaliable) { return; }
 
-        _questUI.gameObject.SetActive(true);
         _questUI.SetText(quest._Title, quest._Description);
+        _questUI.gameObject.SetActive(true);
     }
 
     public void CloseQuestUI()
