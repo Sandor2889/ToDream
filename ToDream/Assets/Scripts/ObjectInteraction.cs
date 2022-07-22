@@ -78,6 +78,6 @@ public class ObjectInteraction : MonoBehaviour
 
     private void StartTalk()
     {
-        UIManager._Instance.OpenDialog();
+        UIManager._Instance._DialogUI.OpenDialog();
     }
 }
