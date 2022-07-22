@@ -19,12 +19,12 @@ public class QuestGiver : MonoBehaviour
     {
         QuestManager questMgr = QuestManager._Instance;
 
-        _quests = questMgr._quests.FindAll(x => x._NpcName == this.name);
+        _quests = questMgr._quests.FindAll(x => x._npcName == this.name);
 
         // 디버그용
         foreach (var item in _quests)
         {
-            Debug.Log("The " + this.name + " has quest -> " + item._Title);
+            Debug.Log("The " + this.name + " has quest -> " + item._title);
         }
     }
 }

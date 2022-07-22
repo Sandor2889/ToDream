@@ -10,24 +10,64 @@ public class QuestGenerator : MonoBehaviour
 {
     public Quest _quest;
 
-    [HideInInspector] public bool _enable = false;
+    public int _talkBoxIdx;           // talk 지정 Idx (TalkList.RemoveAt)
+    public bool _enable;              // GUI - FoldOut
+    public int _insertIdx;            // Quest 지정 Idx (QuestList.Insert)
+    public int _previousIdx;          // Edit전 Idx 위치
+    public string _insertStr;         // Edit전 Idx 위치 string 표기
 
     public void CreateQuest()
     {
         _quest = new Quest();
+        _insertIdx = QuestManager._Instance._quests.Count;
+        _insertStr = "[ This is new one ] ";
         _enable = true;
     }
 
     public void RegisterQuest()
     {
-        QuestManager._Instance._quests.Add(_quest);
+        if (_insertIdx > QuestManager._Instance._quests.Count)
+        {
+            Debug.LogWarning("Insert idx set from " + _insertIdx + " to " + QuestManager._Instance._quests.Count);
+            _insertIdx = QuestManager._Instance._quests.Count;
+        }
 
+        QuestManager._Instance._quests.Insert(_insertIdx, _quest);
         Cancel();
     }
 
     public void Cancel()
     {
+        _talkBoxIdx = 0;
+        _insertIdx = QuestManager._Instance._quests.Count;
         _quest = null;
         _enable = false;
+    }
+
+    public void AddTalk()
+    {
+        _quest._talk.Add("");
+    }
+
+    public void RemoveAtTalk()
+    {
+        if (_talkBoxIdx >= _quest._talk.Count)
+        {
+            Debug.LogWarning("QuestGenerator.cs -> Index out of List");
+            return;
+        }
+        
+        _quest._talk.RemoveAt(_talkBoxIdx);
+    }    
+
+    public void Edit(Quest quest)
+    {
+        _quest = quest;
+        _previousIdx = QuestManager._Instance._quests.IndexOf(quest);
+        QuestManager._Instance._quests.Remove(quest);
+        _insertIdx = QuestManager._Instance._quests.Count;
+        _insertStr = "[ Previous Idx " + _previousIdx + " ]";
+        _enable = true;
+
     }
 }

@@ -9,18 +9,19 @@ public enum InteractionObjectType
     Item
 }
 
-public class TestInteraction : MonoBehaviour
+public class ObjectInteraction : MonoBehaviour
 {
-    [SerializeField] CharacterController _charac;
-    [SerializeField] RaycastHit _hit;
-    [SerializeField] LayerMask _mask;
+    [SerializeField] private CharacterController _charac;
+    [SerializeField] private RaycastHit _hit;
+    [SerializeField] private LayerMask _mask;
 
-    [SerializeField] QuestUI _questUI;
-    [SerializeField] InteractionObjectType _interObj;
-    [SerializeField] bool _canInterect;
+    [SerializeField] private QuestUI _questUI;
+    [SerializeField] private InteractionObjectType _interObj;
+    [SerializeField] private bool _canInterect;
 
-    int _npc;
+    private int _npc;
 
+    public RaycastHit _Hit => _hit;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class TestInteraction : MonoBehaviour
     private void Update()
     {
         OnInterection();
-        InterectObject();
+        InteractObject();
     }
 
     // 상호작용 가능한 오브젝트 탐지
@@ -56,14 +57,14 @@ public class TestInteraction : MonoBehaviour
 
 
     // 오브젝트와 상호작용
-    private void InterectObject()
+    private void InteractObject()
     {
         if (_canInterect && Input.GetKeyDown(KeyCode.F1))
         {
             switch (_interObj)
             {
                 case InteractionObjectType.NPC:
-                    OpenQuestUI();
+                    StartTalk();
                     break;
                 case InteractionObjectType.Item:
                     // 실행
@@ -75,27 +76,8 @@ public class TestInteraction : MonoBehaviour
         }
     }
 
-    public void OpenQuestUI()
+    private void StartTalk()
     {
-        Quest quest = _hit.collider.GetComponent<QuestGiver>()._CurrentQuest;
-        
-        if (quest._QuestState != QuestState.Avaliable) { return; }
-
-        _questUI.SetText(quest._Title, quest._Description);
-        _questUI.gameObject.SetActive(true);
-    }
-
-    public void CloseQuestUI()
-    {
-        _questUI.gameObject.SetActive(false);
-    }
-
-    public void AcceptedQuest()
-    {
-        Quest quest = _hit.collider.GetComponent<QuestGiver>()._CurrentQuest;
-        quest.Accepted();
-        QuestManager._Instance._acceptedQuests.Add(quest);
-        Debug.Log("Accept Quest -> " + quest);
-        CloseQuestUI();
+        UIManager._Instance.OpenDialog();
     }
 }
