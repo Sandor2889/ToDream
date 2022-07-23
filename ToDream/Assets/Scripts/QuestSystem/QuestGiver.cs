@@ -1,14 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
+
+// NPC 이름
+public enum NPCName
+{
+    Default
+}
 
 public class QuestGiver : MonoBehaviour
 {
     public List<Quest> _quests = new List<Quest>();
+    public NPCName _npcName;
 
-    public Quest _CurrentQuest => _quests[0];
+    public int _currentQuestIdx;
+
+    public Quest _CurrentQuest
+    {
+        get
+        {
+            if (_currentQuestIdx >= _quests.Count)
+            {
+                return null;
+            }
+
+            return _quests[_currentQuestIdx];
+        }
+    }
+
 
     private void Awake()
     {
@@ -18,13 +38,16 @@ public class QuestGiver : MonoBehaviour
     private void DistributeQuests()
     {
         QuestManager questMgr = QuestManager._Instance;
+        _quests = questMgr._quests.FindAll(x => x._npcName == _npcName);
 
-        _quests = questMgr._quests.FindAll(x => x._npcName == this.name);
-
-        // 디버그용
-        foreach (var item in _quests)
+        foreach (var quest in _quests)
         {
-            Debug.Log("The " + this.name + " has quest -> " + item._title);
+            quest._nextQuest += NextQuestIdx;
         }
+    }
+
+    private void NextQuestIdx()
+    {
+        _currentQuestIdx++;
     }
 }

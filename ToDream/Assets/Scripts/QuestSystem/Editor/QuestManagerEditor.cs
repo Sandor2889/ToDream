@@ -27,12 +27,13 @@ public class QuestManagerEditor : Editor
             if(_questMgr._quests[idx]._detailFolded = EditorGUILayout.Foldout(quest._detailFolded, "View details"))
             {
                 //_questMgr._quests[idx]._questID = EditorGUILayout.IntField("ID:", _questMgr._quests[idx]._questID);
-                quest._npcName = EditorGUILayout.TextField("NPC:", quest._npcName);
+                quest._npcName = (NPCName)EditorGUILayout.EnumPopup("NPC:", quest._npcName);
                 quest._description = EditorGUILayout.TextField("Description:", quest._description);
                 quest._target = EditorGUILayout.TextField("Target:", quest._target);
                 quest._requireAmount = EditorGUILayout.IntField("RequireAmount:", quest._requireAmount);
                 quest._targetMarker = (QuestTestArea)EditorGUILayout.ObjectField("TargetMarker", quest._targetMarker, typeof(QuestTestArea), true);
-
+                quest._autoComplete = EditorGUILayout.Toggle("Auto Complete", quest._autoComplete);
+                
                 // GUI - Talk
                 if (quest._talkFolded = EditorGUILayout.Foldout(quest._talkFolded, "[ View NPC talk ]"))
                 {

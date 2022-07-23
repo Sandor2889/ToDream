@@ -78,6 +78,21 @@ public class ObjectInteraction : MonoBehaviour
 
     private void StartTalk()
     {
+        Quest quest = _hit.collider.GetComponent<QuestGiver>()._CurrentQuest;
+
+        if (quest == null)
+        {
+            Debug.Log("This NPC Does`t have any Quest");
+            // Default 대화 실행
+            return;
+        }
+
+        if (quest._questState == QuestState.Completed)
+        {
+            quest.Done();
+            return;
+        }
+
         UIManager._Instance._DialogUI.OpenDialog();
     }
 }

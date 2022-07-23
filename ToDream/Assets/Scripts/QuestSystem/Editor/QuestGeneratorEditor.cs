@@ -21,15 +21,14 @@ public class QuestGeneratorEditor : Editor
             Quest quest = _questGenerate._quest;
 
             quest._title = EditorGUILayout.TextField("Title:", quest._title);
-            quest._npcName = EditorGUILayout.TextField("NPC:", quest._npcName);
+            quest._npcName = (NPCName)EditorGUILayout.EnumPopup("NPC:", quest._npcName);
             //_questGenerate._quest._questID = EditorGUILayout.IntField("ID:", _questGenerate._quest._questID);
             quest._description = EditorGUILayout.TextField("Description:", quest._description);
             quest._target = EditorGUILayout.TextField("Target", quest._target);
             quest._requireAmount = EditorGUILayout.IntField("RequireAmount:", quest._requireAmount);
             quest._targetMarker = (QuestTestArea)EditorGUILayout.ObjectField("TargetMarker", quest._targetMarker, typeof(QuestTestArea), true);
-
+            quest._autoComplete = EditorGUILayout.Toggle("Auto Complete", quest._autoComplete);
             EditorGUILayout.Space(10);
-
 
             // ----------------------------------------- NPC Talk ------------------------------------------
             GUILayout.BeginVertical("box");
@@ -54,7 +53,7 @@ public class QuestGeneratorEditor : Editor
             }
             GUILayout.EndVertical();
 
-            // ------------------------------------------ Push Idx ------------------------------------------
+            // ------------------------------------------ Insert Idx ------------------------------------------
             GUILayout.Space(20);
             GUILayout.BeginHorizontal("box");
             GUILayout.Label("Insert idx   -----> ");

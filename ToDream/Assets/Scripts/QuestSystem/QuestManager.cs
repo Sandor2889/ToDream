@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class QuestManager : MonoBehaviour
 {
     #region Singleton
@@ -27,7 +26,7 @@ public class QuestManager : MonoBehaviour
 
     public List<Quest> _quests = new List<Quest>();             // 퀘스트 데이터베이스
     public List<Quest> _acceptedQuests = new List<Quest>();    // 수락한 퀘스트
-    public List<Quest> _completedQuests = new List<Quest>();    // 완료된 퀘스트
+    public List<Quest> _doneQuests = new List<Quest>();    // 완료된 퀘스트
 
     private void Awake()
     {

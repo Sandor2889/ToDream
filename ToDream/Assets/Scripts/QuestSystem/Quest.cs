@@ -18,10 +18,9 @@ public enum QuestState
 [System.Serializable]
 public class Quest
 {
-    //[SerializeField] int _questID;                                  // 퀘스트 고유번호
     public QuestState _questState;                        // 퀘스트 상태
+    public NPCName _npcName;                              // 퀘스트 제공자
 
-    public string _npcName;                               // 퀘스트 제공자
     public string _title;                                 // 퀘스트 제목
     public string _description;                           // 퀘스트 설명
 
@@ -33,12 +32,14 @@ public class Quest
     public List<string> _talk = new List<string>();       // NPC 대화
     public int _openQuestIdx;                           // 퀘스트 수락 후 작별 인사
 
-    private Reward _reward;                                                 // 보상
+    public Reward _reward;                                                 // 보상
 
-    private bool _autoComplete;                                             // 퀘스트 자동 완료
+    public bool _autoComplete;                                             // 퀘스트 자동 완료
 
     public bool _detailFolded;                                                 // GUI 상세설명 접기
     public bool _talkFolded;                                                   // GUI npc 대화상자 접기
+
+    public System.Action _nextQuest;
 
     // 퀘스트 달성률 업데이트
     public void ReceiveReport(string target, int counting)
@@ -49,7 +50,17 @@ public class Quest
         Debug.Log(_title + " : " + _currentTargetCount + " / " + _requireAmount);
 
         // 목표랑 달성시 퀘스트 완료 상태로 전환
-        if (_currentTargetCount >= _requireAmount) { Complete(); }
+        if (_currentTargetCount >= _requireAmount) 
+        { 
+            Complete(); 
+
+            // Auto 체크시 자동 완료
+            if (_autoComplete)
+            {
+                // 완료처리
+                Done();
+            }
+        }
     }
 
     // 퀘스트의 타겟이 맞는지 비교
@@ -90,12 +101,15 @@ public class Quest
     {
         _questState = QuestState.Completed;
         OffQuestMarker();
-        Debug.Log("This quest is completed");
+        Debug.Log("The " + _title + " is completed");
     }
 
     public void Done()
     {
         _questState = QuestState.Done;
+        _nextQuest();
+        QuestManager._Instance._acceptedQuests.Remove(this);
+        QuestManager._Instance._doneQuests.Add(this);
     }
 
     public void Cancel()

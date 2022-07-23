@@ -35,7 +35,6 @@ public class DialogUI : MonoBehaviour
         // 퀘스트 수락 후 작별 인사
         else if (_dialogIdx >= quest._talk.Count)
         {
-            Debug.Log("!");
             CloseDialog();
         }
         else

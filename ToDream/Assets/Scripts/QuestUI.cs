@@ -35,6 +35,7 @@ public class QuestUI : MonoBehaviour
     {
         UIManager UIMgr = UIManager._Instance;
         Quest quest = UIMgr._ObjInter._Hit.collider.GetComponent<QuestGiver>()._CurrentQuest;
+
         quest.Accepted();
         QuestManager._Instance._acceptedQuests.Add(quest);
         Debug.Log("Accept Quest -> " + quest._title);
