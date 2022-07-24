@@ -22,33 +22,56 @@ public class QuestManagerEditor : Editor
 
             GUILayout.BeginVertical("box");
             GUILayout.Label(s);
-            quest._title = EditorGUILayout.TextField("Title:", quest._title);
-            // Fold out
-            if(_questMgr._quests[idx]._detailFolded = EditorGUILayout.Foldout(quest._detailFolded, "View details"))
+            // View details Fold out
+            if(_questMgr._quests[idx]._detailFolded = EditorGUILayout.Foldout(quest._detailFolded, "Title:  " + quest._title))
             {
-                //_questMgr._quests[idx]._questID = EditorGUILayout.IntField("ID:", _questMgr._quests[idx]._questID);
                 quest._npcName = (NPCName)EditorGUILayout.EnumPopup("NPC:", quest._npcName);
                 quest._description = EditorGUILayout.TextField("Description:", quest._description);
-                quest._target = EditorGUILayout.TextField("Target:", quest._target);
-                quest._requireAmount = EditorGUILayout.IntField("RequireAmount:", quest._requireAmount);
-                quest._targetMarker = (QuestTestArea)EditorGUILayout.ObjectField("TargetMarker", quest._targetMarker, typeof(QuestTestArea), true);
+
+                // GUI - QuestGoal
+                GUILayout.BeginVertical("box");
+                EditorGUILayout.LabelField("[ Quest Goals ]");
+                for (int i = 0; i < quest._questGoals.Count; i++)
+                {
+                    string goalStrIdx = "(" + i + ") ";
+                    if (quest._questGoals[i]._isFolded = EditorGUILayout.Foldout(quest._questGoals[i]._isFolded, goalStrIdx + quest._questGoals[i]._subTitle))
+                    {
+                        EditorGUI.indentLevel++;
+                        quest._questGoals[i]._subTitle = EditorGUILayout.TextField("¡æ Sub title", quest._questGoals[i]._subTitle);
+                        quest._questGoals[i]._target = (QuestTarget)EditorGUILayout.EnumPopup("¡æ Target", quest._questGoals[i]._target);
+                        quest._questGoals[i]._requireAmount = EditorGUILayout.IntField("¡æ RequireAmount:", quest._questGoals[i]._requireAmount);
+                        quest._questGoals[i]._targetMarker = (QuestTargetMarker)EditorGUILayout.ObjectField("¡æ TargetMarker", quest._questGoals[i]._targetMarker, typeof(QuestTargetMarker), true);
+                        EditorGUI.indentLevel--;
+                    }
+                    GUILayout.Space(5);
+                }
                 quest._autoComplete = EditorGUILayout.Toggle("Auto Complete", quest._autoComplete);
-                
+                GUILayout.EndVertical();
+
+                // GUI - Reward
+                GUILayout.BeginVertical("box");
+                EditorGUILayout.LabelField("[ Reward ]");
+                quest._reward._gold = EditorGUILayout.IntField("Gold:", quest._reward._gold);
+                GUILayout.EndVertical();
+                EditorGUILayout.Space(5);
+
                 // GUI - Talk
+                GUILayout.BeginVertical("box");
                 if (quest._talkFolded = EditorGUILayout.Foldout(quest._talkFolded, "[ View NPC talk ]"))
                 {
                     if (quest._talk.Count == 0) { EditorGUILayout.LabelField("TalkList is Empty"); }
                     else
                     {
                         quest._openQuestIdx = EditorGUILayout.IntField("Open quest idx", quest._openQuestIdx);
-                        GUILayout.Space(10);
+                        GUILayout.Space(5);
                         for (int i = 0; i < quest._talk.Count; i++)
                         {
-                            GUILayout.Label("idx : " + i);
+                            GUILayout.Label("idx [" + i + "]");
                             quest._talk[i] = EditorGUILayout.TextArea(quest._talk[i]);
                         }
                     }
                 }
+                GUILayout.EndVertical();
 
                 #region Button
                 GUILayout.Space(20);

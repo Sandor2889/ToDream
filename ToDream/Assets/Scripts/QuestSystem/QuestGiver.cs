@@ -11,10 +11,11 @@ public enum NPCName
 
 public class QuestGiver : MonoBehaviour
 {
+    private int _currentQuestIdx;
+
     public List<Quest> _quests = new List<Quest>();
     public NPCName _npcName;
-
-    public int _currentQuestIdx;
+    private bool _hasQuest;                              // NPC 머리위에 표시하기 위한 유무 체크 
 
     public Quest _CurrentQuest
     {
@@ -28,7 +29,6 @@ public class QuestGiver : MonoBehaviour
             return _quests[_currentQuestIdx];
         }
     }
-
 
     private void Awake()
     {

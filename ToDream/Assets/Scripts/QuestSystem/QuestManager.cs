@@ -25,8 +25,8 @@ public class QuestManager : MonoBehaviour
     #endregion
 
     public List<Quest> _quests = new List<Quest>();             // 퀘스트 데이터베이스
-    public List<Quest> _acceptedQuests = new List<Quest>();    // 수락한 퀘스트
-    public List<Quest> _doneQuests = new List<Quest>();    // 완료된 퀘스트
+    public List<Quest> _acceptedQuests = new List<Quest>();     // 수락한 퀘스트
+    public List<Quest> _doneQuests = new List<Quest>();         // 완료된 퀘스트
 
     private void Awake()
     {
@@ -42,11 +42,31 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void ReceiveReport(string target, int counting)
+    public void ReceiveReport(QuestTarget target, int counting)
     {
-        for(int i = 0; i < _acceptedQuests.Count; i++)
+        for (int i = 0; i < _acceptedQuests.Count; i++)
         {
+            if (!IsTarget(_acceptedQuests[i])) { continue; }
+
             _acceptedQuests[i].ReceiveReport(target, counting);
         }
+
+        //foreach (var quest in _acceptedQuests)
+        //{
+        //    if (!IsTarget(quest)) { continue; }
+
+        //    quest.ReceiveReport(target, counting);
+        //}
+    }
+
+    // 퀘스트의 Target과 State 조건 확인
+    public bool IsTarget(Quest quest)
+    {
+        if (quest._questState == QuestState.Accepted )
+        {
+            return true;
+        }
+
+        return false;
     }
 }

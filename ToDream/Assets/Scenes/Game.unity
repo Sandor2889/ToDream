@@ -155,20 +155,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _quest:
     _questState: 0
-    _npcName: 
+    _npcName: 0
     _title: 
     _description: 
-    _target: 
-    _currentTargetCount: 0
-    _requireAmount: 0
-    _targetMarker: {fileID: 0}
+    _questGoals: []
+    _reward:
+      _gold: 0
     _talk: []
     _openQuestIdx: 0
+    _autoComplete: 0
     _detailFolded: 0
     _talkFolded: 0
   _talkBoxIdx: 0
   _enable: 0
-  _insertIdx: 1
+  _insertIdx: 2
   _previousIdx: 0
   _insertStr: '[ This is new one ] '
 --- !u!114 &5074136
@@ -185,22 +185,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _quests:
   - _questState: 0
-    _npcName: Test NPC
+    _npcName: 0
     _title: First Quest
     _description: This is First
-    _target: Test target
-    _currentTargetCount: 0
-    _requireAmount: 1
-    _targetMarker: {fileID: 1345380491}
+    _questGoals:
+    - _goalState: 0
+      _target: 0
+      _subTitle: "Test target\uC73C\uB85C \uAC00\uAE30"
+      _currentTargetCount: 0
+      _requireAmount: 1
+      _targetMarker: {fileID: 1345380491}
+      _isFolded: 0
+    - _goalState: 0
+      _target: 1
+      _subTitle: "Test target2\uC73C\uB85C \uAC00\uAE30"
+      _currentTargetCount: 0
+      _requireAmount: 1
+      _targetMarker: {fileID: 1019317419}
+      _isFolded: 0
+    _reward:
+      _gold: 0
     _talk:
     - "\uC548\uB155"
     - "\uD574 '\uC918'"
     - "\uC798\uAC00~"
     _openQuestIdx: 1
+    _autoComplete: 1
     _detailFolded: 1
     _talkFolded: 1
+  - _questState: 0
+    _npcName: 0
+    _title: tttttttttt
+    _description: trtrtrtrtrtrtrtrtr
+    _questGoals:
+    - _goalState: 0
+      _target: 0
+      _subTitle: rerwerwer
+      _currentTargetCount: 0
+      _requireAmount: 1
+      _targetMarker: {fileID: 1345380491}
+      _isFolded: 0
+    _reward:
+      _gold: 0
+    _talk:
+    - 0
+    - 1
+    - 2
+    - 3
+    _openQuestIdx: 1
+    _autoComplete: 1
+    _detailFolded: 0
+    _talkFolded: 0
   _acceptedQuests: []
-  _completedQuests: []
+  _doneQuests: []
 --- !u!4 &5074137
 Transform:
   m_ObjectHideFlags: 0
@@ -2120,6 +2157,115 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1019317418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019317423}
+  - component: {fileID: 1019317422}
+  - component: {fileID: 1019317421}
+  - component: {fileID: 1019317420}
+  - component: {fileID: 1019317419}
+  m_Layer: 0
+  m_Name: TestArea (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1019317419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019317418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb26f2e2292a54498d800497d04c96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 1
+--- !u!135 &1019317420
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019317418}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1019317421
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019317418}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8b6049375f51b1142bfa4e621fcdd5b9, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1019317422
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019317418}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1019317423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019317418}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.19, y: 0.71, z: 12.98}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1027106058
 GameObject:
   m_ObjectHideFlags: 0
@@ -2946,7 +3092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb26f2e2292a54498d800497d04c96d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questKey: Test target
+  key: 0
 --- !u!135 &1345380492
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3308,6 +3454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _quests: []
+  _npcName: 0
 --- !u!136 &1515226670
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -16,11 +16,14 @@ public class QuestGenerator : MonoBehaviour
     public int _previousIdx;          // Edit전 Idx 위치
     public string _insertStr;         // Edit전 Idx 위치 string 표기
 
+
+    #region Main Button
     public void CreateQuest()
     {
         _quest = new Quest();
         _insertIdx = QuestManager._Instance._quests.Count;
         _insertStr = "[ This is new one ] ";
+        AddQuestGoal();
         _enable = true;
     }
 
@@ -43,7 +46,9 @@ public class QuestGenerator : MonoBehaviour
         _quest = null;
         _enable = false;
     }
+    #endregion
 
+    #region Talk Button
     public void AddTalk()
     {
         _quest._talk.Add("");
@@ -58,8 +63,31 @@ public class QuestGenerator : MonoBehaviour
         }
         
         _quest._talk.RemoveAt(_talkBoxIdx);
-    }    
+    }
+    #endregion
 
+    #region QuestGoal Button
+    public void AddQuestGoal()
+    {
+        QuestGoal questGoal = new QuestGoal();
+        _quest._questGoals.Add(questGoal);
+    }
+
+    public void RemoveQuestGoal()
+    {
+        int last = _quest._questGoals.Count - 1;
+
+        // QuestGoal이 단 하나 남아있을때 '-'를 시도하였을경우
+        if (last == 0) 
+        {
+            Debug.LogWarning("You can`t remove last one of QuestGoal");
+            return;
+        }
+        _quest._questGoals.RemoveAt(last);
+    }
+    #endregion
+
+    // Edit : 다시 편집기로 이동
     public void Edit(Quest quest)
     {
         _quest = quest;
@@ -70,4 +98,6 @@ public class QuestGenerator : MonoBehaviour
         _enable = true;
 
     }
+
+
 }
