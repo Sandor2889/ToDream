@@ -11,6 +11,7 @@ public class FlightCharacteristics : MonoBehaviour
     #endregion
 	
 	private Rigidbody _rb;
+	private FlightInput _input;
 	private float _beginningDrag;
 	private float _beginningAngularDrag;
 	private float _maxMPS;
@@ -26,12 +27,18 @@ public class FlightCharacteristics : MonoBehaviour
 	
 	[Header("Lift")]
 	public AnimationCurve _liftCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-
 	
-	private float _angleOfAttack;
+	[Header("Control")]
+	public AnimationCurve _controlEfficiency = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+	private float _controlSurfaceEfficiency;
+	private float _pitchAngle;
+	private float _rollAngle;
 	
-	public void InitCharacteristics(Rigidbody rb)
+	[SerializeField] private float _angleOfAttack;
+	
+	public void InitCharacteristics(Rigidbody rb, FlightInput input)
 	{
+		_input = input;
 		_rb = rb;
 		_beginningDrag = _rb.drag;
 		_beginningAngularDrag = _rb.angularDrag;
@@ -46,7 +53,12 @@ public class FlightCharacteristics : MonoBehaviour
 			CalculateLift();
 			CalculateDrag();
 			
-			HandleRigidbody();
+			HandleSurfaceEfficiency();
+			HandlePitch();
+			HandleYaw();
+			HandleRoll();
+			
+			//HandleRigidbody();
 		}
 	}
 	
@@ -57,6 +69,8 @@ public class FlightCharacteristics : MonoBehaviour
 		_forwardSpeed = Mathf.Max(0f, localVelocity.z);
 		_forwardSpeed = Mathf.Clamp(_forwardSpeed, 0f, _maxMPS);
 		_mph = _forwardSpeed * _mpsToMph;
+		
+		// 현재 값이 최소, 최대 사이 몇 퍼센트 위치에 있는지 판단
 		_normalizedMPH = Mathf.InverseLerp(0f, _flightCharacter._MaxMPS, _mph);
 	}
 	
@@ -67,12 +81,15 @@ public class FlightCharacteristics : MonoBehaviour
 		_angleOfAttack *= _angleOfAttack;
 		//calculate and add lift
 		Vector3 liftDirection = transform.up;
+		
+		// _normalizedMPH 값에 해당하는 위치의 그래프값을 읽어옴
 		float liftPower = _liftCurve.Evaluate(_normalizedMPH) * _flightCharacter._MaxLiftPower;
 
 		//add flap lift
 		float finalLiftPower = _flightCharacter._FlapLiftPower * 1;
 		//final lift
 		Vector3 finalLiftForce = liftDirection * (liftPower + finalLiftPower) * _angleOfAttack;
+		
 		_rb.AddForce(finalLiftForce);
 	}
 	
@@ -84,9 +101,43 @@ public class FlightCharacteristics : MonoBehaviour
 		float speedDrag = _forwardSpeed * _flightCharacter._DragFactor;
 
 		//sum of all drag forces
+		// drag = 공기저항력 (0.001 : 단단한 금속 덩어리 ~ 10 : 깃털)
+		// angular drag = 토크로 회전할 때 공기저항력
 		float finalDrag = _beginningDrag + speedDrag + _flapDrag;
 		_rb.drag = finalDrag;
 		_rb.angularDrag = _beginningAngularDrag * _forwardSpeed;
+	}
+	
+	private void HandlePitch() // mouse Y
+	{
+		//even though its called torque its a force that rotates rb
+		Vector3 pitchTorque = _input._Pitch * _flightCharacter._PitchSpeed * transform.right * _controlSurfaceEfficiency;
+
+		_rb.AddTorque(pitchTorque);
+	}
+	
+	private void HandleYaw() // a , d
+	{
+		Vector3 yawTorque = _input._Yaw * _flightCharacter._YawSpeed * transform.up * _controlSurfaceEfficiency;
+		_rb.AddTorque(yawTorque);
+	}
+	
+	private void HandleRoll() // mouse X
+	{
+		Vector3 rightDir = transform.right;
+		rightDir.y = 0;
+		rightDir = rightDir.normalized;
+		_rollAngle = Vector3.Angle(transform.right, rightDir);
+
+		Vector3 rollTorque = -_input._Roll * _flightCharacter._RollSpeed * transform.forward * _controlSurfaceEfficiency;
+
+		_rb.AddTorque(rollTorque);
+	}
+	
+	// 원심력
+	private void HandleBanking()
+	{
+		
 	}
 	
 	private void HandleRigidbody()
@@ -99,7 +150,6 @@ public class FlightCharacteristics : MonoBehaviour
 
 			_rb.velocity = rbVelocity;
 
-
 			Quaternion rbRotation = Quaternion.Slerp(_rb.rotation,
 				Quaternion.LookRotation(_rb.velocity.normalized, transform.up),
 				Time.deltaTime
@@ -108,5 +158,11 @@ public class FlightCharacteristics : MonoBehaviour
 			_rb.MoveRotation(rbRotation);
 
 		}
+	}
+	
+	private void HandleSurfaceEfficiency()
+	{
+		// 속도에 따라 결정되는 값
+		_controlSurfaceEfficiency = _controlEfficiency.Evaluate(_normalizedMPH);
 	}
 }

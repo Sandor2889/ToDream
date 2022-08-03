@@ -2,46 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlightInput : MonoBehaviour
+public class FlightInput : BaseInput
 {
 	#region Fields
 	
-	private const int _MaxFlapIncrements = 2;
-	
 	protected float _speed = 0f; // 속도
-	protected float _throttleSpeed = 0.06f;
-	private float _stickyThrottle;
-	
-	protected float _roll = 0f; // 세로축
-	protected float _yaw = 0f; // 수직축
-	protected float _pitch = 0f; // 가로축
-	
-	protected int _flaps = 0;
+	protected float _roll = 0f; // 세로축 (Y)
+	protected float _yaw = 0f; // 수직축 (Z)
+	protected float _pitch = 0f; // 가로축 (X)
 	
 	#endregion
 	
 	#region Properties
 	
-	public float _Speed {get{return _speed;} }
-	public float _StickyThrottle { get { return _stickyThrottle; } }
-	
-	public float _Roll { get{return _roll;} }
-	public float _Yaw { get{return _yaw;} }
-	public float _Pitch { get{return _pitch;} }
-	
-	public float _Flaps { get{return _flaps;} }
-	public float _NormalizedFlaps { get{return (float)_flaps / _MaxFlapIncrements;} }
+	public float _Speed {get{return _speed;} set{_speed = value;} }
+	public float _Roll { get{return _roll;} set{_roll = value;} }
+	public float _Yaw { get{return _yaw;} set{_yaw = value;} }
+	public float _Pitch { get{return _pitch;} set{_pitch = value;} }
 	
 	#endregion
 	
 	#region Unity Events
 	
-	public virtual void Start()
-	{
-		
-	}
-	
-	public virtual void Update()
+	public override void Update()
 	{
 		HandleInput();
 	}
@@ -50,20 +33,12 @@ public class FlightInput : MonoBehaviour
 	
 	#region Custom Methods
 	
-	protected virtual void HandleInput()
+	protected override void HandleInput()
 	{
 		_speed = Input.GetAxis("Vertical");
-		_roll = Input.GetAxis("Horizontal");
-		_yaw = Input.GetAxis("Mouse X");
+		_yaw = Input.GetAxis("Horizontal");
+		_roll = Input.GetAxis("Mouse X");
 		_pitch = Input.GetAxis("Mouse Y");
-		
-		SpeedControl();
-	}
-	
-	protected virtual void SpeedControl()
-	{
-		_stickyThrottle = _stickyThrottle + (_speed * _throttleSpeed * Time.deltaTime);
-		_stickyThrottle = Mathf.Clamp01(_stickyThrottle);
 	}
 	
 	#endregion

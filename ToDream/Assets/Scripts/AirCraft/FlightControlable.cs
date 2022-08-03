@@ -5,9 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class FlightControlable : Controlable
 {
+	FlightInput _input;
+	
 	#region Constants
+	
 	private const float _poundToKilos = 0.453592f;
 	private const float _metersToFeet = 3.28084f;
+	
 	#endregion
 	
 	private Rigidbody _rb;
@@ -28,25 +32,29 @@ public class FlightControlable : Controlable
 	[Header("State")]
 	public FlightState _state = FlightState.GROUNDED;
 	
-	
-	
 	[SerializeField]
-	private bool _isGrounded = true;
+	private bool _isGrounded = false;
 	
-	private const int _MaxFlapIncrements = 2;
-	
-	protected float _speed = 0f; // 속도
+	protected float _speed = 0f; // 속도 (w , s)
 	protected float _throttleSpeed = 0.06f;
 	private float _stickyThrottle;
 	
-	protected float _roll = 0f; // 세로축
-	protected float _yaw = 0f; // 수직축
-	protected float _pitch = 0f; // 가로축
+
+
 	
 	protected override void Awake()
 	{
-		base.Awake();
 		_characteristics = GetComponent<FlightCharacteristics>();
+		_input = GetComponent<FlightInput>();
+	}
+	
+	protected override void OnDisable()
+	{
+		_speed = 0f;
+		_throttleSpeed = 0f;
+		_stickyThrottle = 0f;
+		
+		_state = FlightState.GROUNDED;
 	}
 	
 	protected override void Start()
@@ -66,21 +74,19 @@ public class FlightControlable : Controlable
 			_rb.centerOfMass = _centerOfGravity.localPosition;
 			if(_characteristics)
 			{
-				_characteristics.InitCharacteristics(_rb);
+				_characteristics.InitCharacteristics(_rb, _input);
 			}
 		}
 		_state = FlightState.GROUNDED;
 	}
 	
 	// 키보드 (w, a, s, d)
-	public override void Move(Vector2 input)
+	public override void Move()
 	{
-		_speed = input.y;
+		// speed
+		_speed = _input._Speed;
 		_stickyThrottle = _stickyThrottle + (_speed * _throttleSpeed * Time.deltaTime);
 		_stickyThrottle = Mathf.Clamp01(_stickyThrottle);
-		// speed , roll
-		
-		
 	}
 	
 	// 움직임
@@ -101,14 +107,16 @@ public class FlightControlable : Controlable
 	}
 	
 	// 마우스 (mouse X, mouse Y)
-	public override void Rotate(Vector2 input)
+	public override void Rotate()
 	{
-		// yaw , pitch
+		
 	}
 	
 	public override void Interact()
 	{
+		_Controlable = FindObjectOfType<CharacterControlable>(true);
 		
+		_Controller.ChangeControlTarget(this, _Controlable);
 	}
 	
 	public override void Boost(bool keydown)

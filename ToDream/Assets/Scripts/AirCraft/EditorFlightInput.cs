@@ -23,8 +23,6 @@ public class EditorFlightInput : Editor
 		debugInfo += "\nRoll : " + _targetInput._Roll;
 		debugInfo += "\nYaw : " + _targetInput._Yaw;
 		debugInfo += "\nPitch : " + _targetInput._Pitch;
-		debugInfo += "\nFlaps : " + _targetInput._Flaps;
-		
 
 		GUILayout.Space(20);
 		EditorGUILayout.TextArea(debugInfo, GUILayout.Height(100));
