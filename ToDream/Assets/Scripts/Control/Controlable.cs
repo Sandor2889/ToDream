@@ -29,8 +29,8 @@ public abstract class Controlable : MonoBehaviour
 	
 	protected virtual void OnEnable() { }
 	protected virtual void OnDisable() { }
-	
 	protected virtual void Start() { }
+	protected virtual void Update() { }
 	
 	#endregion
 	
@@ -46,4 +46,9 @@ public abstract class Controlable : MonoBehaviour
 	public abstract void JumpOrBreak(bool keydown);
 	
 	public abstract void Boost(bool keydown);
+	
+	public virtual void CheckGroundAngle()
+	{
+		
+	}
 }

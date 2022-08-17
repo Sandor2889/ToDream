@@ -29,8 +29,8 @@ public class Controller : MonoBehaviour
 		
 		target.transform.position = origin.transform.position + new Vector3(0, 2f, 0);
 		
-		_vCam.Follow = target.transform;
-		_vCam.LookAt = target.transform;
+		_vCam.Follow = target.transform.GetChild(target.transform.childCount - 1);
+		_vCam.LookAt = target.transform.GetChild(target.transform.childCount - 1);;
 		
 		// 차는 Sphere 와 Collider 가 있기에 부모 설정이 필요하다.
 		if(origin._vehicleType == VehicleType.Car)

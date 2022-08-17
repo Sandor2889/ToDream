@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class CharacterControlable : Controlable
 {
+	#region Fields
+	
 	PlayerStateMachine _machine;
 	CharacterInput _input;
 	CharacterController _characterController;
@@ -16,11 +18,20 @@ public class CharacterControlable : Controlable
 	bool _isRunPressed;
 	float _eulerAngleY;
 	
+	// Check Collision Time
+	float _startTime = 0;
+	float _time;
+	float _endTime = 5;
+	
 	public CharacterController _CharacterController { get{return _characterController;} }
 	public bool _IsMovementPressed { get{return _isMovementPressed;} }
 	public bool _IsJumpPressed { get{return _isJumpPressed;} }
 	public bool _IsRunPressed { get{return _isRunPressed;} }
 	public Vector2 _CurrentMovementInput { get{return _currentMovementInput;} }
+	
+	#endregion
+	
+	#region Unity Events
 	
 	protected override void OnEnable()
 	{
@@ -34,6 +45,10 @@ public class CharacterControlable : Controlable
 		_input = GetComponent<CharacterInput>();
 	}
 	
+	#endregion
+	
+	
+	#region Custom Methods
 	public override void Move()
 	{
 		if(_input._Vertical != 0 || _input._Horizontal != 0)
@@ -72,4 +87,26 @@ public class CharacterControlable : Controlable
 	{
 		
 	}
+	
+	protected void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+		if((int)_CharacterController.collisionFlags == 5 && hit.collider.tag == "Wall")
+		{
+			_time += Time.deltaTime;
+			if(_time >= _endTime)
+			{
+				Transform target = RespawnManager._Instance.Respawn(this.transform);
+				this.transform.position = target.position;
+				
+				_time = _startTime;
+				return;
+			}
+		}
+		else if((int)_CharacterController.collisionFlags != 5 && hit.collider.tag != "Wall")
+		{
+			_time = _startTime;
+		}
+	}
+	
+	#endregion
 }

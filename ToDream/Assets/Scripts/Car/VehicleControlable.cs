@@ -8,15 +8,21 @@ public class VehicleControlable : Controlable
 	
 	private CarInput _input;
 	
+	[Header("Head")]
+	[SerializeField] private Transform _head;
+	
 	[Header("Rigidbody")]
 	[SerializeField] private Rigidbody _motorRB;
 	[SerializeField] private Rigidbody _carColliderRB;
 	
 	[Header("Spec")]
 	[SerializeField] protected float _fwdSpeed;
+	[SerializeField] protected float _boostSpeed;
 	[SerializeField] protected float _revSpeed;
 	[SerializeField] protected float _turnSpeed;
+	[SerializeField] protected float _driftTurnSpeed;
 	[SerializeField] protected LayerMask _groundLayer;
+	[SerializeField] protected LayerMask _UnDriveLayer;
 	[SerializeField] private float _alignToGroundTime;
 	[SerializeField] protected float _normalDrag;
 	[SerializeField] protected float _modifiedDrag;
@@ -26,6 +32,9 @@ public class VehicleControlable : Controlable
 	private float _newRotation;
 	private Quaternion _toRotateTo;
 	private bool _isGrounded;
+	private RaycastHit _hit;
+	
+	bool _canMove = true;
 	
 	#endregion
 	
@@ -61,51 +70,64 @@ public class VehicleControlable : Controlable
 	
 	public override void Move()
 	{
-		_speed = _input._Vertical > 0 ? _fwdSpeed : _revSpeed;
-		_motorRB.drag = _isGrounded ? _normalDrag : _modifiedDrag;
 		_yInput = _input._Vertical * _speed;
 		
 		_newRotation = _input._Horizontal * _turnSpeed * Time.deltaTime * _yInput;
-		
-		RaycastHit hit;
-		_isGrounded = Physics.Raycast(transform.position, -transform.up, out hit, 1f, _groundLayer);
-		
-		_toRotateTo = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-		transform.rotation = Quaternion.Slerp(transform.rotation, _toRotateTo, _alignToGroundTime * Time.deltaTime);
-		
 		if(_isGrounded) transform.Rotate(0, _newRotation, 0, Space.World);
 		
 		transform.position = _motorRB.transform.position;
+		
+		
+		_isGrounded = Physics.Raycast(transform.position, -transform.up, out _hit, 1.5f, _groundLayer);
+		
+		// 전방 체크
+		Ray ray = new Ray(_head.transform.position, transform.forward);
+		RaycastHit hit;
+		bool test = Physics.Raycast(ray, out hit, 4f, _UnDriveLayer);
+		if(test)
+		{
+			if(_yInput > 0) _yInput = 0;
+		}
+		_speed = _input._Vertical > 0 ? _fwdSpeed : _revSpeed;
+		_motorRB.drag = _isGrounded ? _normalDrag : _modifiedDrag;
 	}
 	
 	public override void FixedMove()
 	{
-		if(_isGrounded)
+		if(_canMove)
 		{
-			_motorRB.AddForce(transform.forward * _yInput, ForceMode.Acceleration);
+			if(_isGrounded)
+			{
+				_motorRB.AddForce(transform.forward * _yInput, ForceMode.Acceleration);
+				_toRotateTo = Quaternion.FromToRotation(transform.up, _hit.normal) * transform.rotation;
+				transform.rotation = Quaternion.Slerp(transform.rotation, _toRotateTo, _alignToGroundTime * Time.deltaTime);
+			}
+			else
+			{
+				_motorRB.AddForce(transform.up * -60f);
+			}
+			_carColliderRB.MoveRotation(transform.rotation);
 		}
-		else
-		{
-			_motorRB.AddForce(transform.up * -30f);
-		}
-		
-		_carColliderRB.MoveRotation(transform.rotation);
 	}
 	
 	public override void JumpOrBreak(bool keydown)
 	{
-		
+		if(keydown)
+		{
+			_newRotation = _input._Horizontal * _turnSpeed * Time.deltaTime * _yInput;
+			if(_isGrounded) transform.Rotate(0, _newRotation, 0, Space.World);
+		}
 	}
 	
 	public override void Boost(bool keydown)
 	{
-		Debug.Log("boost");
+		if(keydown)
+		{
+			_speed = _boostSpeed;
+		}
 	}
 	
-	public override void Interact()
-	{
-		
-	}
+	public override void Interact(){ }
 	
 	public override void Rotate() { }
 	

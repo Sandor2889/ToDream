@@ -48,7 +48,7 @@ public class PlayerController : Controller
 	
 	private void JumpOrBreak()
 	{
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(Input.GetKey(KeyCode.Space))
 		{
 			_ControlTarget.JumpOrBreak(true);
 		}
@@ -60,7 +60,7 @@ public class PlayerController : Controller
 	
 	private void Boost()
 	{
-		if(Input.GetKeyDown(KeyCode.LeftShift))
+		if(Input.GetKey(KeyCode.LeftShift))
 		{
 			_ControlTarget.Boost(true);
 		}
@@ -125,6 +125,9 @@ public class PlayerController : Controller
 					Debug.Log("Boat");
 					
 					break;
+				default:
+					Debug.Log("Nothing");
+					return;
 			}
 			_current = _next;
 			_next = null;
