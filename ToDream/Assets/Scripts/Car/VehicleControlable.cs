@@ -34,8 +34,6 @@ public class VehicleControlable : Controlable
 	private bool _isGrounded;
 	private RaycastHit _hit;
 	
-	bool _canMove = true;
-	
 	#endregion
 	
 	#region Properties
@@ -94,20 +92,17 @@ public class VehicleControlable : Controlable
 	
 	public override void FixedMove()
 	{
-		if(_canMove)
+		if(_isGrounded)
 		{
-			if(_isGrounded)
-			{
-				_motorRB.AddForce(transform.forward * _yInput, ForceMode.Acceleration);
-				_toRotateTo = Quaternion.FromToRotation(transform.up, _hit.normal) * transform.rotation;
-				transform.rotation = Quaternion.Slerp(transform.rotation, _toRotateTo, _alignToGroundTime * Time.deltaTime);
-			}
-			else
-			{
-				_motorRB.AddForce(transform.up * -60f);
-			}
-			_carColliderRB.MoveRotation(transform.rotation);
+			_motorRB.AddForce(transform.forward * _yInput, ForceMode.Acceleration);
+			_toRotateTo = Quaternion.FromToRotation(transform.up, _hit.normal) * transform.rotation;
+			transform.rotation = Quaternion.Slerp(transform.rotation, _toRotateTo, _alignToGroundTime * Time.deltaTime);
 		}
+		else
+		{
+			_motorRB.AddForce(transform.up * -60f);
+		}
+		_carColliderRB.MoveRotation(transform.rotation);
 	}
 	
 	public override void JumpOrBreak(bool keydown)
