@@ -26,23 +26,21 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private ObjectInteraction _objInter;
-    [SerializeField] private QButtonPool _qButtonPool;
-    [SerializeField] private DialogUI _dialogUI;
     [SerializeField] private QuestUI _questUI;
     [SerializeField] private QuestListUI _questListUI;
-    [SerializeField] private InteractionUI _interUI;
+    [SerializeField] private QButtonPool _qButtonPool;
+    [SerializeField] private DialogUI _dialogUI;
     [SerializeField] private NPCMarkerUI _npcMarkerUI;
+    [SerializeField] private InteractionUI _interUI;
     [SerializeField] private InventoryUI _inventoryUI;
     [SerializeField] private ConsumableSlot _consumableSlot;
 
-    public ObjectInteraction _ObjInter => _objInter;
-    public QButtonPool _QButtonPool => _qButtonPool;
-    public DialogUI _DialogUI => _dialogUI;
     public QuestUI _QuestUI => _questUI;
     public QuestListUI _QuestListUI => _questListUI;
-    public InteractionUI _InterUI => _interUI;
+    public QButtonPool _QButtonPool => _qButtonPool;
+    public DialogUI _DialogUI => _dialogUI;
     public NPCMarkerUI _NPCMarkerUI => _npcMarkerUI;
+    public InteractionUI _InterUI => _interUI;
     public InventoryUI _InventoryUI => _inventoryUI;
     public ConsumableSlot _ConsumableSlot => _consumableSlot;
 
@@ -50,8 +48,6 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-
-        _objInter = FindObjectOfType<ObjectInteraction>();
     }
 
     private void Update()
@@ -78,6 +74,8 @@ public class UIManager : MonoBehaviour
             _questListUI.CloseList();
         }
     }
+
+    // 인벤토리 창 열고 닫기
 
     public void ControllInventory()
     {

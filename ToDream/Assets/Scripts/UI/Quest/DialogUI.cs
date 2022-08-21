@@ -37,7 +37,7 @@ public class DialogUI : MonoBehaviour
     public void UpdateDialog()
     {
         UIManager UIMgr = UIManager._Instance;
-        QuestGiver giver = UIMgr._ObjInter._Hit.collider.GetComponent<QuestGiver>();
+        QuestGiver giver = UIManager._Instance._QuestUI._questGiver;
 
         // 퀘스트 수락 전 대화
         if (_dialogIdx == giver._CurrentQuest._openQuestIdx + 1)

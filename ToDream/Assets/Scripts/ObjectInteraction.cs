@@ -11,7 +11,6 @@ public enum InteractionObjectType
 
 public class ObjectInteraction : MonoBehaviour
 {
-    [SerializeField] private QuestUI _questUI;
     [SerializeField] private bool _canInteract;
 
     [SerializeField] private RaycastHit _hit;
@@ -19,8 +18,6 @@ public class ObjectInteraction : MonoBehaviour
     private InteractionObjectType _interObjType;
 
     private int _npc;
-
-    public RaycastHit _Hit => _hit;
 
     private void Awake()
     {
@@ -36,12 +33,12 @@ public class ObjectInteraction : MonoBehaviour
     // 상호작용 가능한 오브젝트 탐지
     private void OnInterection()
     {
-        Debug.DrawRay(transform.position + Vector3.up, transform.forward, Color.blue, 1f);
+        //Debug.DrawRay(transform.position + Vector3.up, transform.forward, Color.blue, 1f);
         if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out _hit, 1f, _mask))
         {
             _canInteract = true;
 
-            // hit.Layer가 NPC 일때
+            // hit.Layer가 NPC 일때 (다른 타입이 추가 될경우 else if또는 switch로 추가)
             if (_hit.collider.gameObject.layer == _npc)
             {
                 _interObjType = InteractionObjectType.NPC;
@@ -55,19 +52,21 @@ public class ObjectInteraction : MonoBehaviour
                     _hit.collider.GetComponent<QuestGiver>()._CurrentQuest != null &&
                     (_hit.collider.GetComponent<QuestGiver>()._CurrentQuest._questState == QuestState.Avaliable ||
                     _hit.collider.GetComponent<QuestGiver>()._CurrentQuest._questState == QuestState.Completed))
-                {
-                    
+                { 
                     UIManager._Instance._InterUI.OnInterText();
+                    UIManager._Instance._QuestUI._questGiver = _hit.collider.GetComponent<QuestGiver>();
                 }
             }
             UIManager._Instance._InterUI.SetText(_interObjType);
         }
         else
         {
-            _canInteract = false;
+            if (_canInteract) { _canInteract = false; }
+
             if (UIManager._Instance._InterUI.gameObject.activeSelf)
             {
                 UIManager._Instance._InterUI.OffInterText();
+                UIManager._Instance._QuestUI._questGiver = null;
             }
         }
     }
@@ -76,7 +75,7 @@ public class ObjectInteraction : MonoBehaviour
     // 오브젝트와 상호작용
     private void InteractObject()
     {
-        if (_canInteract && Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F1) && _canInteract)
         {
             switch (_interObjType)
             {
@@ -95,7 +94,7 @@ public class ObjectInteraction : MonoBehaviour
 
     private void StartTalk()
     {
-        QuestGiver giver = _hit.collider.GetComponent<QuestGiver>(); 
+        QuestGiver giver = _hit.collider.GetComponent<QuestGiver>();
 
         if (giver._CurrentQuest == null || giver._CurrentQuest._questState == QuestState.Unvaliable)
         {

@@ -78,7 +78,7 @@ public class QuestGeneratorEditor : Editor
             GUILayout.BeginVertical("box");
             EditorGUILayout.LabelField(" [ Reward ]");
             quest._reward._gold = EditorGUILayout.IntField(" Gold:", quest._reward._gold);
-            quest._reward._item = (Item)EditorGUILayout.ObjectField(" Item:", quest._reward._item, typeof(Item), true);
+            quest._reward._itemKey = EditorGUILayout.IntField(" Item Key:", quest._reward._itemKey);
             GUILayout.EndVertical();
             EditorGUILayout.Space(5);
             // ----------------------------------------- NPC Talk ------------------------------------------

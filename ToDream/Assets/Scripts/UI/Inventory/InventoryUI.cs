@@ -8,7 +8,8 @@ public enum Category
 {
     Car,
     Boat,
-    Air
+    Air,
+    Consumable
 }
 
 public class InventoryUI : MonoBehaviour
@@ -18,7 +19,7 @@ public class InventoryUI : MonoBehaviour
     private int _gold;
 
     [HideInInspector] public Category _category;
-    public List<Item> _items = new List<Item>();
+    public List<Item> _items = new List<Item>();    // 습득한 아이템 리스트
     public Slot[] _slots;
 
     public int _Gold
@@ -44,7 +45,7 @@ public class InventoryUI : MonoBehaviour
     public void AcquireItem(Item item)
     {
         // Item이 소모품이면 ConsumableSlot에 등록
-        if (item._id == 9)
+        if (item._category == Category.Consumable)
         {
             UIManager._Instance._ConsumableSlot.UpdateItem(item, 1);
         }
@@ -64,7 +65,7 @@ public class InventoryUI : MonoBehaviour
 
         for (int i = 0; i < _slots.Length; i++)
         {
-            Item item = copyList.Find(x => x._id == (int)_category);
+            Item item = copyList.Find(x => x._category == _category);
 
             if (item == null) { return; }
 

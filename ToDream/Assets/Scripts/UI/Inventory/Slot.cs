@@ -11,7 +11,7 @@ public class Slot : MonoBehaviour
     public void SetItem(Item item)
     {
         _item = item;
-        _itemImage.sprite = item._itemSprite;
+        _itemImage.sprite = item._sprite;
         SetAlpha(1);
     }
 

@@ -12,6 +12,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField] private Text _itemName;
     [SerializeField] private Image _itemImage;
 
+    [HideInInspector] public QuestGiver _questGiver;
     public Button _accept;
     public Button _refuse;
     public Button _cancel;
@@ -19,7 +20,7 @@ public class QuestUI : MonoBehaviour
 
     public void OpenQuest()
     {
-        Quest quest = UIManager._Instance._ObjInter._Hit.collider.GetComponent<QuestGiver>()._CurrentQuest;
+        Quest quest = UIManager._Instance._QuestUI._questGiver._CurrentQuest;
 
         if (quest._questState != QuestState.Avaliable) { return; }
         ActivateButton(true);
@@ -49,8 +50,8 @@ public class QuestUI : MonoBehaviour
 
     public void AcceptQuest()
     {
-        UIManager UIMgr = UIManager._Instance;
-        QuestGiver giver = UIMgr._ObjInter._Hit.collider.GetComponent<QuestGiver>();
+       UIManager UIMgr =UIManager._Instance;
+        QuestGiver giver = UIMgr._QuestUI._questGiver;
 
         giver._CurrentQuest.Accepted();
         QuestManager._Instance._acceptedQuests.Add(giver._CurrentQuest);
@@ -107,17 +108,19 @@ public class QuestUI : MonoBehaviour
         _goal.text = temp;
 
         // Reward Text
+        Item item = GameManager.GetDicValue(quest._reward._itemKey);
 
         _gold.text = quest._reward._gold.ToString();
-        if (quest._reward._item == null)
+        if (item == null)
         {
             ActivateRewardItem(false);
         }
         else
         {
             ActivateRewardItem(true);
-            _itemImage.sprite = quest._reward._item._itemSprite;
-            _itemName.text = quest._reward._item.name;
+            
+            _itemImage.sprite = item._sprite;
+            _itemName.text = item._obj.name;
         }
 
     }
