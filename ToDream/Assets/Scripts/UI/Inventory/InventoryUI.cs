@@ -22,23 +22,16 @@ public class InventoryUI : MonoBehaviour
     public List<Item> _items = new List<Item>();    // 습득한 아이템 리스트
     public Slot[] _slots;
 
-    public int _Gold
-    {
-        get
-        {
-            return _gold;
-        }
-        set
-        {
-            _gold += value;
-            _goldText.text = _gold.ToString();
-        }
-    }
-
     private void Awake()
     {
-        _Gold = 0;
+        UpdateGold(0);
         _slots = GetComponentsInChildren<Slot>();
+    }
+
+    public void UpdateGold(int gold)
+    {
+        _gold += gold;
+        _goldText.text = _gold.ToString();
     }
 
     // 아이템 습득

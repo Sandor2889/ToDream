@@ -26,14 +26,14 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private QuestUI _questUI;
-    [SerializeField] private QuestListUI _questListUI;
-    [SerializeField] private QButtonPool _qButtonPool;
-    [SerializeField] private DialogUI _dialogUI;
-    [SerializeField] private NPCMarkerUI _npcMarkerUI;
-    [SerializeField] private InteractionUI _interUI;
-    [SerializeField] private InventoryUI _inventoryUI;
-    [SerializeField] private ConsumableSlot _consumableSlot;
+    private QuestUI _questUI;
+    private QuestListUI _questListUI;
+    private QButtonPool _qButtonPool;
+    private DialogUI _dialogUI;
+    private NPCMarkerUI _npcMarkerUI;
+    private InteractionUI _interUI;
+    private InventoryUI _inventoryUI;
+    private ConsumableSlot _consumableSlot;
 
     public QuestUI _QuestUI => _questUI;
     public QuestListUI _QuestListUI => _questListUI;
@@ -48,6 +48,15 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        _questUI = FindObjectOfType<QuestUI>(true);
+        _questListUI = FindObjectOfType<QuestListUI>(true);
+        _qButtonPool = FindObjectOfType<QButtonPool>(true);
+        _dialogUI = FindObjectOfType<DialogUI>(true);
+        _npcMarkerUI = FindObjectOfType<NPCMarkerUI>(true);
+        _interUI = FindObjectOfType<InteractionUI>(true);
+        _inventoryUI = FindObjectOfType<InventoryUI>(true);
+        _consumableSlot = FindObjectOfType<ConsumableSlot>(true);
     }
 
     private void Update()

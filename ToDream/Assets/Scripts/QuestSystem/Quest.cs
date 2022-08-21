@@ -116,7 +116,7 @@ public class Quest
     // Äù½ºÆ® ¿Ï·á º¸»ó È¹µæ
     public void GiveReward()
     {
-        UIManager._Instance._InventoryUI._Gold = _reward._gold;
+        UIManager._Instance._InventoryUI.UpdateGold(_reward._gold);
         Item item = GameManager.GetDicValue(_reward._itemKey);
         if (item != null)
         {
