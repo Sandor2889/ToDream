@@ -8,7 +8,7 @@ public class NPCMarkerUI : MonoBehaviour
     [SerializeField] private Image[] _baseImages;
 
     private Sprite _avaliableMarker;
-    [SerializeField] private Sprite _inProgressMarker;
+    private Sprite _inProgressMarker;
     private Sprite _completedMarker;
 
     private void Awake()
@@ -19,7 +19,7 @@ public class NPCMarkerUI : MonoBehaviour
     public void InitMarkerSprites()
     {
         _avaliableMarker = Resources.Load<Sprite>("NPCMarker/Avaliable");
-        //_inProgressMarker = Resources.Load<Sprite>("NPCMarker/InProgress");
+        _inProgressMarker = Resources.Load<Sprite>("NPCMarker/InProgress");
         _completedMarker = Resources.Load<Sprite>("NPCMarker/Completed");
     }
 

@@ -82,18 +82,15 @@ public class PlayerController : Controller
 		else if(Input.GetKeyUp(KeyCode.C))
 		{
 			// 토글
-			_ui._VehicleWheelSelected = false;
-			
-			//string id = VehicleWheelController._vehicleID;
+			_ui._VehicleWheelSelected = false;	
 			_ui.gameObject.SetActive(false);
-
 
 			// 마우스가 있던 버튼의 enum 값을 가져오자.
 			VehicleType vehicleType = VehicleWheelController._vehicleType;
 			GameObject vehicleObj = VehicleWheelController._currentVehicles[(int)vehicleType];	
 
 			// 현재 상태와 같은 상태를 선택할경우 return
-			if (_current._vehicleType == vehicleType) { return; }
+			if (_current._vehicleType == vehicleType || vehicleObj == null) { return; }
 			Debug.Log(vehicleType);
 			switch (vehicleType)
 			{
@@ -112,8 +109,8 @@ public class PlayerController : Controller
 					ChangeControlTarget(_current, _next);
 					break;
 					case VehicleType.Boat:
-					// 미개발
-					break;
+					// 미구현
+					return;
 				default:
 					Debug.Log("Nothing");
 					return;

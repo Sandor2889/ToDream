@@ -9,13 +9,6 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
     public List<TKey> g_InspectorKeys;
     public List<TValue> g_InspectorValues;
 
-    public SerializableDictionary()
-    {
-        g_InspectorKeys = new List<TKey>();
-        g_InspectorValues = new List<TValue>();
-        SyncInspectorFromDictionary();
-    }
-
     public new void Add(TKey key, TValue vaule)
     {
         base.Add(key, vaule);

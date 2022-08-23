@@ -27,13 +27,11 @@ public class VehicleWheelButtonController : MonoBehaviour, IPointerEnterHandler,
     {
 	    _animator.SetBool("Hover", true);
 		VehicleWheelController._vehicleType = _vehicleType;
-		//VehicleWheelController._vehicleID = _id;
 	}
 
     public void OnPointerExit(PointerEventData eventData)
     {
 	    _animator.SetBool("Hover", false);
 		VehicleWheelController._vehicleType = VehicleType.None;
-		//VehicleWheelController._vehicleID = "";
 	}
 }

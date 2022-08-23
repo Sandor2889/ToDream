@@ -21,7 +21,7 @@ public class VehicleRegistration : MonoBehaviour
         GameObject obj = GameManager.GetDicValue(_itemKey)._obj;
         int category = (int)GameManager.GetDicValue(_itemKey)._category;
 
-        if (!_registeredObjs.ContainsKey(_itemKey))
+        if (!_registeredObjs.ContainsKey(_itemKey)) // 첫 등록 시
         {
             obj = Instantiate(obj);
             VehicleWheelController._currentVehicles[category + 1] = obj;
