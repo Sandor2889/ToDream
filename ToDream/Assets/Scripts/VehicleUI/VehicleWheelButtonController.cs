@@ -6,8 +6,9 @@ public class VehicleWheelButtonController : MonoBehaviour, IPointerEnterHandler,
 {
 	private Animator _animator;
 	private bool _selected = false;
-	
-	public string _id;
+
+	//public string _id;
+	public VehicleType _vehicleType;
 	public string _itemName;
 	public Sprite _icon;
 	public Text _itemText;
@@ -25,12 +26,12 @@ public class VehicleWheelButtonController : MonoBehaviour, IPointerEnterHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
 	    _animator.SetBool("Hover", true);
-	    VehicleWheelController._vehicleID = _id;
-    }
+		VehicleWheelController._vehicleType = _vehicleType;
+	}
 
     public void OnPointerExit(PointerEventData eventData)
     {
 	    _animator.SetBool("Hover", false);
-	    VehicleWheelController._vehicleID = "";
-    }
+		VehicleWheelController._vehicleType = VehicleType.None;
+	}
 }

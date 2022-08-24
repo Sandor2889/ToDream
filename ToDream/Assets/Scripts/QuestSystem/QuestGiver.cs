@@ -46,7 +46,7 @@ public class QuestGiver : MonoBehaviour
         QuestManager questMgr = QuestManager._Instance;
         _quests = questMgr._quests.FindAll(x => x._npcName.GetHashCode() == _npcName.GetHashCode());
 
-        if (_quests.Count >= 0) { return; }
+        if (_quests.Count <= 0) { return; }
 
         foreach (var quest in _quests)
         {

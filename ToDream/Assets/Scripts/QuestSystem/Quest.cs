@@ -17,7 +17,8 @@ public enum QuestState
 public struct Reward
 {
     public int _gold;
-    public Item _item; 
+    public int _itemKey;
+    //public Item _item; 
 }
 
 // private 필드변수에 serialize 속성을 붙이지 않으면
@@ -115,10 +116,11 @@ public class Quest
     // 퀘스트 완료 보상 획득
     public void GiveReward()
     {
-        UIManager._Instance._InventoryUI._Gold = _reward._gold;
-        if (_reward._item != null)
+        UIManager._Instance._InventoryUI.UpdateGold(_reward._gold);
+        Item item = GameManager.GetDicValue(_reward._itemKey);
+        if (item != null)
         {
-            UIManager._Instance._InventoryUI.AcquireItem(_reward._item);
+            UIManager._Instance._InventoryUI.AcquireItem(item);
         }
     }
 

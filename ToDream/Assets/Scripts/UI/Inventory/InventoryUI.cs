@@ -7,44 +7,44 @@ using UnityEngine.UI;
 public enum Category
 {
     Car,
+    Air,
     Boat,
-    Air
+    Consumable
 }
 
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private Button[] _buttons;
     [SerializeField] private Text _goldText;
+    private Category _category;
     private int _gold;
 
-    [HideInInspector] public Category _category;
-    public List<Item> _items = new List<Item>();
+    public List<Item> _items = new List<Item>();    // 습득한 아이템 리스트
     public Slot[] _slots;
-
-    public int _Gold
-    {
-        get
-        {
-            return _gold;
-        }
-        set
-        {
-            _gold += value;
-            _goldText.text = _gold.ToString();
-        }
-    }
 
     private void Awake()
     {
-        _Gold = 0;
+        UpdateGold(0);
         _slots = GetComponentsInChildren<Slot>();
+    }
+
+    public void UpdateGold(int gold)
+    {
+        if (_gold + gold < 0 && gold < 0)
+        {
+            Debug.Log("소지골드가 부족합니다.");
+            return;
+        }
+
+        _gold += gold;
+        _goldText.text = _gold.ToString();
     }
 
     // 아이템 습득
     public void AcquireItem(Item item)
     {
         // Item이 소모품이면 ConsumableSlot에 등록
-        if (item._id == 9)
+        if (item._category == Category.Consumable)
         {
             UIManager._Instance._ConsumableSlot.UpdateItem(item, 1);
         }
@@ -64,23 +64,23 @@ public class InventoryUI : MonoBehaviour
 
         for (int i = 0; i < _slots.Length; i++)
         {
-            Item item = copyList.Find(x => x._id == (int)_category);
+            Item item = copyList.Find(x => x._category == _category);
 
             if (item == null) { return; }
 
-            _slots[i].SetItem(item);
+            _slots[i].SetItem(item._key);
             copyList.Remove(item);
         }
     }
 
-    // 카테고리 버튼 색 변경
+    // 카테고리 버튼 색 변경 (Color 값 조절)
     private void SetButtonColor(Button button, float r, float g, float b)
     {
         Color color = new Color(r / 255f, g / 255f, b / 255f);
         button.GetComponent<Image>().color = color;
     }
 
-    // 카테고리 버튼 눌렀을때
+    // 카테고리 버튼 색 변경 (버튼 누를 때)
     private void PressedCategory(Category category)
     {
         for (int i = 0; i < _buttons.Length; i++)
@@ -117,7 +117,6 @@ public class InventoryUI : MonoBehaviour
         SortByCategory(_category);
     }
     #endregion
-
 
     public void ClearSlotData()
     {

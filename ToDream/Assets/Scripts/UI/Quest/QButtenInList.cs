@@ -12,7 +12,6 @@ public class QButtenInList : MonoBehaviour
     public void SetText()
     {
         _titleText.text = _quest._title;
-        Debug.Log(_quest._title + " : " + _quest._questState);
         _stateText.text = _quest._questState.ToString();
     }
 
