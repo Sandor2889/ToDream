@@ -90,7 +90,7 @@ public class PlayerController : Controller
 			GameObject vehicleObj = VehicleWheelController._currentVehicles[(int)vehicleType];	
 
 			// 현재 상태와 같은 상태를 선택할경우 return
-			if (_current._vehicleType == vehicleType || vehicleObj == null) { return; }
+			if (_current._vehicleType == vehicleType) { return; }
 			Debug.Log(vehicleType);
 			switch (vehicleType)
 			{
