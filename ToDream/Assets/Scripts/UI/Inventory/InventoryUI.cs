@@ -14,6 +14,7 @@ public enum Category
 
 public class InventoryUI : MonoBehaviour
 {
+    [SerializeField] private VehicleRegistration _vehicleResgistration;
     [SerializeField] private Button[] _buttons;
     [SerializeField] private Text _goldText;
     private Category _category;
@@ -28,6 +29,7 @@ public class InventoryUI : MonoBehaviour
         _slots = GetComponentsInChildren<Slot>();
     }
 
+    // 골드 업데이트
     public void UpdateGold(int gold)
     {
         if (_gold + gold < 0 && gold < 0)
@@ -38,6 +40,15 @@ public class InventoryUI : MonoBehaviour
 
         _gold += gold;
         _goldText.text = _gold.ToString();
+    }
+
+    // 슬롯의 탈것 등록 상태
+    public void UpdateRegisteredSlot()
+    {
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            _slots[i].SetRegisteredText(VehicleWheelController._currentVehicles[(int)_category + 1]);
+        }
     }
 
     // 아이템 습득
@@ -52,6 +63,8 @@ public class InventoryUI : MonoBehaviour
         {
             _items.Add(item);
         }
+
+        SortByCategory(_category);
     }
 
     // 카테고리에 따른 정렬
@@ -61,16 +74,19 @@ public class InventoryUI : MonoBehaviour
         PressedCategory(category);
 
         List<Item> copyList = _items.ToList<Item>();   // Item List 복제하여 활용
-
+        
         for (int i = 0; i < _slots.Length; i++)
         {
             Item item = copyList.Find(x => x._category == _category);
 
-            if (item == null) { return; }
+            if (item == null) { break; }
 
             _slots[i].SetItem(item._key);
+            
             copyList.Remove(item);
         }
+
+        UpdateRegisteredSlot();
     }
 
     // 카테고리 버튼 색 변경 (Color 값 조절)
@@ -134,6 +150,7 @@ public class InventoryUI : MonoBehaviour
 
     public void CloseInventory()
     {
+        _vehicleResgistration.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 }

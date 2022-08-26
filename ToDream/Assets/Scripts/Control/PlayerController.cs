@@ -90,14 +90,12 @@ public class PlayerController : Controller
 			GameObject vehicleObj = VehicleWheelController._currentVehicles[(int)vehicleType];	
 
 			// 현재 상태와 같은 상태를 선택할경우 return
-			if (_current._vehicleType == vehicleType) { return; }
+			if (_current._vehicleType == vehicleType || vehicleObj == null) { return; }
 			Debug.Log(vehicleType);
 			switch (vehicleType)
 			{
 				case VehicleType.None:
-					// 캐릭터 선택 추가되면 바꾸기
-					//_next = vehicleObj.GetComponent<CharacterControlable>();
-					_next = FindObjectOfType<CharacterControlable>(true);
+					_next = vehicleObj.GetComponent<CharacterControlable>();
 					ChangeControlTarget(_current, _next);
 					break;
 				case VehicleType.Car:
