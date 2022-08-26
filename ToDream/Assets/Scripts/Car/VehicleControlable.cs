@@ -33,6 +33,7 @@ public class VehicleControlable : Controlable
 	private Quaternion _toRotateTo;
 	private bool _isGrounded;
 	private RaycastHit _hit;
+	private bool _firstSpawn = true;
 	
 	#endregion
 	
@@ -52,9 +53,16 @@ public class VehicleControlable : Controlable
 	
 	protected override void OnEnable()
 	{
-		_motorRB.transform.parent = null;
-		_carColliderRB.transform.parent = null;
-		_normalDrag = _motorRB.drag;
+		if(!_firstSpawn)
+		{
+			_motorRB.transform.parent = null;
+			_carColliderRB.transform.parent = null;
+			_normalDrag = _motorRB.drag;
+		}
+		else
+		{
+			_firstSpawn = false;
+		}
 	}
 	
 	protected override void OnDisable()
