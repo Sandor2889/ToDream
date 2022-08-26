@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
+    [SerializeField] private Image _itemBackground;
+    [SerializeField] private Image _itemImage;
     [SerializeField] private VehicleRegistration _registration;
     [SerializeField] private Vector3 _offset;
     
     public int _itemKey;
-    public Image _itemImage;
 
     public void Awake()
     {
@@ -36,6 +37,10 @@ public class Slot : MonoBehaviour
         Color color = _itemImage.color;
         color.a = alpha;
         _itemImage.color = color;
+
+        Color backColor = _itemBackground.color;
+        backColor.a = 145 / 255f * alpha;
+        _itemBackground.color = backColor;
     }
 
     // 슬롯 클릭시 탈것 등록 버튼 호출

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95691d0339319b648b3ef33a54156183, type: 3}
-  m_Name: Item_Truck
+  m_Name: Item_Sedan
   m_EditorClassIdentifier: 
   _category: 0
-  _obj: {fileID: 4125846592627605171, guid: 9f8d388975a2be64abd2de4c813b1cc9, type: 3}
-  _sprite: {fileID: 21300000, guid: 2c862f848942a1347a0f16692d728c3c, type: 3}
-  _key: 2
+  _obj: {fileID: 8085087099019660778, guid: 11ac2a7afb7e84848be6e8f52d292dff, type: 3}
+  _sprite: {fileID: 21300000, guid: 336948ccd9b5d074d9af4ae252dc118a, type: 3}
+  _key: 1

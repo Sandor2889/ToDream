@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     private InteractionUI _interUI;
     private InventoryUI _inventoryUI;
     private ConsumableSlot _consumableSlot;
+    private WorldMapUI _worldMapUI;
 
     public QuestUI _QuestUI => _questUI;
     public QuestListUI _QuestListUI => _questListUI;
@@ -43,7 +44,7 @@ public class UIManager : MonoBehaviour
     public InteractionUI _InterUI => _interUI;
     public InventoryUI _InventoryUI => _inventoryUI;
     public ConsumableSlot _ConsumableSlot => _consumableSlot;
-
+    public WorldMapUI _WorldMapUI => _worldMapUI;
 
     private void Awake()
     {
@@ -57,6 +58,7 @@ public class UIManager : MonoBehaviour
         _interUI = FindObjectOfType<InteractionUI>(true);
         _inventoryUI = FindObjectOfType<InventoryUI>(true);
         _consumableSlot = FindObjectOfType<ConsumableSlot>(true);
+        _worldMapUI = FindObjectOfType<WorldMapUI>(true);
     }
 
     private void Update()
@@ -64,16 +66,27 @@ public class UIManager : MonoBehaviour
         // 소모품 사용 테스트
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            _consumableSlot.UpdateItem(_consumableSlot._item, -1);
+            _consumableSlot.UpdateItem(_consumableSlot._Item, -1);
         }
 
-        ControllQuestList();
-        ControllInventory();
+        ControllUI();
     }
 
-    // 퀘스트 창 열고 닫기
-    public void ControllQuestList()
+
+    // UI 컨트롤러
+    public void ControllUI()
     {
+        // 인벤토리 창
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            _inventoryUI.OpenInventory();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _inventoryUI.CloseInventory();
+        }
+        
+        // 퀘스트 창
         if (Input.GetKeyDown(KeyCode.Q))
         {
             _QuestListUI.OpenList();
@@ -82,19 +95,15 @@ public class UIManager : MonoBehaviour
         {
             _questListUI.CloseList();
         }
-    }
 
-    // 인벤토리 창 열고 닫기
-
-    public void ControllInventory()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
+        // Map
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            _inventoryUI.OpenInventory();
+            _worldMapUI.OpenMap();
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            _inventoryUI.CloseInventory();
+            _worldMapUI.CloseMap();
         }
     }
 }

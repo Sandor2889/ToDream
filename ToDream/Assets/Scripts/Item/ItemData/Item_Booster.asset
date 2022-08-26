@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95691d0339319b648b3ef33a54156183, type: 3}
-  m_Name: Item_Consumable
+  m_Name: Item_Booster
   m_EditorClassIdentifier: 
   _category: 3
   _obj: {fileID: 1536266415358552535, guid: 83acf58e05c0fd04e9dc1385b6e492de, type: 3}
-  _sprite: {fileID: 21300000, guid: 4c6ff0803aeb5d1418f145597c16d05e, type: 3}
+  _sprite: {fileID: 21300000, guid: 22057aef5fa19f9489473012c242bba0, type: 3}
   _key: 1000

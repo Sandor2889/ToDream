@@ -3,65 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class WorldMapUI : MonoBehaviour
 {
-    [SerializeField] private Image _playerIcon;
-    [SerializeField] private Image _questTargetIcon;
-    [SerializeField] private Image _marking;
+    [SerializeField] private RectTransform _rectTr;
+    [SerializeField] private GameObject _mapPing;
+    private float _rectSizeX;
+    private float _rectSizeY;
+    [SerializeField] private Vector2 _offset = new Vector2(485, 65);
 
-    public void Start()
+    private void Awake()
     {
-        InitICon();
-        //GridMap _map = new GridMap(10, 10, 100);
+        _rectSizeX = _rectTr.rect.size.x;
+        _rectSizeY = _rectTr.rect.size.y;    
     }
 
-
-    private void InitICon()
+    private void Update()
     {
-        _playerIcon.sprite = Resources.Load<Sprite>("MapMarker/PlayerIcon");
-    }
-
-    private IEnumerator UpdateMyLocation()
-    {
-        while (true)
+        if (Input.GetMouseButtonUp(1))
         {
+            Vector3 worldMapPos;
+            worldMapPos.x = GetClickedPosRatio().x * _rectSizeX;
+            worldMapPos.y = 0;
+            worldMapPos.z = GetClickedPosRatio().y * _rectSizeY;
 
-            yield return null;
-        }
-    }
-}
-
-public class GridMap
-{
-    private int _width;
-    private int _height;
-    private int _cellSize;
-
-    private Vector3[,] _gridMap;
-
-    public GridMap(int width, int height, int cellSize)
-    {
-        _width = width;
-        _height = height;
-        _cellSize = cellSize;
-
-        _gridMap = new Vector3[width, height];
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < height; z++)
-            {
-                _gridMap[x, z] = new Vector3(x, 0, z);
-                var pos = GetWorldPos(x, z);
-
-                Debug.DrawLine(GetWorldPos(x, z), GetWorldPos(x + 1, z), Color.blue);
-                Debug.DrawLine(GetWorldPos(x, z), GetWorldPos(x, z + 1), Color.blue);
-            }
+            OnMapPing(worldMapPos);
         }
     }
 
-    private Vector3 GetWorldPos(int x, int z)
+    private void OnMapPing(Vector3 pos)
     {
-        return new Vector3(x, 0, z) * _cellSize;
+        _mapPing.transform.position = pos;
+        _mapPing.SetActive(true);
     }
+
+    private Vector2 GetClickedPosRatio()
+    {
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 clickedPos = mousePos - _offset;
+        float ratioVecX = (clickedPos.x / _rectSizeX);
+        float ratioVecY = (clickedPos.y / _rectSizeY);
+        Vector2 ratioVec = new Vector2(ratioVecX - 0.5f, ratioVecY - 0.5f);
+        return ratioVec;
+    }
+
+    public void OpenMap()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void CloseMap()
+    {
+        gameObject.SetActive(false);
+    }
+
 }
