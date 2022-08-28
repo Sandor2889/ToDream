@@ -144,12 +144,16 @@ public class InventoryUI : MonoBehaviour
 
     public void OpenInventory()
     {
+        UIManager.CursorVisible(true);
+        UIManager._isOpendUI = true;
         gameObject.SetActive(true);
         SortByCategory(_category);
     }
 
     public void CloseInventory()
     {
+        UIManager.CursorVisible(false);
+        UIManager._isOpendUI = false;
         _vehicleResgistration.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }

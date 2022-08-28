@@ -16,7 +16,6 @@ public class ObjectInteraction : MonoBehaviour
     [SerializeField] private RaycastHit _hit;
     [SerializeField] private LayerMask _mask;
     private InteractionObjectType _interObjType;
-
     private int _npc;
 
     private void Awake()

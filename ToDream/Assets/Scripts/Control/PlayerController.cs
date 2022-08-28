@@ -18,7 +18,8 @@ public class PlayerController : Controller
 	private void Update()
 	{
 		InputMoveAxis();
-		if(!_ui._VehicleWheelSelected)
+
+		if(!_ui._VehicleWheelSelected && !UIManager.IsTalking() && !UIManager._isOpendUI)
 		{
 			InputRotateAxis();
 		}
@@ -76,14 +77,15 @@ public class PlayerController : Controller
 		{
 			// UI 를 띄운다. (토글)
 			_ui._VehicleWheelSelected = true;
-			
 			_ui.gameObject.SetActive(true);
+			UIManager.CursorVisible(true);
 		}
 		else if(Input.GetKeyUp(KeyCode.C))
 		{
 			// 토글
 			_ui._VehicleWheelSelected = false;	
 			_ui.gameObject.SetActive(false);
+			UIManager.CursorVisible(false);
 
 			// 마우스가 있던 버튼의 enum 값을 가져오자.
 			VehicleType vehicleType = VehicleWheelController._vehicleType;

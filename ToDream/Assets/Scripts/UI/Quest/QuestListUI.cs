@@ -25,11 +25,15 @@ public class QuestListUI : MonoBehaviour
 
     public void OpenList()
     {
+        UIManager.CursorVisible(true);
+        UIManager._isOpendUI = true;
         gameObject.SetActive(true);
     }
 
     public void CloseList()
     {
+        UIManager.CursorVisible(false);
+        UIManager._isOpendUI = false;
         gameObject.SetActive(false);
     }
 }

@@ -51,7 +51,9 @@ public class CharacterControlable : Controlable
 	#region Custom Methods
 	public override void Move()
 	{
-		if(_input._Vertical != 0 || _input._Horizontal != 0)
+		// 움직이면서 NPC대화시 계속 움직이는 버그 발생으로 여기서 조건 추가 (UIManager.IsTalking())
+		// 이전 조건에서는 _direction의 값이 +값이 주어진 상태로 update가 막혀 계속 전진하는 현상이 일어났음
+		if((_input._Vertical != 0 || _input._Horizontal != 0) && !UIManager.IsTalking())
 		{
 			_isMovementPressed = true;
 			_currentMovementInput = new Vector2(_input._Horizontal, _input._Vertical).normalized;

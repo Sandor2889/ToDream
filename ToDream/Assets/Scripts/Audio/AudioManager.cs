@@ -33,70 +33,37 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private Sound[] _sfx;
-    [SerializeField] private Sound[] _bgm;
+    [SerializeField] private Sound _titleBgm;
+    [SerializeField] private Sound _inGameBgm;
 
-    [SerializeField] private AudioSource _bgmPlayer;
-    [SerializeField] private AudioSource[] _sfxPlayer;
+    [SerializeField] private AudioSource _titleBgmPlayer;
+    [SerializeField] private AudioSource _inGameBgmPlayer;
 
     public void Awake()
     {
         _instance = this;
     }
 
-    public void Update()
+    public void PlayTitleBGM(string strBgm)
     {
-        if (Input.GetKeyDown(KeyCode.F9))
+        if (strBgm.GetHashCode() == _titleBgm._name.GetHashCode())
         {
-            PlayBGM("DelightFul");
-        }
-        if (Input.GetKeyDown(KeyCode.F10))
-        {
-            PlayBGM("PlayGroundFun");
-        }
-        if (Input.GetKeyDown(KeyCode.F11))
-        {
-            PlayBGM("GamesWorldbeat");
+            _titleBgmPlayer.clip = _titleBgm._clip;
+            _titleBgmPlayer.Play();
         }
     }
 
-    public void PlayBGM(string strBgm)
+    public void PlayInGameBGM(string strBgm)
     {
-        for (int i = 0; i < _bgm.Length; i++)
+        if (strBgm.GetHashCode() == _inGameBgm._name.GetHashCode())
         {
-            if (strBgm.GetHashCode() == _bgm[i]._name.GetHashCode())
-            {
-                _bgmPlayer.clip = _bgm[i]._clip;
-                _bgmPlayer.Play();
-            }
+            _inGameBgmPlayer.clip = _inGameBgm._clip;
+            _inGameBgmPlayer.Play();
         }
     }
 
     public void StopBGM()
     {
-        _bgmPlayer.Stop();
-    }
-
-    public void PlaySFX(string strSfx)
-    {
-        for (int i = 0; i < _sfx.Length; i++)
-        {
-            if (strSfx.GetHashCode() == _sfx[i]._name.GetHashCode())
-            {
-                for(int j = 0; j < _sfxPlayer.Length; i++)
-                {
-                    if (!_sfxPlayer[j].isPlaying)
-                    {
-                        _sfxPlayer[j].clip = _sfx[i]._clip;
-                        _sfxPlayer[j].Play();
-                        return;
-                    }
-                }
-                Debug.Log("모든 오디오 플레이어가 재생중입니다.");
-                return;
-            }
-        }
-
-        Debug.Log(strSfx + " - 이름의 효과음이 없습니다.");
+        _inGameBgmPlayer.Stop();
     }
 }

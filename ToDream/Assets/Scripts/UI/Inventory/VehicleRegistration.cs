@@ -53,6 +53,7 @@ public class VehicleRegistration : MonoBehaviour
 
         VehicleWheelController._currentVehicles[category + 1] = null;
         UIManager._Instance._InventoryUI.UpdateRegisteredSlot();
+        OnBack();
     }
 
     public void OnBack()
