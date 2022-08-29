@@ -22,8 +22,9 @@ public class DialogUI : MonoBehaviour
     public void OpenDialog()
     {
         gameObject.SetActive(true);
-        StartCoroutine(C_CloseDialog());
+        UIManager.CursorVisible(true);
         UIManager._Instance._InterUI.OffInterText();
+        StartCoroutine(C_CloseDialog());
         UpdateDialog();
         StartCoroutine(C_NextTextEffect());
     }
@@ -32,6 +33,7 @@ public class DialogUI : MonoBehaviour
     {
         _dialogIdx = 0;
         gameObject.SetActive(false);
+        UIManager.CursorVisible(false);
     }
 
     public void UpdateDialog()

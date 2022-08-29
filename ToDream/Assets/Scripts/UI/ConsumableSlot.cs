@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class ConsumableSlot : MonoBehaviour
 {
+    [SerializeField] private Item _item;
+    [SerializeField] private Image _image;
+    [SerializeField] private Text _text;
+    [SerializeField] private int _count;
     [SerializeField] private int _boostCost;
-    public Item _item;
-    public Image _image;
-    public Text _text;
-    public int _count;
+
+    public Item _Item => _item;
 
     public void UpdateItem(Item item, int itemCount)
     {

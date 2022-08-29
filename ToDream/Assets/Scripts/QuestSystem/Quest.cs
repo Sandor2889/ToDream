@@ -161,8 +161,9 @@ public class Quest
         _onNPCMarker?.Invoke((int)_npcName, _questState);
         _onNPCMarker = null;
         _nextQuest?.Invoke();
-        _nextQuest = null;        
+        _nextQuest = null;
 
+        QuestManager._Instance._CompleteEffect.Play();
         QuestManager._Instance._acceptedQuests.Remove(this);
         QuestManager._Instance._doneQuests.Add(this);
 

@@ -5,60 +5,38 @@ using UnityEngine.UI;
 
 public class NPCMarkerUI : MonoBehaviour
 {
-    [SerializeField] private Image[] _baseImages;
+    [SerializeField] private QuestGiver[] _npcs;
 
-    private Sprite _avaliableMarker;
-    private Sprite _inProgressMarker;
-    private Sprite _completedMarker;
 
-    private void Awake()
-    {
-        InitMarkerSprites();
-    }
-
-    public void InitMarkerSprites()
-    {
-        _avaliableMarker = Resources.Load<Sprite>("NPCMarker/Avaliable");
-        _inProgressMarker = Resources.Load<Sprite>("NPCMarker/InProgress");
-        _completedMarker = Resources.Load<Sprite>("NPCMarker/Completed");
-    }
-
+    // (int 퀘스트제공자, QuestState 퀘스트 진행상태)
     public void SettingByQuestState(int idx, QuestState questState)
     {
-        switch (questState)
+        OnMarker(idx, questState);
+    }
+
+
+    public void OnMarker(int idx, QuestState state)
+    {
+        QuestGiver giver = _npcs[idx];
+        int intState = (int)state + 1;  // 0은 수락 불가능 상태이므로 1부터 시작
+
+        for(int i = 0; i < giver._Markers.Length; i++)
         {
-            case QuestState.Unvaliable:
-            case QuestState.Done:
-                OffMarker(idx);
-                break;
-            case QuestState.Avaliable:
-                OnMarker(idx);
-                SetMarker(idx, _avaliableMarker);
-                break;
-            case QuestState.Accepted:
-                SetMarker(idx, _inProgressMarker);
-                break;
-            case QuestState.Completed:
-                SetMarker(idx, _completedMarker);
-                break;
-            default:
-                break;
+            // 수락 불가 상태나 완료된 상태라면 모든 마커 종료
+            if (state == QuestState.Unvaliable || state == QuestState.Done)
+            {
+                giver._Markers[i].gameObject.SetActive(false);
+                continue;
+            }
+
+            if (intState == i)
+            {
+                giver._Markers[i].gameObject.SetActive(true);
+            }
+            else 
+            {
+                giver._Markers[i].gameObject.SetActive(false);
+            }
         }
-    }
-
-
-    public void OnMarker(int idx)
-    {
-        _baseImages[idx].gameObject.SetActive(true);
-    }
-
-    public void OffMarker(int idx)
-    {
-        _baseImages[idx].gameObject.SetActive(false);
-    }
-
-    public void SetMarker(int idx, Sprite marker)
-    {
-        _baseImages[idx].sprite = marker;
     }
 }

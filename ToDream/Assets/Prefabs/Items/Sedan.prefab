@@ -10327,6 +10327,7 @@ GameObject:
   - component: {fileID: 8085087099019660777}
   - component: {fileID: 8085087099019660776}
   - component: {fileID: 8085087099019660779}
+  - component: {fileID: 4032717995207790268}
   m_Layer: 0
   m_Name: Sedan
   m_TagString: Untagged
@@ -10416,6 +10417,20 @@ MonoBehaviour:
   _trails:
   - {fileID: 8085087098829142443}
   - {fileID: 8085087099248774574}
+--- !u!114 &4032717995207790268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8085087099019660778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27283ecc32bec24989b2d1c9373aee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isRegistered: 0
+  _itemKey: 1
 --- !u!1 &8085087099202358685
 GameObject:
   m_ObjectHideFlags: 0

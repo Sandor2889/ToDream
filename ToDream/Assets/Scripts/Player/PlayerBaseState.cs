@@ -9,7 +9,7 @@ public abstract class PlayerBaseState
 	private PlayerStateFactory _factory;
 	private PlayerBaseState _currentMainState; // 메인 상태
 	private PlayerBaseState _currentSubState; // 서브 상태
-	
+
 	// get, set variables
 	protected bool _IsMainState { set{_isMainState = value; } }
 	protected PlayerStateMachine _Ctx { get{return _ctx; } }
@@ -21,7 +21,7 @@ public abstract class PlayerBaseState
 		_ctx = currentContext;
 		_factory = playerStateFactory;
 	}
-	
+
 	public abstract void EnterState();
 	public abstract void UpdateState();
 	public abstract void ExitState();
