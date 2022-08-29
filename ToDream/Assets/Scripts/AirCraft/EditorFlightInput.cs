@@ -15,11 +15,12 @@ public class EditorFlightInput : Editor
 	
 	public override void OnInspectorGUI()
 	{
-		base.OnInspectorGUI();
+		//base.OnInspectorGUI();
 		
 		//Custom editor changes
 		string debugInfo = "";
-		debugInfo += "Speed : " + _targetInput._Speed;
+		debugInfo += "Flight Input";
+		debugInfo += "\n\nSpeed : " + _targetInput._Speed;
 		debugInfo += "\nRoll : " + _targetInput._Roll;
 		debugInfo += "\nYaw : " + _targetInput._Yaw;
 		debugInfo += "\nPitch : " + _targetInput._Pitch;

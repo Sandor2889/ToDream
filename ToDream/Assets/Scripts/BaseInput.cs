@@ -6,13 +6,14 @@ public class BaseInput : MonoBehaviour
 {
     #region Fields
     
+	[Header("Base")]
 	[SerializeField] protected float _vertical;
 	[SerializeField] protected float _horizontal;
     
     #endregion
     
     #region Properties
-    
+    	
 	public float _Vertical {get{return _vertical;}}
 	public float _Horizontal {get{return _horizontal;}}
     

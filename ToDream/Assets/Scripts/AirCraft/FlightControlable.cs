@@ -11,6 +11,9 @@ public class FlightControlable : Controlable
 	
 	private const float _poundToKilos = 0.453592f;
 	private const float _metersToFeet = 3.28084f;
+	protected float _speed = 0f; // 속도 (w , s)
+	protected float _throttleSpeed = 0.06f;
+	private float _stickyThrottle;
 	
 	#endregion
 	
@@ -22,7 +25,7 @@ public class FlightControlable : Controlable
 	
 	[Header("Engines")]
 	public List<FlightEngine> _engines = new List<FlightEngine>();
-	
+
 	[Header("Wheels")]
 	public List<FlightWheel> _wheels = new List<FlightWheel>();
 	
@@ -32,15 +35,8 @@ public class FlightControlable : Controlable
 	[Header("State")]
 	public FlightState _state = FlightState.GROUNDED;
 	
-	[SerializeField]
-	private bool _isGrounded = false;
-	
-	protected float _speed = 0f; // 속도 (w , s)
-	protected float _throttleSpeed = 0.06f;
-	private float _stickyThrottle;
-	
-
-
+	//[SerializeField]
+	//private bool _isGrounded = false;
 	
 	protected override void Awake()
 	{
@@ -51,7 +47,6 @@ public class FlightControlable : Controlable
 	protected override void OnDisable()
 	{
 		_speed = 0f;
-		_throttleSpeed = 0f;
 		_stickyThrottle = 0f;
 		
 		_state = FlightState.GROUNDED;
@@ -83,6 +78,7 @@ public class FlightControlable : Controlable
 	// 키보드 (w, a, s, d)
 	public override void Move()
 	{
+		if(_input._Speed.Equals(0)) return;
 		// speed
 		_speed = _input._Speed;
 		_stickyThrottle = _stickyThrottle + (_speed * _throttleSpeed * Time.deltaTime);

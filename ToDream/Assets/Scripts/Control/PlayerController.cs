@@ -112,7 +112,7 @@ public class PlayerController : Controller
 					// 미구현
 					return;
 				default:
-					Debug.Log("Nothing");
+					// Nothing -> UI 필요
 					return;
 			}
 			_current = _next;
