@@ -5,8 +5,9 @@ using UnityEngine;
 // NPC 이름
 public enum NPCName
 {
-    Default,
-    Condition
+    Mother,
+    Manager,
+    President
 }
 
 [DefaultExecutionOrder(201)]
@@ -14,8 +15,14 @@ public class QuestGiver : MonoBehaviour
 {
     private int _currentQuestIdx;
 
+    // Npc 퀘스트 진행 상태 마커 (파티클)
+    [SerializeField] private ParticleSystem[] _markers;
+
+    public ParticleSystem[] _Markers => _markers;
+
     public List<Quest> _quests = new List<Quest>();
     public NPCName _npcName;
+
 
     public Quest _CurrentQuest
     {
@@ -33,6 +40,7 @@ public class QuestGiver : MonoBehaviour
 
     private void Awake()
     {
+        _markers = GetComponentsInChildren<ParticleSystem>();
         DistributeQuests();
         UpdateCurrentState();
 

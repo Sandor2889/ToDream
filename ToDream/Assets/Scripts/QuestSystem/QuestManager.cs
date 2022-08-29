@@ -24,9 +24,13 @@ public class QuestManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private ParticleSystem _completeEffect;
+
     public List<Quest> _quests = new List<Quest>();             // 퀘스트 데이터베이스
     public List<Quest> _acceptedQuests = new List<Quest>();     // 수락한 퀘스트
     public List<Quest> _doneQuests = new List<Quest>();         // 완료된 퀘스트
+
+    public ParticleSystem _CompleteEffect => _completeEffect;
 
     private void Awake()
     {

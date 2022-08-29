@@ -592,42 +592,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74d60a3acab8fe44a36e41f9305e7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _completeEffect: {fileID: 0}
   _quests:
   - _questState: 0
     _npcName: 0
-    _title: 1
+    _title: "\uCCAB \uCD9C\uADFC"
     _questCode: 0
-    _description: 1
+    _description: "\r\uC624\uB298\uBD80\uD130 \uC9C0\uC778 \uC18C\uAC1C\uB85C \uBC1B\uC740
+      \uD0DD\uBC30\uD68C\uC0AC\uC5D0 \uCCAB \uCD9C\uADFC\uC774\uB2E4.  \r\n\uD0DD\uBC30\uD68C\uC0AC
+      \uC704\uCE58\uB294 `F1` \uB124\uBE44\uB97C \uD1B5\uD574 \uBC29\uD5A5\uD655\uC778\uC774
+      \uAC00\uB2A5\uD558\uACE0\r\n`M` \uC9C0\uB3C4\uC5D0\uC11C \uB300\uB7B5\uC801\uC778
+      \uC704\uCE58\uB97C \uC54C \uC218 \uC788\uB2E4."
     _questGoals:
     - _goalState: 0
-      _target: 1
-      _subTitle: 1
+      _target: President
+      _subTitle: "\uD0DD\uBC30 \uD68C\uC0AC\uB85C \uCC3E\uC544\uAC00\uC790"
+      _currentTargetCount: 0
+      _requiredAmount: 1
+      _targetMarker: {fileID: 0}
+      _isFolded: 1
+    _reward:
+      _gold: 0
+      _itemKey: 0
+    _talk:
+    - "\uC624\uB298\uBD80\uD130 \uCD9C\uADFC \uD55C\uB2E4\uBA70? \uC5BC\uB978 \uAC00\uC57C\uD558\uC9C0
+      \uC54A\uB2C8?"
+    - "\uC790 \uC5EC\uAE30 \uC18C\uAC1C\uC7A5 \uB4E4\uACE0\uAC00\uB294\uAC70 \uC78A\uC9C0
+      \uB9D0\uACE0 !!"
+    - "\uAE38 \uBAA8\uB974\uACA0\uC73C\uBA74 \uB124\uBE44(`F1`)\uD0A4\uACE0 \uAC00\uACE0~"
+    - "\uC9C0\uB3C4(`M`)\uB3C4 \uC788\uC73C\uB2C8\uAE4C \uC78A\uC9C0\uB9D0\uACE0
+      \uC870\uC2EC\uD788 \uB2E4\uB140\uC640~!"
+    _openQuestIdx: 1
+    _conditions: []
+    _hasConditions: 0
+    _autoComplete: 1
+    _detailFolded: 0
+    _talkFolded: 1
+  - _questState: 0
+    _npcName: 2
+    _title: "\uB9E4\uB2C8\uC800\uC640 \uB9CC\uB098\uAE30"
+    _questCode: 0
+    _description: "\uC815\uC9C1\uC6D0\uC774 \uB418\uAE30 \uC704\uD574\uC11C\uB294
+      \uC2DC\uD5D8\uC744 \uBD10\uC57C \uD55C\uB2E4\uACE0 \uD55C\uB2E4.\r\n\uC606
+      \uAC74\uBB3C \uC785\uAD6C\uC5D0 \uC788\uB294 \uB9E4\uB2C8\uC800\uB97C \uB9CC\uB098\uBCF4\uB3C4\uB85D
+      \uD558\uC790."
+    _questGoals:
+    - _goalState: 0
+      _target: Manager
+      _subTitle: "\uB9E4\uB2C8\uC800\uC640\uC758 \uB9CC\uB0A8"
       _currentTargetCount: 0
       _requiredAmount: 1
       _targetMarker: {fileID: 0}
       _isFolded: 0
     _reward:
-      _gold: 1
-      _itemKey: 0
+      _gold: 0
+      _itemKey: 2
     _talk:
-    - 123
-    - 321
-    - 1111
-    _openQuestIdx: 1
-    _conditions: []
-    _hasConditions: 0
+    - "\uC74C... \uC790\uB124\uAC00 \uADF8 \uC2E0\uC785\uC778\uAC00?"
+    - "\uADF8\uB7FC \uC774 \uC9C1\uC6D0 \uCE74\uB4DC\uB97C \uB4E4\uACE0 \uC606 \uAC74\uBB3C\uC5D0
+      \uC788\uB294 \uB9E4\uB2C8\uC800\uC5D0\uAC8C \uAC00\uBCF4\uAC8C."
+    - "\uC790\uB124\uAC00 \uC774 \uC77C\uC5D0 \uC798 \uC801\uC751 \uD560 \uC218 \uC788\uB294\uC9C0
+      \uBD10\uC904\uAC78\uC138"
+    - "\uB9E4\uB2C8\uC800\uB97C \uB9CC\uB098\uBA74 \uC6B4\uD589\uAC00\uB2A5\uD55C
+      \uD2B8\uB7ED\uC744 \uC5BB\uC744 \uC218 \uC788\uC744\uAC78\uC138."
+    _openQuestIdx: 2
+    _conditions:
+    - _code: 0
+      _isCompleted: 0
+    _hasConditions: 1
     _autoComplete: 1
-    _detailFolded: 1
+    _detailFolded: 0
     _talkFolded: 0
   - _questState: 0
-    _npcName: 0
-    _title: 2
-    _questCode: 1
-    _description: 2
+    _npcName: 1
+    _title: "\uCCAB \uC801\uC751 \uC2DC\uD5D8"
+    _questCode: 0
+    _description: "\uCCAB \uC2DC\uD5D8\uC744 \uBC1B\uC558\uB2E4.  \r\n\uBCF4\uC0C1\uC73C\uB85C
+      \uC5BB\uC740 \uD2B8\uB7ED\uC744 \uC0AC\uC6A9\uD574 \uBAA9\uC801\uC9C0\uB85C
+      \uD0DD\uBC30\uB97C \uAC74\uB124\uC8FC\uC790.\n`F`\uC640 `M`\uC744 \uC774\uC6A9\uD558\uBA74
+      \uC27D\uAC8C \uAC08 \uC218 \uC788\uC744 \uAC83\uC774\uB2E4."
     _questGoals:
     - _goalState: 0
-      _target: 1
-      _subTitle: 2
+      _target: 3333
+      _subTitle: "\uB204\uAD6C\uC5D0\uAC8C  \uB3C4\uC2DC\uB77D \uBC30\uB2EC\uD558\uAE30"
       _currentTargetCount: 0
       _requiredAmount: 1
       _targetMarker: {fileID: 0}
@@ -636,36 +683,50 @@ MonoBehaviour:
       _gold: 1
       _itemKey: 1
     _talk:
-    - 2222
-    - 22222222
-    _openQuestIdx: 0
-    _conditions: []
-    _hasConditions: 0
-    _autoComplete: 1
+    - "\uC598\uAE30\uB294 \uB4E4\uC5C8\uC5B4. \uBC14\uB85C \uC2DC\uD5D8\uD574 \uBCFC\uAE4C?"
+    - "\uCCAB \uBC30\uB2EC\uC740 \uC774\uACF3\uC774\uC57C."
+    - "\uD2B8\uB7ED \uC0AC\uC6A9\uBC95\uC740 \uC778\uBCA4\uD1A0\uB9AC`i`\uC5D0\uC11C
+      \uD2B8\uB7ED\uC744 \uB20C\uB7EC \uB4F1\uB85D\uD574\uBD10, \uC544\uC774\uCF58\uC5D0
+      On\uC774 \uC0C8\uACA8\uC9C0\uBA74 \uB4F1\uB85D \uB41C\uAC70\uC57C."
+    - "\uB2E4\uC74C\uC740 `c`\uB97C \uB20C\uB7EC \uB9C8\uC6B0\uC2A4\uB97C Car\uC5D0
+      \uC62C\uB9AC\uACE0 \uB54C\uBA74 \uD0D1\uC2B9 \uB420 \uAC70\uC57C. "
+    _openQuestIdx: 1
+    _conditions:
+    - _code: 0
+      _isCompleted: 0
+    - _code: 200
+      _isCompleted: 0
+    _hasConditions: 1
+    _autoComplete: 0
     _detailFolded: 0
-    _talkFolded: 0
+    _talkFolded: 1
   - _questState: 0
-    _npcName: 0
-    _title: 3
-    _questCode: 2
-    _description: 3
+    _npcName: 1
+    _title: "\uB9C8\uC9C0\uB9C9 \uC2DC\uD5D8"
+    _questCode: 1
+    _description: "\uB9C8\uC9C0\uB9C9 \uC801\uC751 \uC2DC\uD5D8\uC774\uB2E4.\r\n\uB2E4\uB9AC
+      \uAC74\uB108\uD3B8\uC758 \uB2E4\uB978 \uD56D\uAD6C\uC9C0\uBD80\uC5D0 \uBC30\uB2EC\uD574\uC57C
+      \uD558\uB294 \uAC83 \uAC19\uB2E4."
     _questGoals:
     - _goalState: 0
-      _target: 1
-      _subTitle: 3
+      _target: 2222
+      _subTitle: "\uB204\uAD6C\uC5D0\uAC8C \uBC30\uB2EC\uD558\uAE30"
       _currentTargetCount: 0
       _requiredAmount: 1
       _targetMarker: {fileID: 0}
       _isFolded: 0
     _reward:
-      _gold: 3
-      _itemKey: 2
+      _gold: 0
+      _itemKey: 100
     _talk:
-    - 33333
+    - "1. \uC798\uD588\uC5B4 ! \uC774\uC815\uB3C4\uBA74 \uBC14\uB85C \uBA40\uB9AC
+      \uB098\uAC00\uBD10\uB3C4 \uB418\uACA0\uB294\uAC78?"
+    - "\uC774\uAC83\uB3C4 \uBB34\uC0AC\uD788 \uBC30\uB2EC\uD558\uBA74 \uADC0\uC5EC\uC6B4
+      \uB9C9\uB0B4\uAC00 \uC0DD\uAE30\uACA0\uB294\uAC78 ?! \uD6C4~\uD6D7!"
     _openQuestIdx: 0
     _conditions: []
-    _hasConditions: 0
-    _autoComplete: 1
+    _hasConditions: 1
+    _autoComplete: 0
     _detailFolded: 0
     _talkFolded: 0
   _acceptedQuests: []
@@ -701,9 +762,9 @@ MonoBehaviour:
     _talkFolded: 0
   _talkBoxIdx: 0
   _enable: 0
-  _insertIdx: 3
-  _previousIdx: 0
-  _insertStr: '[ Previous Idx 0 ]'
+  _insertIdx: 4
+  _previousIdx: 3
+  _insertStr: '[ Previous Idx 3 ]'
 --- !u!1 &8479307431878851710
 GameObject:
   m_ObjectHideFlags: 0

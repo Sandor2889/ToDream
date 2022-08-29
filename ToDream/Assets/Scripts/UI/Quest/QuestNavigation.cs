@@ -7,12 +7,12 @@ public class QuestNavigation : MonoBehaviour
 {
     [SerializeField] private float _searchDistance = 10f;
     private Transform[] _targetTr;
-    private MeshRenderer[] _navRenderer;
+    private ParticleSystem _navParticle;
 
     private void Awake()
     {
         _targetTr = new Transform[3];
-        _navRenderer = GetComponentsInChildren<MeshRenderer>();
+        _navParticle = GetComponent<ParticleSystem>();
     }
 
     public void OnEnable()
@@ -58,24 +58,12 @@ public class QuestNavigation : MonoBehaviour
         // 탐지범위안으로 들어오면 return
         if (sqrDist < _searchDistance * _searchDistance) 
         {
-            for (int i = 0; i < _navRenderer.Length; i++)
-            {
-                if (_navRenderer[i].enabled)
-                {
-                    _navRenderer[i].enabled = false;
-                }
-            }
+            _navParticle.Stop();
             return;
         }
 
         // 렌더러가 꺼져있다면 켜주기
-        for (int i = 0; i < _navRenderer.Length; i++)
-        {
-            if (!_navRenderer[i].enabled)
-            {
-                _navRenderer[i].enabled = true;
-            }
-        }
+        _navParticle.Play();
         transform.LookAt(_targetTr[0]);
     }
 
