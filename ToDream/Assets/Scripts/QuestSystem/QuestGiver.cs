@@ -40,7 +40,7 @@ public class QuestGiver : MonoBehaviour
 
     private void Awake()
     {
-        _markers = GetComponentsInChildren<ParticleSystem>();
+        _markers = GetComponentsInChildren<ParticleSystem>(true);
         DistributeQuests();
         UpdateCurrentState();
 

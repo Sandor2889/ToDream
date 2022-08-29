@@ -116,11 +116,11 @@ public class UIManager : MonoBehaviour
         }
 
         // Quest Navigation
-        if (Input.GetKeyDown(KeyCode.F1) && !_questNav.gameObject.activeSelf)
+        if (Input.GetKeyDown(KeyCode.F) && !_questNav.gameObject.activeSelf)
         {
             _questNav.OnNav();
         }
-        else if (Input.GetKeyUp(KeyCode.F1))
+        else if (Input.GetKeyUp(KeyCode.F))
         {
             _questNav.OffNav();
         }
