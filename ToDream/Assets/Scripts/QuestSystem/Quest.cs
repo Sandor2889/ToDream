@@ -117,7 +117,9 @@ public class Quest
     public void GiveReward()
     {
         UIManager._Instance._InventoryUI.UpdateGold(_reward._gold);
-        Item item = GameManager.GetDicValue(_reward._itemKey);
+
+        Item item = GameManager.GetDicValue(_reward._itemKey);        
+        
         if (item != null)
         {
             UIManager._Instance._InventoryUI.AcquireItem(item);
@@ -151,7 +153,6 @@ public class Quest
     {
         _questState = QuestState.Completed;
         _onNPCMarker?.Invoke((int)_npcName, _questState);
-        Debug.Log("The " + _title + " is completed");
     }
 
     public void Done()
@@ -163,7 +164,8 @@ public class Quest
         _nextQuest?.Invoke();
         _nextQuest = null;
 
-        QuestManager._Instance._CompleteEffect.Play();
+        QuestManager._Instance._CompleteEffect.gameObject.SetActive(true);
+        AudioManager._Instance.PlayAduio(AudioManager._Instance._SfxComplete);
         QuestManager._Instance._acceptedQuests.Remove(this);
         QuestManager._Instance._doneQuests.Add(this);
 

@@ -41,6 +41,7 @@ public class QuestManagerEditor : Editor
                         EditorGUI.indentLevel++;
                         quest._questGoals[i]._subTitle = EditorGUILayout.TextField("， Sub title", quest._questGoals[i]._subTitle);
                         quest._questGoals[i]._target = EditorGUILayout.TextField("， Target", quest._questGoals[i]._target);
+                        quest._questGoals[i]._targetDesc = EditorGUILayout.TextField("， TargetDesc", quest._questGoals[i]._targetDesc);
                         quest._questGoals[i]._requiredAmount = EditorGUILayout.IntField("， RequireAmount:", quest._questGoals[i]._requiredAmount);
                         quest._questGoals[i]._targetMarker = (QuestTargetMarker)EditorGUILayout.ObjectField("， TargetMarker", quest._questGoals[i]._targetMarker, typeof(QuestTargetMarker), true);
                         EditorGUI.indentLevel--;

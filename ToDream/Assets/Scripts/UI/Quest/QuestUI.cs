@@ -102,8 +102,7 @@ public class QuestUI : MonoBehaviour
         string temp = "";
         for (int i = 0; i < quest._questGoals.Count; i++)
         {
-            temp += "● " + quest._questGoals[i]._target + "에게 건네주기     " +
-               quest._questGoals[i]._currentTargetCount + " / " + quest._questGoals[i]._requiredAmount + "\n";
+            temp += "● " + quest._questGoals[i]._targetDesc;
         }
         _goal.text = temp;
 

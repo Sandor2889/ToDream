@@ -74,7 +74,7 @@ public class ObjectInteraction : MonoBehaviour
     // 오브젝트와 상호작용
     private void InteractObject()
     {
-        if (Input.GetKeyDown(KeyCode.F1) && _canInteract)
+        if (Input.GetKeyDown(KeyCode.F) && _canInteract)
         {
             switch (_interObjType)
             {
@@ -85,7 +85,6 @@ public class ObjectInteraction : MonoBehaviour
                     // 실행
                     break;
                 default:
-                    Debug.Log("Somthing wrong value -> " + _interObjType);
                     break;
             }
         }
@@ -94,10 +93,11 @@ public class ObjectInteraction : MonoBehaviour
     private void StartTalk()
     {
         QuestGiver giver = _hit.collider.GetComponent<QuestGiver>();
+        giver.transform.LookAt(this.transform); 
 
         if (giver._CurrentQuest == null || giver._CurrentQuest._questState == QuestState.Unvaliable)
         {
-            Debug.Log("This NPC Doesn`t have any Quest");
+            // 필요시 퀘스트가 없어도 가능한 Default 대화 추가
             return;
         }
         else if (giver._CurrentQuest._questState == QuestState.Accepted)

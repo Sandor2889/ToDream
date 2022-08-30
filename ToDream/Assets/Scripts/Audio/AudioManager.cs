@@ -33,37 +33,20 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private Sound _titleBgm;
-    [SerializeField] private Sound _inGameBgm;
-
-    [SerializeField] private AudioSource _titleBgmPlayer;
     [SerializeField] private AudioSource _inGameBgmPlayer;
+    [SerializeField] private AudioSource _sfxComplete;
+
+    public AudioSource _SfxComplete => _sfxComplete;
 
     public void Awake()
     {
         _instance = this;
     }
 
-    public void PlayTitleBGM(string strBgm)
+    public void PlayAduio(AudioSource source)
     {
-        if (strBgm.GetHashCode() == _titleBgm._name.GetHashCode())
-        {
-            _titleBgmPlayer.clip = _titleBgm._clip;
-            _titleBgmPlayer.Play();
-        }
+        source.Play();
     }
 
-    public void PlayInGameBGM(string strBgm)
-    {
-        if (strBgm.GetHashCode() == _inGameBgm._name.GetHashCode())
-        {
-            _inGameBgmPlayer.clip = _inGameBgm._clip;
-            _inGameBgmPlayer.Play();
-        }
-    }
-
-    public void StopBGM()
-    {
-        _inGameBgmPlayer.Stop();
-    }
+   
 }

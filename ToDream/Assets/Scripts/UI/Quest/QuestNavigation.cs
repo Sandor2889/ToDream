@@ -6,13 +6,12 @@ using System.Linq;
 public class QuestNavigation : MonoBehaviour
 {
     [SerializeField] private float _searchDistance = 10f;
+    [SerializeField] private GameObject _navArrow;
     private Transform[] _targetTr;
-    private ParticleSystem _navParticle;
 
     private void Awake()
     {
         _targetTr = new Transform[3];
-        _navParticle = GetComponent<ParticleSystem>();
     }
 
     public void OnEnable()
@@ -58,18 +57,19 @@ public class QuestNavigation : MonoBehaviour
         // 탐지범위안으로 들어오면 return
         if (sqrDist < _searchDistance * _searchDistance) 
         {
-            _navParticle.Stop();
+            _navArrow.GetComponent<MeshRenderer>().enabled = false;
             return;
         }
 
         // 렌더러가 꺼져있다면 켜주기
-        _navParticle.Play();
+        _navArrow.GetComponent<MeshRenderer>().enabled = true;
         transform.LookAt(_targetTr[0]);
     }
 
     public bool CheckHasQuest()
     {
-        if (QuestManager._Instance._acceptedQuests.Count <= 0) 
+        if (QuestManager._Instance._acceptedQuests.Count <= 0
+            || QuestManager._Instance._acceptedQuests[0]._questState == QuestState.Completed) 
         { 
             return false; 
         }

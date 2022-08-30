@@ -72,12 +72,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        // 소모품 사용 테스트
-        if (Input.GetKeyDown(KeyCode.F5))
-        {
-            _consumableSlot.UpdateItem(_consumableSlot._Item, -1);
-        }
-
         ControlUI();
     }
 
@@ -116,11 +110,11 @@ public class UIManager : MonoBehaviour
         }
 
         // Quest Navigation
-        if (Input.GetKeyDown(KeyCode.F1) && !_questNav.gameObject.activeSelf)
+        if (Input.GetKeyDown(KeyCode.F) && !_questNav.gameObject.activeSelf)
         {
             _questNav.OnNav();
         }
-        else if (Input.GetKeyUp(KeyCode.F1))
+        else if (Input.GetKeyUp(KeyCode.F))
         {
             _questNav.OffNav();
         }
@@ -133,6 +127,7 @@ public class UIManager : MonoBehaviour
 
     public static void CursorVisible(bool visible)
     {
+        if (_Instance._questUI.gameObject.activeSelf) { return; }
         _instance._cursorManager.CursorVisible(visible);
     }
 }
