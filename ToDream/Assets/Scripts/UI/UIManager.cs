@@ -72,12 +72,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        // 소모품 사용 테스트
-        if (Input.GetKeyDown(KeyCode.F5))
-        {
-            _consumableSlot.UpdateItem(_consumableSlot._Item, -1);
-        }
-
         ControlUI();
     }
 
@@ -133,6 +127,7 @@ public class UIManager : MonoBehaviour
 
     public static void CursorVisible(bool visible)
     {
+        if (_Instance._questUI.gameObject.activeSelf) { return; }
         _instance._cursorManager.CursorVisible(visible);
     }
 }

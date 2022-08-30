@@ -93,6 +93,7 @@ public class ObjectInteraction : MonoBehaviour
     private void StartTalk()
     {
         QuestGiver giver = _hit.collider.GetComponent<QuestGiver>();
+        giver.transform.LookAt(this.transform); 
 
         if (giver._CurrentQuest == null || giver._CurrentQuest._questState == QuestState.Unvaliable)
         {

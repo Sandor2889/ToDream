@@ -153,7 +153,6 @@ public class Quest
     {
         _questState = QuestState.Completed;
         _onNPCMarker?.Invoke((int)_npcName, _questState);
-        Debug.Log("The " + _title + " is completed");
     }
 
     public void Done()
@@ -166,6 +165,7 @@ public class Quest
         _nextQuest = null;
 
         QuestManager._Instance._CompleteEffect.gameObject.SetActive(true);
+        AudioManager._Instance.PlayAduio(AudioManager._Instance._SfxComplete);
         QuestManager._Instance._acceptedQuests.Remove(this);
         QuestManager._Instance._doneQuests.Add(this);
 

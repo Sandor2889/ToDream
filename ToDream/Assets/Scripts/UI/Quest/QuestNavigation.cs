@@ -68,7 +68,8 @@ public class QuestNavigation : MonoBehaviour
 
     public bool CheckHasQuest()
     {
-        if (QuestManager._Instance._acceptedQuests.Count <= 0) 
+        if (QuestManager._Instance._acceptedQuests.Count <= 0
+            || QuestManager._Instance._acceptedQuests[0]._questState == QuestState.Completed) 
         { 
             return false; 
         }
