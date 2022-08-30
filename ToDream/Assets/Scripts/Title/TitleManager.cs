@@ -20,9 +20,9 @@ public class TitleManager : MonoBehaviour
 		}
 	}
 	
-	public void StartGame()
+	public void ChangeScene(string sceneName)
 	{
-		SceneManager.LoadScene("Game");
+		LevelManager._Instance.LoadScene(sceneName);
 	}
 	
 	public void QuitGame()
