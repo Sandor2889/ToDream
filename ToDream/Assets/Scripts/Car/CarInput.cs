@@ -6,11 +6,13 @@ public class CarInput : BaseInput
 {
     #region Fields
     
+	private bool _boostKey = false;
     
     #endregion
     
     #region Properties
     
+	public bool _BoostKey {get{return _boostKey;}}
     
     #endregion
     

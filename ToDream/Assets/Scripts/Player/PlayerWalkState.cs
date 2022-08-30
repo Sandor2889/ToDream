@@ -26,10 +26,10 @@ public class PlayerWalkState : PlayerBaseState
 		{
 			SwitchState(_Factory.Idle());
 		}
-		else if(_Ctx._IsMovementPressed && _Ctx._IsRunPressed)
-		{
-			SwitchState(_Factory.Run());
-		}
+		//else if(_Ctx._IsMovementPressed && _Ctx._IsRunPressed)
+		//{
+		//	SwitchState(_Factory.Run());
+		//}
 	}
 	
 	public override void ExitState() { }

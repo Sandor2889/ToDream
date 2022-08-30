@@ -90,7 +90,7 @@ public class CharacterControlable : Controlable
 	
 	protected void OnControllerColliderHit(ControllerColliderHit hit)
 	{
-		if((int)_CharacterController.collisionFlags == 5 && hit.collider.tag == "Wall")
+		if((int)_CharacterController.collisionFlags == 5 && hit.collider.CompareTag("Wall"))
 		{
 			_time += Time.deltaTime;
 			if(_time >= _endTime)
