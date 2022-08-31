@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 107463097}
   m_Layer: 0
   m_Name: Water (8)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 329684115}
   m_Layer: 0
   m_Name: Water
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -383,7 +383,7 @@ Transform:
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 723609421}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &447280552
 GameObject:
@@ -515,7 +515,7 @@ Transform:
   - {fileID: 896350749379669281}
   - {fileID: 4446114620847604}
   m_Father: {fileID: 723609421}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &705507994 stripped
 Light:
@@ -549,8 +549,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 537842088}
   - {fileID: 329684118}
+  - {fileID: 537842088}
   - {fileID: 1903945657}
   - {fileID: 1533807969}
   - {fileID: 1267979049}
@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 1267979050}
   m_Layer: 0
   m_Name: Water (3)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1032,7 +1032,7 @@ GameObject:
   - component: {fileID: 1466153376}
   m_Layer: 0
   m_Name: Water (4)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1128,7 +1128,7 @@ GameObject:
   - component: {fileID: 1533807970}
   m_Layer: 0
   m_Name: Water (2)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1224,7 +1224,7 @@ GameObject:
   - component: {fileID: 1864456015}
   m_Layer: 0
   m_Name: Water (6)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1320,7 +1320,7 @@ GameObject:
   - component: {fileID: 1903945658}
   m_Layer: 0
   m_Name: Water (1)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1446,7 +1446,7 @@ GameObject:
   - component: {fileID: 2114447281}
   m_Layer: 0
   m_Name: Water (7)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1542,7 +1542,7 @@ GameObject:
   - component: {fileID: 2135958176}
   m_Layer: 0
   m_Name: Water (5)
-  m_TagString: Water
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

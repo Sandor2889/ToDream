@@ -104,13 +104,9 @@ public class CharacterControlable : Controlable
 				return;
 			}
 		}
-		else if((int)_CharacterController.collisionFlags != 5 && !hit.collider.CompareTag("Wall"))
+		else if((int)_CharacterController.collisionFlags != 5 && hit.collider.tag != "Wall")
 		{
 			_time = _startTime;
-		}
-		if(_CharacterController.collisionFlags == CollisionFlags.Below && hit.collider.CompareTag("Water"))
-		{
-			Debug.Log("Respawn");
 		}
 	}
 	

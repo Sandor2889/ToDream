@@ -7,7 +7,6 @@ TagManager:
   - Wall
   - Environment
   - Player_BodyFront
-  - Water
   layers:
   - Default
   - TransparentFX
