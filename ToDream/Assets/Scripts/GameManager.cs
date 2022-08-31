@@ -32,7 +32,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        _instance = this;
+	    _instance = this;
+        
+	    Application.targetFrameRate = 60;
+        
         _itemDataBase = FindObjectOfType<ItemDataBase>();
     }
 

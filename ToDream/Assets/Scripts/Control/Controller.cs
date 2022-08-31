@@ -33,6 +33,7 @@ public class Controller : MonoBehaviour
 		if(origin._vehicleType == VehicleType.Car)
 		{
 			VehicleControlable vehicle = origin as VehicleControlable;
+			
 			vehicle._MotorRB.transform.SetParent(vehicle.transform);
 			vehicle._CarColliderRB.transform.SetParent(vehicle.transform);
 		}

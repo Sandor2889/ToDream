@@ -31,7 +31,6 @@ public class FlightPropeller : MonoBehaviour
 	{
 		if(_blurred && _main && _smoothBlur && _hardBlur)
 		{
-			Debug.Log(currentRPM);
 			if(currentRPM > _minQuadRPM && currentRPM < _minSwapRPM)
 			{
 				_blurred.SetActive(true);

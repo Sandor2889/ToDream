@@ -55,6 +55,12 @@ public class VehicleControlable : Controlable
 	{
 		if(!_firstSpawn)
 		{
+			_motorRB.velocity = Vector3.zero;
+			_motorRB.angularVelocity = Vector3.zero;
+		
+			_carColliderRB.velocity = Vector3.zero;
+			_carColliderRB.angularVelocity = Vector3.zero;
+			
 			_motorRB.transform.parent = null;
 			_carColliderRB.transform.parent = null;
 			_normalDrag = _motorRB.drag;
@@ -124,10 +130,10 @@ public class VehicleControlable : Controlable
 	
 	public override void Boost(bool keydown)
 	{
-		if(keydown)
-		{
-			_speed = _boostSpeed;
-		}
+		//if(keydown)
+		//{
+		//	_speed = _boostSpeed;
+		//}
 	}
 	
 	public override void Interact(){ }

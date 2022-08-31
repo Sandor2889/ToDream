@@ -5800,7 +5800,7 @@ MonoBehaviour:
   _fwdSpeed: 70
   _boostSpeed: 100
   _revSpeed: 30
-  _turnSpeed: 0.2
+  _turnSpeed: 0.4
   _driftTurnSpeed: 0.7
   _groundLayer:
     serializedVersion: 2

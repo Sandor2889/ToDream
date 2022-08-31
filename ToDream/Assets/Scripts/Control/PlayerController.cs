@@ -8,6 +8,8 @@ public class PlayerController : Controller
 	[SerializeField] private Controlable _current;
 	[SerializeField] private Controlable _next;
 	
+	public Controlable _Current => _current;
+	
 	#region Unity Events
 	
 	private void Awake()
@@ -61,14 +63,14 @@ public class PlayerController : Controller
 	
 	private void Boost()
 	{
-		if(Input.GetKey(KeyCode.LeftShift))
-		{
-			_ControlTarget.Boost(true);
-		}
-		else if(Input.GetKeyUp(KeyCode.LeftShift))
-		{
-			_ControlTarget.Boost(false);
-		}
+		//if(Input.GetKey(KeyCode.LeftShift))
+		//{
+		//	_ControlTarget.Boost(true);
+		//}
+		//else if(Input.GetKeyUp(KeyCode.LeftShift))
+		//{
+		//	_ControlTarget.Boost(false);
+		//}
 	}
 	
 	private void InteractKeys()
@@ -118,6 +120,14 @@ public class PlayerController : Controller
 			_current = _next;
 			_next = null;
 		}
+	}
+	
+	public void RespawnCharacter(Controlable origin)
+	{
+		Controlable character = FindObjectOfType<CharacterControlable>(true);
+		ChangeControlTarget(origin, character);
+		_current = character;
+		_next = null;
 	}
 	
 	#endregion
