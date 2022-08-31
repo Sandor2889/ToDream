@@ -26,9 +26,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     private ItemDataBase _itemDataBase;
-
     public ItemDataBase _ItemDataBase => _itemDataBase;
-
 
     private void Awake()
     {
@@ -37,6 +35,11 @@ public class GameManager : MonoBehaviour
 	    Application.targetFrameRate = 60;
         
         _itemDataBase = FindObjectOfType<ItemDataBase>();
+    }
+
+    private void Update()
+    {
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.3f);
     }
 
     public static Item GetDicValue(int key)
