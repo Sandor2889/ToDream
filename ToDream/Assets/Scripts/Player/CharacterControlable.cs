@@ -97,7 +97,7 @@ public class CharacterControlable : Controlable
 			_time += Time.deltaTime;
 			if(_time >= _endTime)
 			{
-				Transform target = RespawnManager._Instance.Respawn(this.transform);
+				Transform target = RespawnManager._Instance.Respawn();
 				this.transform.position = target.position;
 				
 				_time = _startTime;
@@ -110,7 +110,9 @@ public class CharacterControlable : Controlable
 		}
 		if(_CharacterController.collisionFlags == CollisionFlags.Below && hit.collider.CompareTag("Water"))
 		{
-			Debug.Log("Respawn");
+			Debug.Log("Re");
+			Transform target = RespawnManager._Instance.Respawn();
+			this.transform.position = target.position;
 		}
 	}
 	

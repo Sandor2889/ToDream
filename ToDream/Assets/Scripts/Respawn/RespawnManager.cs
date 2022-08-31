@@ -15,27 +15,12 @@ public class RespawnManager : MonoBehaviour
         _instance = this;
     }
 
-    [SerializeField]
-	public List<Transform> _lstRespawnTr;
-	private Transform _target;
-	private float _distance;
+    
+	[SerializeField] private Transform _target;
 	
-	public Transform Respawn(Transform playerPos)
+	
+	public Transform Respawn()
 	{
-		_target = null;
-		_distance = 10000000;
-		foreach(Transform pos in _lstRespawnTr)
-		{
-			float dis = Vector3.Distance(playerPos.position, pos.position);
-			
-			if(_distance > dis)
-			{
-				_distance = dis;
-				_target = pos;
-				Debug.Log(_target.name + " , " + _distance);
-			}
-		}
-		
 		return _target;
 	}
 }
