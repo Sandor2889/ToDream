@@ -100,14 +100,14 @@ public class UIManager : MonoBehaviour
         }
 
         // Map
-        //if (Input.GetKeyDown(KeyCode.M))
-        //{
-        //    _worldMapUI.OpenMap();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Escape) && _worldMapUI.gameObject.activeSelf)
-        //{
-        //    _worldMapUI.CloseMap();
-        //}
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            _worldMapUI.OpenMap();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && _worldMapUI.gameObject.activeSelf)
+        {
+            _worldMapUI.CloseMap();
+        }
 
         // Quest Navigation
         if (Input.GetKeyDown(KeyCode.F) && !_questNav.gameObject.activeSelf)
