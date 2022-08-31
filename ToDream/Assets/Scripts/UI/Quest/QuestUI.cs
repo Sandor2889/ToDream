@@ -102,7 +102,7 @@ public class QuestUI : MonoBehaviour
         string temp = "";
         for (int i = 0; i < quest._questGoals.Count; i++)
         {
-            temp += "¡Ü " + quest._questGoals[i]._targetDesc;
+            temp += quest._questGoals[i]._targetDesc;
         }
         _goal.text = temp;
 

@@ -103,13 +103,13 @@ public class DialogUI : MonoBehaviour
     {
         while(gameObject.activeSelf)
         {
-            _nextText.text = "¢¹¢¹ Next";
+            _nextText.text = "Next";
             yield return new WaitForSeconds(_effectSpeed);
 
-            _nextText.text = "¢º¢¹ Next";
+            _nextText.text = "Next";
             yield return new WaitForSeconds(_effectSpeed);
 
-            _nextText.text = "¢º¢º Next";
+            _nextText.text = "Next";
             yield return new WaitForSeconds(_effectSpeed);
         }
     }
