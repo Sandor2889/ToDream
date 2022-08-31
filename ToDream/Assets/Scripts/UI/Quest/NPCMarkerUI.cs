@@ -7,6 +7,7 @@ public class NPCMarkerUI : MonoBehaviour
 {
     [SerializeField] private QuestGiver[] _npcs;
 
+    public QuestGiver[] _Npcs => _npcs;
 
     // (int 퀘스트제공자, QuestState 퀘스트 진행상태)
     public void SettingByQuestState(int idx, QuestState questState)

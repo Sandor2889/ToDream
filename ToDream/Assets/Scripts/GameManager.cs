@@ -26,14 +26,17 @@ public class GameManager : MonoBehaviour
     #endregion
 
     private ItemDataBase _itemDataBase;
-
     public ItemDataBase _ItemDataBase => _itemDataBase;
-
 
     private void Awake()
     {
         _instance = this;
         _itemDataBase = FindObjectOfType<ItemDataBase>();
+    }
+
+    private void Update()
+    {
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.3f);
     }
 
     public static Item GetDicValue(int key)

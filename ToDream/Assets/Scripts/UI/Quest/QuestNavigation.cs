@@ -20,24 +20,29 @@ public class QuestNavigation : MonoBehaviour
         if(!CheckHasQuest()) { return; }
 
         Quest currQuest = QuestManager._Instance._acceptedQuests[0];
-        List<QuestGoal> copyList = currQuest._questGoals.ToList<QuestGoal>();
-
-        for (int i = 0; i < _targetTr.Length; i++) 
+        if (currQuest._questState == QuestState.Accepted)   // 퀘스트 진행중인경우 Nav가 목표지점을 가리킨다.
         {
-            for (int j = 0; j < copyList.Count; j++)
+            List<QuestGoal> copyList = currQuest._questGoals.ToList<QuestGoal>();
+            for (int i = 0; i < _targetTr.Length; i++)
             {
-                // 이미 달성한 목표는 제외시키기 
-                if (!copyList[j]._targetMarker.gameObject.activeSelf)
+                for (int j = 0; j < copyList.Count; j++)
                 {
-                    copyList.Remove(copyList[j]);
-                }
+                    // 이미 달성한 목표는 제외시키기 
+                    if (!copyList[j]._targetMarker.gameObject.activeSelf)
+                    {
+                        copyList.Remove(copyList[j]);
+                    }
 
-                _targetTr[i] = copyList[j]._targetMarker.transform;
-                copyList.Remove(copyList[j]);
-                break;
+                    _targetTr[i] = copyList[j]._targetMarker.transform;
+                    copyList.Remove(copyList[j]);
+                    break;
+                }
             }
         }
-        
+        else if (currQuest._questState == QuestState.Completed) // 퀘스트 완료가능 상태면 NPC를 가리킨다.
+        {
+            _targetTr[0] = UIManager._Instance._NPCMarkerUI._Npcs[(int)currQuest._npcName].transform;
+        }
     }
 
     private void OnDisable()
@@ -68,8 +73,7 @@ public class QuestNavigation : MonoBehaviour
 
     public bool CheckHasQuest()
     {
-        if (QuestManager._Instance._acceptedQuests.Count <= 0
-            || QuestManager._Instance._acceptedQuests[0]._questState == QuestState.Completed) 
+        if (QuestManager._Instance._acceptedQuests.Count <= 0) 
         { 
             return false; 
         }
