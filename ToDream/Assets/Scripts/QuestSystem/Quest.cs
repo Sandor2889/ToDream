@@ -18,7 +18,6 @@ public struct Reward
 {
     public int _gold;
     public int _itemKey;
-    //public Item _item; 
 }
 
 // private 필드변수에 serialize 속성을 붙이지 않으면
@@ -174,7 +173,6 @@ public class Quest
     }
     #endregion
 }
-
 
 // 선행 조건을 가질경우 보유
 [System.Serializable]
