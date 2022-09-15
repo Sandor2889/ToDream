@@ -22,7 +22,6 @@ public class QuestGiver : MonoBehaviour
 
     public List<Quest> _quests = new List<Quest>();
     public NPCName _npcName;
-    public Quaternion _originRot;
 
     public Quest _CurrentQuest
     {
@@ -40,7 +39,6 @@ public class QuestGiver : MonoBehaviour
 
     private void Awake()
     {
-        _originRot = transform.rotation;
         _markers = GetComponentsInChildren<ParticleSystem>(true);
         DistributeQuests();
         UpdateCurrentState();

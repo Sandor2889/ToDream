@@ -31,8 +31,6 @@ public class DialogUI : MonoBehaviour
 
     public void CloseDialog()
     {
-        QuestGiver giver = UIManager._Instance._QuestUI._questGiver;
-        giver.transform.localEulerAngles = giver._originRot.eulerAngles;
         _dialogIdx = 0;
         gameObject.SetActive(false);
         UIManager.CursorVisible(false);
