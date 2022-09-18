@@ -12,9 +12,9 @@ public enum InteractionObjectType
 public class ObjectInteraction : MonoBehaviour
 {
     [SerializeField] private bool _canInteract;
-
     [SerializeField] private RaycastHit _hit;
     [SerializeField] private LayerMask _mask;
+    [SerializeField] private float _rotateSpeed;
     private InteractionObjectType _interObjType;
     private int _npc;
 
@@ -78,7 +78,7 @@ public class ObjectInteraction : MonoBehaviour
         {
             switch (_interObjType)
             {
-                case InteractionObjectType.NPC:
+                case InteractionObjectType.NPC:        
                     StartTalk();
                     break;
                 case InteractionObjectType.Item:
@@ -92,9 +92,16 @@ public class ObjectInteraction : MonoBehaviour
 
     private void StartTalk()
     {
-        QuestGiver giver = _hit.collider.GetComponent<QuestGiver>();
-        giver.transform.LookAt(this.transform); // 다시 돌아가지 않게 수정 (origin 없애기)
+        UIManager UIManager = UIManager._Instance;
+        // 대화중일때 `F`를 누르면 다음 대화로 넘어가기
+        if (UIManager._DialogUI.gameObject.activeSelf)
+        {
+            UIManager._DialogUI.UpdateDialog();
+            return;
+        }
 
+        QuestGiver giver = _hit.collider.GetComponent<QuestGiver>();
+        #region 확장기능
         if (giver._CurrentQuest == null || giver._CurrentQuest._questState == QuestState.Unvaliable)
         {
             // 필요시 퀘스트가 없어도 가능한 Default 대화 추가
@@ -105,16 +112,32 @@ public class ObjectInteraction : MonoBehaviour
             // 필요시 퀘스트 진행중일 경우의 대화 추가
             return;
         }
+        #endregion
+
+        StartCoroutine(CLookAtPlayer(giver));   // NPC 회전
 
         // 퀘스트 수동 완료
         if (giver._CurrentQuest._questState == QuestState.Completed)
         {
             int tempCode = giver._CurrentQuest._questCode;      // 다음 퀘스트로 넘어가기전 코드 저장
             giver._CurrentQuest.Done();
-            UIManager._Instance._QuestListUI.UpdateList(tempCode);
+            UIManager._QuestListUI.UpdateList(tempCode);
             return;
         }
+        
+        UIManager._DialogUI.OpenDialog();
+    }
 
-        UIManager._Instance._DialogUI.OpenDialog();
+    private IEnumerator CLookAtPlayer(QuestGiver giver)
+    {
+        float rotateTime = 0f;
+        Vector3 dir = this.gameObject.transform.position - giver.transform.position;
+        Quaternion q = Quaternion.LookRotation(dir);
+        while(1 > rotateTime)
+        {
+            giver.transform.rotation = Quaternion.Slerp(giver.transform.rotation, q, Time.deltaTime * _rotateSpeed);
+            rotateTime += Time.deltaTime * _rotateSpeed;
+            yield return null;
+        }    
     }
 }
