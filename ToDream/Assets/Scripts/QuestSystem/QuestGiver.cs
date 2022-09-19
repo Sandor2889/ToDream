@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // NPC 이름
 public enum NPCName
@@ -22,6 +23,7 @@ public class QuestGiver : MonoBehaviour
 
     public List<Quest> _quests = new List<Quest>();
     public NPCName _npcName;
+    public Image _myImage;  // WorldMap 연동
 
     public Quest _CurrentQuest
     {

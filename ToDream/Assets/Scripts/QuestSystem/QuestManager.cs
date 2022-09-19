@@ -89,4 +89,14 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+
+    // 수락한 퀘스트가 있는지 검사
+    public static bool CheckHasQuest()
+    {
+        if (_instance._acceptedQuests.Count <= 0)
+        {
+            return false;
+        }
+        return true;
+    }
 }

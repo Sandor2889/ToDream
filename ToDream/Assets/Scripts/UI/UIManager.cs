@@ -127,7 +127,7 @@ public class UIManager : MonoBehaviour
 
     public static void CursorVisible(bool visible)
     {
-        if (_Instance._questUI.gameObject.activeSelf) { return; }
+        if (_instance._questUI.gameObject.activeSelf) { return; }
         _instance._cursorManager.CursorVisible(visible);
     }
 }

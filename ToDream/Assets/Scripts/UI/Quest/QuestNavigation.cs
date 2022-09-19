@@ -11,13 +11,13 @@ public class QuestNavigation : MonoBehaviour
 
     private void Awake()
     {
-        _targetTr = new Transform[3];
+        _targetTr = new Transform[3];   // 한 번에 수용가능한 수 -> QuestGoal (3개이상은 잘 없다)
     }
 
     public void OnEnable()
     {
         // 수락한 퀘스트가 없으면 return
-        if(!CheckHasQuest()) { return; }
+        if(!QuestManager.CheckHasQuest()) { return; }
 
         Quest currQuest = QuestManager._Instance._acceptedQuests[0];
         if (currQuest._questState == QuestState.Accepted)   // 퀘스트 진행중인경우 Nav가 목표지점을 가리킨다.
@@ -71,18 +71,9 @@ public class QuestNavigation : MonoBehaviour
         transform.LookAt(_targetTr[0]);
     }
 
-    public bool CheckHasQuest()
-    {
-        if (QuestManager._Instance._acceptedQuests.Count <= 0) 
-        { 
-            return false; 
-        }
-        return true;
-    }
-
     public void OnNav()
     {
-        if (!CheckHasQuest()) { return; }
+        if (!QuestManager.CheckHasQuest()) { return; }
 
         gameObject.SetActive(true);
     }
