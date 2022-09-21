@@ -78,6 +78,8 @@ public class Quest
                 Done();
             }
             UIManager._Instance._QuestListUI.UpdateList(_questCode);
+            UIManager._Instance._WorldMapUI.NPCUpdate();
+            UIManager._Instance._WorldMapUI.QuestTargetUpdate();
         }
     }
 

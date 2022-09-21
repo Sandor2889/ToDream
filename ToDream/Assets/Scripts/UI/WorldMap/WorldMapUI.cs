@@ -2,50 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.EventSystems;
 
 public class WorldMapUI : MonoBehaviour
 {
-    [Header("[Image Prefab]")]
-    [SerializeField] private GameObject _ImageObj;
-    [SerializeField] private Transform _Instparent;
-
     [Header("[Player]")]
     [SerializeField] private Transform _player;
     [SerializeField] private Image _playerIcon;
 
     [Header("[QuestTarget]")]
     [SerializeField] private GameObject _targetParent;
-    [SerializeField] private QuestTargetMarker[] _questTargets;
+    [SerializeField] private QuestTargetMarker[] _questTargets;     // _targetImage와 순서 맞출 것
+    [SerializeField] private Image[] _targetImage;                  // _questTargets와 순서 맞출 것
     [SerializeField] private Sprite _questIcon;
 
     [Header("[NPC]")]
     [SerializeField] private Sprite _default;
     [SerializeField] private Sprite _avaliable;
-    [SerializeField] private Sprite _accepted;
+    [SerializeField] private Sprite _inProgress;
     [SerializeField] private Sprite _completed;
 
-    private float _scaleFactor = 0.334f;
-    private Coroutine _coroutinMap;
+    [Header("[Ping]")]
+    [SerializeField] private Image _pingImage;
+    [SerializeField] private Ping _ping;
+
+    [Header("[Others]")]
+    [SerializeField] private Text _iconName;                            // Icon 이름표
+    [SerializeField] private Vector2 _offsetPos = new Vector2(0, 30);   // Text offset Pos
+    private float _fallHeight = 0f;
+    private int _realScale = 3;
+
+    private float _scaleFactor = 0.334f;        // 축척비
+    private Coroutine _coroutinMap;             
 
     private void Awake()
     {
         _player = Camera.main.transform;
         _playerIcon.sprite = Resources.Load<Sprite>("WorldMapIcon/PlayerIcon");
-        _ImageObj = Resources.Load<GameObject>("WorldMapIcon/ImageObject");
-
+        _default = Resources.Load<Sprite>("worldMapIcon/Default");
+        _avaliable = Resources.Load<Sprite>("worldMapIcon/Avaliable");
+        _inProgress = Resources.Load<Sprite>("worldMapIcon/InProgress");
+        _completed = Resources.Load<Sprite>("worldMapIcon/Completed");
+        _pingImage.sprite = Resources.Load<Sprite>("WorldMapIcon/Ping");
         _questTargets = _targetParent.GetComponentsInChildren<QuestTargetMarker>(true);
-        CreateQuestIcons(_questTargets.Length);
     }
 
     private void OnEnable()
     {
         _coroutinMap = StartCoroutine(CUpdateMap());
 
-        // Quest target update
-        QuestTargetUpdate();
-        // NPC update
-        NPCUpdate();
+        QuestTargetUpdate();     // Quest target update
+        NPCUpdate();             // NPC update
     }
 
     private void OnDisable()
@@ -53,62 +60,100 @@ public class WorldMapUI : MonoBehaviour
         StopCoroutine(_coroutinMap);
     }
 
-    private void PlayerUpdate()
+    private void SetPlayerPos()
     {
         _playerIcon.rectTransform.anchoredPosition = new Vector2(_player.position.x * _scaleFactor, _player.position.z * _scaleFactor);
     }
 
-    private void QuestTargetUpdate()
+    private void TryOnPing()
     {
-        if (QuestManager.CheckHasQuest())
+        // 우클릭 && 맵의 사이즈 (1000x1000) 범위 안에 클릭할 경우
+        if (Input.GetMouseButtonUp(1)
+            && Input.mousePosition.x >= 460 && Input.mousePosition.x <= 1460 
+            && Input.mousePosition.y >= 40 && Input.mousePosition.y <= 1040)
         {
+            _pingImage.gameObject.SetActive(true);
+            _pingImage.rectTransform.position = Input.mousePosition;
+            _ping.gameObject.SetActive(true);
             
+            // Ping 실제 위치
+            float posX = _pingImage.rectTransform.anchoredPosition.x;
+            float posZ = _pingImage.rectTransform.anchoredPosition.y;
+            _ping.transform.position = new Vector3(posX * _realScale, _fallHeight, posZ * _realScale);
         }
     }
 
-    private void NPCUpdate()
+    private IEnumerator CUpdateMap()
+    {
+        while (true)
+        {
+            SetPlayerPos();
+            TryOnPing();
+            yield return null;
+        }
+    }
+
+    public void RemovePing()
+    {
+        _pingImage.gameObject.SetActive(false);
+        _iconName.gameObject.SetActive(false);
+        _ping.gameObject.SetActive(false);
+    }
+
+    public void QuestTargetUpdate()
+    {
+        for(int i = 0; i < _questTargets.Length; i++)
+        {
+            if (_questTargets[i].gameObject.activeSelf)
+            {
+                _targetImage[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                _targetImage[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void NPCUpdate()
     {
         NPCMarkerUI npcMarkerUI = UIManager._Instance._NPCMarkerUI;
 
         for (int i = 0; i < npcMarkerUI._Npcs.Length; i++)
         {
-            if (npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Avaliable)
+            if (npcMarkerUI._Npcs[i]._CurrentQuest == null || npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Unvaliable)
+            {
+                npcMarkerUI._Npcs[i]._myImage.sprite = _default;
+            }
+            else if (npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Avaliable)
             {
                 npcMarkerUI._Npcs[i]._myImage.sprite = _avaliable;
             }
             else if (npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Accepted)
             {
-                npcMarkerUI._Npcs[i]._myImage.sprite = _accepted;
+                npcMarkerUI._Npcs[i]._myImage.sprite = _inProgress;
             }
             else if (npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Completed)
             {
                 npcMarkerUI._Npcs[i]._myImage.sprite = _completed;
             }
-            else
-            {
-                npcMarkerUI._Npcs[i]._myImage.sprite = _default;
-            }
         }
     }
 
-
-    private void CreateQuestIcons(int size)
+    #region Event Trigger
+    public void OnText(IconName iconName)
     {
-        for(int i = 0; i < size; i++)
-        {
-            GameObject obj = Instantiate(_ImageObj, _Instparent);
-            obj.GetComponent<Image>().sprite = _questIcon;
-        }
+        _iconName.gameObject.SetActive(true);
+        _iconName.rectTransform.anchoredPosition = iconName.GetComponent<RectTransform>().anchoredPosition + _offsetPos;
+        _iconName.text = iconName._name;
     }
 
-    private void NPCIcons(int size)
+    public void OffText()
     {
-        for (int i = 0; i < size; i++)
-        {
-            GameObject obj = Instantiate(_ImageObj, _Instparent);
-            obj.GetComponent<Image>().sprite = _default;
-        }
+        _iconName.gameObject.SetActive(false);
+        _iconName.text = " ";
     }
+    #endregion
 
     public void OpenMap()
     {
@@ -122,14 +167,5 @@ public class WorldMapUI : MonoBehaviour
         UIManager.CursorVisible(false);
         UIManager._isOpendUI = false;
         gameObject.SetActive(false);
-    }
-    private IEnumerator CUpdateMap()
-    {
-        while(true)
-        {
-            // Player update
-            PlayerUpdate();
-            yield return null;
-        }
     }
 }

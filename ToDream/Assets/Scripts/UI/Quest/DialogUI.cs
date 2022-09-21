@@ -11,13 +11,11 @@ public class DialogUI : MonoBehaviour
     [SerializeField] private Button _nextButton;             // 다음 버튼 
 
     [SerializeField] private float _typingSpeed = 0.1f;      // 대화 텍스트 출력 속도
-    [SerializeField] private float _effectSpeed = 0.3f;      // 다음 텍스트 효과 속도 
+    [SerializeField] private float _effectSpeed = 0.5f;      // 다음 텍스트 효과 속도 
 
     private Coroutine _preCort;                              // 이전 출력중인 텍스트의 코루틴
 
     [HideInInspector] public int _dialogIdx;
-
-
 
     public void OpenDialog()
     {
@@ -104,10 +102,7 @@ public class DialogUI : MonoBehaviour
             _nextText.text = "Next";
             yield return new WaitForSeconds(_effectSpeed);
 
-            _nextText.text = "Next";
-            yield return new WaitForSeconds(_effectSpeed);
-
-            _nextText.text = "Next";
+            _nextText.text = " ";
             yield return new WaitForSeconds(_effectSpeed);
         }
     }
