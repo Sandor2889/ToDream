@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class WorldMapUI : MonoBehaviour
 {
@@ -25,14 +24,15 @@ public class WorldMapUI : MonoBehaviour
     [Header("[Ping]")]
     [SerializeField] private Image _pingImage;
     [SerializeField] private Ping _ping;
+    [SerializeField] private bool _pointerOnPing;
 
     [Header("[Others]")]
     [SerializeField] private Text _iconName;                            // Icon 이름표
     [SerializeField] private Vector2 _offsetPos = new Vector2(0, 30);   // Text offset Pos
-    private float _fallHeight = 0f;
-    private int _realScale = 3;
 
-    private float _scaleFactor = 0.334f;        // 축척비
+    private const float _fallHeight = 0f;             // Ping Object 생성 높이
+    private const int _realScale = 3;                 // UI 대비 맵 크기 비율
+    private const float _scaleFactor = 0.334f;        // 축척비
     private Coroutine _coroutinMap;             
 
     private void Awake()
@@ -60,7 +60,7 @@ public class WorldMapUI : MonoBehaviour
         StopCoroutine(_coroutinMap);
     }
 
-    private void SetPlayerPos()
+    private void UpdatePlayerPos()
     {
         _playerIcon.rectTransform.anchoredPosition = new Vector2(_player.position.x * _scaleFactor, _player.position.z * _scaleFactor);
     }
@@ -71,35 +71,50 @@ public class WorldMapUI : MonoBehaviour
         if (Input.GetMouseButtonUp(1)
             && Input.mousePosition.x >= 460 && Input.mousePosition.x <= 1460 
             && Input.mousePosition.y >= 40 && Input.mousePosition.y <= 1040)
-        {
-            _pingImage.gameObject.SetActive(true);
-            _pingImage.rectTransform.position = Input.mousePosition;
-            _ping.gameObject.SetActive(true);
-            
-            // Ping 실제 위치
-            float posX = _pingImage.rectTransform.anchoredPosition.x;
-            float posZ = _pingImage.rectTransform.anchoredPosition.y;
-            _ping.transform.position = new Vector3(posX * _realScale, _fallHeight, posZ * _realScale);
+        {          
+            if (_pingImage.gameObject.activeSelf && _pointerOnPing)
+            {   // 현재 Ping이 있고 마우스 위치가 Ping과 같은 경우
+                RemovePing();
+            }
+            else
+            {
+                SetPingPos();
+            }  
         }
     }
 
-    private IEnumerator CUpdateMap()
+    private void SetPingPos()
     {
-        while (true)
-        {
-            SetPlayerPos();
-            TryOnPing();
-            yield return null;
-        }
+        _ping.gameObject.SetActive(true);
+        _pingImage.gameObject.SetActive(true);
+        _pingImage.rectTransform.position = Input.mousePosition;
+
+        // Ping 실제 월드공간 위치지정
+        float posX = _pingImage.rectTransform.anchoredPosition.x;
+        float posZ = _pingImage.rectTransform.anchoredPosition.y;
+        _ping.transform.position = new Vector3(posX * _realScale, _fallHeight, posZ * _realScale);
     }
 
     public void RemovePing()
     {
+        _pointerOnPing = false;
+        _ping.gameObject.SetActive(false);
         _pingImage.gameObject.SetActive(false);
         _iconName.gameObject.SetActive(false);
-        _ping.gameObject.SetActive(false);
     }
 
+    // 맵을 킬때 동작 <-> 끄면 중단
+    private IEnumerator CUpdateMap()
+    {
+        while (true)
+        {
+            UpdatePlayerPos();          // PlayerIcon 위치 업데이트
+            TryOnPing();                // Ping 기능 활성화
+            yield return null;
+        }
+    }
+
+    // 퀘스트의 목표가 활성화 되어있다면 맵에 표시
     public void QuestTargetUpdate()
     {
         for(int i = 0; i < _questTargets.Length; i++)
@@ -115,6 +130,7 @@ public class WorldMapUI : MonoBehaviour
         }
     }
 
+    // 각 NPC가 가진 퀘스트의 상태에 따라 아이콘 이미지 변화
     public void NPCUpdate()
     {
         NPCMarkerUI npcMarkerUI = UIManager._Instance._NPCMarkerUI;
@@ -140,18 +156,30 @@ public class WorldMapUI : MonoBehaviour
         }
     }
 
+    // 1. 각 아이콘 이름표 출력 (PointerEnter시)
+    // 2. Ping 이미지위 마우스 포인터 감지
     #region Event Trigger
+    // 이름표 텍스트
     public void OnText(IconName iconName)
     {
         _iconName.gameObject.SetActive(true);
         _iconName.rectTransform.anchoredPosition = iconName.GetComponent<RectTransform>().anchoredPosition + _offsetPos;
         _iconName.text = iconName._name;
     }
-
     public void OffText()
     {
         _iconName.gameObject.SetActive(false);
         _iconName.text = " ";
+    }
+    
+    // Ping - 마우스 감지
+    public void TryRemovePing()
+    {
+        _pointerOnPing = true;
+    }
+    public void CancelRemovePing()
+    {
+        _pointerOnPing = false;
     }
     #endregion
 
@@ -167,5 +195,7 @@ public class WorldMapUI : MonoBehaviour
         UIManager.CursorVisible(false);
         UIManager._isOpendUI = false;
         gameObject.SetActive(false);
+        _pointerOnPing = false;
+        OffText();
     }
 }

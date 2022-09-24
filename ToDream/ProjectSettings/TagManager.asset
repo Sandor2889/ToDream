@@ -8,6 +8,7 @@ TagManager:
   - Environment
   - Player_BodyFront
   - Water
+  - Ping
   layers:
   - Default
   - TransparentFX
