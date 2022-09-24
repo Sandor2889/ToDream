@@ -159,24 +159,24 @@ public class WorldMapUI : MonoBehaviour
     // 1. 각 아이콘 이름표 출력 (PointerEnter시)
     // 2. Ping 이미지위 마우스 포인터 감지
     #region Event Trigger
-    // 이름표 텍스트
     public void OnText(IconName iconName)
     {
         _iconName.gameObject.SetActive(true);
         _iconName.rectTransform.anchoredPosition = iconName.GetComponent<RectTransform>().anchoredPosition + _offsetPos;
         _iconName.text = iconName._name;
     }
+
     public void OffText()
     {
         _iconName.gameObject.SetActive(false);
         _iconName.text = " ";
     }
-    
-    // Ping - 마우스 감지
+
     public void TryRemovePing()
     {
         _pointerOnPing = true;
     }
+
     public void CancelRemovePing()
     {
         _pointerOnPing = false;
