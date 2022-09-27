@@ -49,7 +49,7 @@ public class WorldMapUI : MonoBehaviour
 
     private void OnEnable()
     {
-        _coroutinMap = StartCoroutine(CUpdateMap());
+        _coroutinMap = StartCoroutine(C_UpdateMap());
 
         QuestTargetUpdate();     // Quest target update
         NPCUpdate();             // NPC update
@@ -104,7 +104,7 @@ public class WorldMapUI : MonoBehaviour
     }
 
     // ∏ ¿ª ≈≥∂ß µø¿€ <-> ≤Ù∏È ¡ﬂ¥‹
-    private IEnumerator CUpdateMap()
+    private IEnumerator C_UpdateMap()
     {
         while (true)
         {

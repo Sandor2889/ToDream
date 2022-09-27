@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InteractionUI : MonoBehaviour
 {
-    [SerializeField] private string _talkText;
+    [SerializeField] private string _talkText;  // 인스펙터에서 텍스트 입력
     private string _itemText;
 
     public Text _text;

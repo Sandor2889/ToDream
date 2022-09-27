@@ -11,17 +11,17 @@ public class QuestGenerator : MonoBehaviour
     public Quest _quest;
 
     public int _talkBoxIdx;           // talk 지정 Idx (TalkList.RemoveAt)
-    public bool _enable;              // GUI - FoldOut
     public int _insertIdx;            // Quest 지정 Idx (QuestList.Insert)
     public int _previousIdx;          // Edit전 Idx 위치
     public string _insertStr;         // Edit전 Idx 위치 string 표기
+    public bool _enable;              // GUI - FoldOut
 
 
     #region Main Button
     public void CreateQuest()
     {
         _quest = new Quest();
-        _insertIdx = QuestManager._Instance._quests.Count;
+        _insertIdx = QuestManager._Instance._questContainer.Count;
         _insertStr = "[ This is new one ] ";
         AddQuestGoal();
         _enable = true;
@@ -29,20 +29,20 @@ public class QuestGenerator : MonoBehaviour
 
     public void RegisterQuest()
     {
-        if (_insertIdx > QuestManager._Instance._quests.Count)
+        if (_insertIdx > QuestManager._Instance._questContainer.Count)
         {
-            Debug.LogWarning("Insert idx set from " + _insertIdx + " to " + QuestManager._Instance._quests.Count);
-            _insertIdx = QuestManager._Instance._quests.Count;
+            Debug.LogWarning("Insert idx set from " + _insertIdx + " to " + QuestManager._Instance._questContainer.Count);
+            _insertIdx = QuestManager._Instance._questContainer.Count;
         }
 
-        QuestManager._Instance._quests.Insert(_insertIdx, _quest);
+        QuestManager._Instance._questContainer.Insert(_insertIdx, _quest);
         Cancel();
     }
 
     public void Cancel()
     {
         _talkBoxIdx = 0;
-        _insertIdx = QuestManager._Instance._quests.Count;
+        _insertIdx = QuestManager._Instance._questContainer.Count;
         _quest = null;
         _enable = false;
     }
@@ -120,9 +120,9 @@ public class QuestGenerator : MonoBehaviour
     public void Edit(Quest quest)
     {
         _quest = quest;
-        _previousIdx = QuestManager._Instance._quests.IndexOf(quest);
-        QuestManager._Instance._quests.Remove(quest);
-        _insertIdx = QuestManager._Instance._quests.Count;
+        _previousIdx = QuestManager._Instance._questContainer.IndexOf(quest);
+        QuestManager._Instance._questContainer.Remove(quest);
+        _insertIdx = QuestManager._Instance._questContainer.Count;
         _insertStr = "[ Previous Idx " + _previousIdx + " ]";
         _enable = true;
     }

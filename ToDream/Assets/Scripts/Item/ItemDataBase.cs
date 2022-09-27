@@ -59,9 +59,7 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
 public class ItemDataBase : MonoBehaviour
 {
     public SerializableDictionary<int, Item> _itemDic;
-
-    public Item _inputItemData;
-    [HideInInspector] public bool _isFolded;        // "Show data" GUI 접기기능
+    public Item _inputItemData;     
 
     // Item data 등록
     public void RegisterItem(int _key, Item item)

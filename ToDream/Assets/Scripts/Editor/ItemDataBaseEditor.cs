@@ -7,6 +7,7 @@ using UnityEditor;
 public class ItemDataBaseEditor : Editor
 {
     private ItemDataBase _itemDataBase;
+    private bool _isFolded;              // "Show data" GUI 접기기능
 
     private void OnEnable()
     {
@@ -17,7 +18,7 @@ public class ItemDataBaseEditor : Editor
     {
         // Dictionary 띄우기
         GUILayout.BeginVertical("box");
-        if (_itemDataBase._isFolded = EditorGUILayout.Foldout(_itemDataBase._isFolded, "Show data"))
+        if (_isFolded = EditorGUILayout.Foldout(_isFolded, "Show data"))
         {
             for (int i = 0; i < _itemDataBase._itemDic.Count; i++)
             {

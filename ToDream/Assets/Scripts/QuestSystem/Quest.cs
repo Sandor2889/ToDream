@@ -69,17 +69,20 @@ public class Quest
             }
         }
 
+        // 모든 QuestGoal의 State가 Complete 일시
         if (_IsAllGoalCompleted)
         {
             Complete();
 
+            // 자동 완료 조건 일 경우
             if(_autoComplete)
             {
                 Done();
             }
-            UIManager._Instance._QuestListUI.UpdateList(_questCode);
-            UIManager._Instance._WorldMapUI.NPCUpdate();
-            UIManager._Instance._WorldMapUI.QuestTargetUpdate();
+
+            UIManager._Instance._QuestListUI.UpdateList(_questCode);    // 퀘스트 목록 창 업데이트
+            UIManager._Instance._WorldMapUI.NPCUpdate();                // 월드맵 - NPC 아이콘 업데이트
+            UIManager._Instance._WorldMapUI.QuestTargetUpdate();        // 월드맵 - Quest 목표지점 업데이트
         }
     }
 
@@ -146,7 +149,7 @@ public class Quest
         _onNPCMarker?.Invoke((int)_npcName, _questState);
         foreach (var goal in _questGoals)
         {
-            goal.OnQuestMarker();
+            goal._targetMarker.OnQuestMarker();
         }
     }
 

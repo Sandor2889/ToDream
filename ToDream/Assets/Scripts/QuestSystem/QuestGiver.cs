@@ -21,7 +21,7 @@ public class QuestGiver : MonoBehaviour
 
     public ParticleSystem[] _Markers => _markers;
 
-    public List<Quest> _quests = new List<Quest>();
+    public List<Quest> _myQuests = new List<Quest>();
     public NPCName _npcName;
     public Image _myImage;  // WorldMap 연동
 
@@ -30,12 +30,12 @@ public class QuestGiver : MonoBehaviour
         get
         {
             // 더이상 퀘스트가 없을때
-            if (_currentQuestIdx >= _quests.Count)
+            if (_currentQuestIdx >= _myQuests.Count)
             {
                 return null;
             }
                        
-            return _quests[_currentQuestIdx];
+            return _myQuests[_currentQuestIdx];
         }
     }
 
@@ -53,11 +53,11 @@ public class QuestGiver : MonoBehaviour
     private void DistributeQuests()
     {
         QuestManager questMgr = QuestManager._Instance;
-        _quests = questMgr._quests.FindAll(x => x._npcName.GetHashCode() == _npcName.GetHashCode());
+        _myQuests = questMgr._questContainer.FindAll(x => x._npcName.GetHashCode() == _npcName.GetHashCode());
 
-        if (_quests.Count <= 0) { return; }
+        if (_myQuests.Count <= 0) { return; }
 
-        foreach (var quest in _quests)
+        foreach (var quest in _myQuests)
         {
             quest._nextQuest += NextQuestIdx;
             quest._onNPCMarker += UIManager._Instance._NPCMarkerUI.SettingByQuestState;
@@ -71,7 +71,7 @@ public class QuestGiver : MonoBehaviour
             !_CurrentQuest._hasConditions && 
             _CurrentQuest._questState == QuestState.Unvaliable)
         {
-            _quests[_currentQuestIdx].Avaliable();
+            _myQuests[_currentQuestIdx].Avaliable();
         }
     }
 

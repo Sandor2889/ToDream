@@ -15,15 +15,15 @@ public class QuestManagerEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        for (int idx = 0; idx < _questMgr._quests.Count; idx++)
+        for (int idx = 0; idx < _questMgr._questContainer.Count; idx++)
         {
             string s = "============= Quest " + idx + " =============";
-            Quest quest = _questMgr._quests[idx];
+            Quest quest = _questMgr._questContainer[idx];
 
             GUILayout.BeginVertical("box");
             GUILayout.Label(s);
             // View details Fold out
-            if(_questMgr._quests[idx]._detailFolded = EditorGUILayout.Foldout(quest._detailFolded, "Title:  " + quest._title))
+            if(_questMgr._questContainer[idx]._detailFolded = EditorGUILayout.Foldout(quest._detailFolded, "Title:  " + quest._title))
             {
                 quest._questCode = EditorGUILayout.IntField("Code:", quest._questCode);
                 quest._npcName = (NPCName)EditorGUILayout.EnumPopup("NPC:", quest._npcName);
@@ -94,7 +94,7 @@ public class QuestManagerEditor : Editor
                 GUILayout.BeginHorizontal("box");
                 if (GUILayout.Button("Remove", GUILayout.Width(60), GUILayout.Height(25)))
                 {
-                    _questMgr._quests.RemoveAt(idx);
+                    _questMgr._questContainer.RemoveAt(idx);
                 }
                 else if (GUILayout.Button("Edit", GUILayout.Width(60), GUILayout.Height(25)))
                 {

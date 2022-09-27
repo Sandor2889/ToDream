@@ -16,13 +16,10 @@ public class QuestNavigation : MonoBehaviour
 
     public void OnEnable()
     {
-        // 수락한 퀘스트가 없으면 return
-        if(!QuestManager.CheckHasQuest()) { return; }
-
-        Quest currQuest = QuestManager._Instance._acceptedQuests[0];
+        Quest currQuest = QuestManager._Instance._acceptedQuests[0];    // 현재 수락한 퀘스트 중 가장 먼저 수락한 퀘스트
         if (currQuest._questState == QuestState.Accepted)   // 퀘스트 진행중인경우 Nav가 목표지점을 가리킨다.
         {
-            List<QuestGoal> copyList = currQuest._questGoals.ToList<QuestGoal>();
+            List<QuestGoal> copyList = currQuest._questGoals.ToList<QuestGoal>();   // 퀘스트의 목표들을 복사
             for (int i = 0; i < _targetTr.Length; i++)
             {
                 for (int j = 0; j < copyList.Count; j++)
@@ -59,16 +56,24 @@ public class QuestNavigation : MonoBehaviour
         Vector3 offset = _targetTr[0].position - transform.position;
         float sqrDist = offset.sqrMagnitude;
 
-        // 탐지범위안으로 들어오면 return
+        // 탐지범위안으로 들어오면 nav 끄기
         if (sqrDist < _searchDistance * _searchDistance) 
         {
-            _navArrow.GetComponent<MeshRenderer>().enabled = false;
-            return;
+            if (_navArrow.GetComponent<MeshRenderer>().enabled)
+            {
+                _navArrow.GetComponent<MeshRenderer>().enabled = false;
+            }
         }
+        else 
+        {
+            // 렌더러가 꺼져있다면 켜주기
+            if (!_navArrow.GetComponent<MeshRenderer>().enabled)
+            {
+                _navArrow.GetComponent<MeshRenderer>().enabled = true;
+            }
 
-        // 렌더러가 꺼져있다면 켜주기
-        _navArrow.GetComponent<MeshRenderer>().enabled = true;
-        transform.LookAt(_targetTr[0]);
+            transform.LookAt(_targetTr[0]);
+        }
     }
 
     public void OnNav()

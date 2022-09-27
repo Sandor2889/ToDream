@@ -26,7 +26,7 @@ public class QuestManager : MonoBehaviour
 
     [SerializeField] private ParticleSystem _completeEffect;
 
-    public List<Quest> _quests = new List<Quest>();             // 퀘스트 데이터베이스
+    public List<Quest> _questContainer = new List<Quest>();     // 퀘스트 데이터베이스
     public List<Quest> _acceptedQuests = new List<Quest>();     // 수락한 퀘스트
     public List<Quest> _doneQuests = new List<Quest>();         // 완료된 퀘스트
 
@@ -41,9 +41,9 @@ public class QuestManager : MonoBehaviour
     // 퀘스트 고유번호 초기화
     private void InitCode()
     {
-        for (int i = 0; i < _quests.Count; i++)
+        for (int i = 0; i < _questContainer.Count; i++)
         {
-            _quests[i].InitCode();
+            _questContainer[i].InitCode();
         }
     }
 
@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // 퀘스트의 Target과 State 조건 확인
+    // 퀘스트의 State 상태 확인
     public bool IsTarget(Quest quest)
     {
         if (quest._questState == QuestState.Accepted )
@@ -77,14 +77,14 @@ public class QuestManager : MonoBehaviour
     /// <param name="doneCode"></param>
     public void FindQuestAsCode(int doneCode)
     {
-        for (int i = 0; i < _quests.Count; i++)
+        for (int i = 0; i < _questContainer.Count; i++)
         {
-            if (_quests[i]._questState == QuestState.Unvaliable && _quests[i]._hasConditions)
+            if (_questContainer[i]._questState == QuestState.Unvaliable && _questContainer[i]._hasConditions)
             {
-                for (int j = 0; j < _quests[i]._conditions.Count; j++)
+                for (int j = 0; j < _questContainer[i]._conditions.Count; j++)
                 {
-                    _quests[i]._conditions[j].UpdateConditions(doneCode);
-                    _quests[i].CompleteAllCondition();
+                    _questContainer[i]._conditions[j].UpdateConditions(doneCode);
+                    _questContainer[i].CompleteAllCondition();
                 }
             }
         }

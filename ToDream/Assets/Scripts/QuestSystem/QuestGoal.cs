@@ -26,25 +26,14 @@ public class QuestGoal
     public void Complete()
     {
         _goalState = GoalState.Complete;
-        OffQuestMarker();
+        _targetMarker.OffQuestMarker();
     }
 
     // 퀘스트 취소시
     public void Cancel()
     {
         _goalState = GoalState.InProgress;
-        OffQuestMarker();
+        _targetMarker.OffQuestMarker();
         _currentTargetCount = 0;
-    }
-
-    // 퀘스트를 수락하면 퀘스트 마커 활성화
-    public void OnQuestMarker()
-    {
-        _targetMarker.gameObject.SetActive(true);
-    }
-
-    public void OffQuestMarker()
-    {
-        _targetMarker.gameObject.SetActive(false);
     }
 }
