@@ -16,7 +16,7 @@ public class NPCMarkerUI : MonoBehaviour
     }
 
 
-    public void OnMarker(int idx, QuestState state)
+    private void OnMarker(int idx, QuestState state)
     {
         QuestGiver giver = _npcs[idx];
         int intState = (int)state - 1;  // 0은 수락 불가능 상태이므로 1부터 시작

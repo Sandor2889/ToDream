@@ -52,7 +52,7 @@ public class Quest
     public bool _IsAllGoalCompleted => _questGoals.All(x => x._goalState == GoalState.Complete);
 
     // 모든 선행 퀘스트가 완료 되면 true 반환
-    public bool _IsAllQuestCompleted => _conditions.All(x => x._isCompleted);
+    //public bool _IsAllQuestCompleted => _conditions.All(x => x._isCompleted);
 
     // 퀘스트 달성률 업데이트
     public void ReceiveReport(string target, int counting)

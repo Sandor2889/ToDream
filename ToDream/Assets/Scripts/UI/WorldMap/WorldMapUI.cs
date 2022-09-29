@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WorldMapUI : MonoBehaviour
+public class WorldMapUI : PopupUIBase
 {
     [Header("[Player]")]
-    [SerializeField] private Transform _player;
+    [SerializeField] private Transform _playerPos;
     [SerializeField] private Image _playerIcon;
 
     [Header("[QuestTarget]")]
     [SerializeField] private GameObject _targetParent;
-    [SerializeField] private QuestTargetMarker[] _questTargets;     // _targetImage와 순서 맞출 것
-    [SerializeField] private Image[] _targetImage;                  // _questTargets와 순서 맞출 것
+    [SerializeField] private QuestTargetMarker[] _questTargets; // _targetImage와 순서 맞출 것
+    [SerializeField] private Image[] _targetImage;              // _questTargets와 순서 맞출 것
     [SerializeField] private Sprite _questIcon;
 
     [Header("[NPC]")]
@@ -24,20 +24,19 @@ public class WorldMapUI : MonoBehaviour
     [Header("[Ping]")]
     [SerializeField] private Image _pingImage;
     [SerializeField] private Ping _ping;
-    [SerializeField] private bool _pointerOnPing;
+    [SerializeField] private bool _pointerOnPing;   // Ping위에 커서가 있는지 체크
 
-    [Header("[Others]")]
-    [SerializeField] private Text _iconName;                            // Icon 이름표
-    [SerializeField] private Vector2 _offsetPos = new Vector2(0, 30);   // Text offset Pos
+    [Header("[NameText]")]
+    [SerializeField] private Text _iconName;                           // Icon 이름표
+    [SerializeField] private Vector2 _offsetPos = new Vector2(0, 30);  // Text offset Pos
 
     private const float _fallHeight = 0f;             // Ping Object 생성 높이
     private const int _realScale = 3;                 // UI 대비 맵 크기 비율
-    private const float _scaleFactor = 0.334f;        // 축척비
-    private Coroutine _coroutinMap;             
+    private const float _scaleFactor = 0.334f;        // 축척비             
 
     private void Awake()
     {
-        _player = Camera.main.transform;
+        _playerPos = Camera.main.transform;
         _playerIcon.sprite = Resources.Load<Sprite>("WorldMapIcon/PlayerIcon");
         _default = Resources.Load<Sprite>("worldMapIcon/Default");
         _avaliable = Resources.Load<Sprite>("worldMapIcon/Avaliable");
@@ -49,25 +48,21 @@ public class WorldMapUI : MonoBehaviour
 
     private void OnEnable()
     {
-        _coroutinMap = StartCoroutine(C_UpdateMap());
+        StartCoroutine(C_UpdateMap());  // Disable시 자동 중단
 
         QuestTargetUpdate();     // Quest target update
         NPCUpdate();             // NPC update
     }
 
-    private void OnDisable()
-    {
-        StopCoroutine(_coroutinMap);
-    }
-
     private void UpdatePlayerPos()
     {
-        _playerIcon.rectTransform.anchoredPosition = new Vector2(_player.position.x * _scaleFactor, _player.position.z * _scaleFactor);
+        _playerIcon.rectTransform.anchoredPosition = new Vector2(
+            _playerPos.position.x * _scaleFactor, _playerPos.position.z * _scaleFactor);
     }
 
     private void TryOnPing()
     {
-        // 우클릭 && 맵의 사이즈 (1000x1000) 범위 안에 클릭할 경우
+        // 우클릭 && UI 맵의 사이즈 (1000x1000) 범위 안에 클릭할 경우
         if (Input.GetMouseButtonUp(1)
             && Input.mousePosition.x >= 460 && Input.mousePosition.x <= 1460 
             && Input.mousePosition.y >= 40 && Input.mousePosition.y <= 1040)
@@ -130,6 +125,11 @@ public class WorldMapUI : MonoBehaviour
         }
     }
 
+    private void SetNpcSprite(Image npc, Sprite state)
+    {
+        npc.sprite = state;
+    }
+
     // 각 NPC가 가진 퀘스트의 상태에 따라 아이콘 이미지 변화
     public void NPCUpdate()
     {
@@ -137,21 +137,28 @@ public class WorldMapUI : MonoBehaviour
 
         for (int i = 0; i < npcMarkerUI._Npcs.Length; i++)
         {
-            if (npcMarkerUI._Npcs[i]._CurrentQuest == null || npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Unvaliable)
+            // 퀘스트가 없는 경우 또는 수락 불가상태 - 기본 아이콘
+            if (npcMarkerUI._Npcs[i]._CurrentQuest == null || 
+                npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Unvaliable) 
             {
-                npcMarkerUI._Npcs[i]._myImage.sprite = _default;
+                SetNpcSprite(npcMarkerUI._Npcs[i]._myImage, _default);
+                continue;
             }
-            else if (npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Avaliable)
+
+            switch(npcMarkerUI._Npcs[i]._CurrentQuest._questState)
             {
-                npcMarkerUI._Npcs[i]._myImage.sprite = _avaliable;
-            }
-            else if (npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Accepted)
-            {
-                npcMarkerUI._Npcs[i]._myImage.sprite = _inProgress;
-            }
-            else if (npcMarkerUI._Npcs[i]._CurrentQuest._questState == QuestState.Completed)
-            {
-                npcMarkerUI._Npcs[i]._myImage.sprite = _completed;
+                case QuestState.Avaliable:  // 퀘스트 수락 가능 상태
+                    SetNpcSprite(npcMarkerUI._Npcs[i]._myImage, _avaliable);
+                    break;
+                case QuestState.Accepted:   // 퀘스트 진행중
+                    SetNpcSprite(npcMarkerUI._Npcs[i]._myImage, _inProgress);
+                    break;
+                case QuestState.Completed:  // 퀘스트 완료
+                    SetNpcSprite(npcMarkerUI._Npcs[i]._myImage, _completed);
+                    break;
+                default:                    
+                    Debug.LogWarning(npcMarkerUI._Npcs[i]._npcName + " has wrong state");
+                    break;
             }
         }
     }
@@ -183,14 +190,14 @@ public class WorldMapUI : MonoBehaviour
     }
     #endregion
 
-    public void OpenMap()
+    public override void OpenControllableUI()
     {
         UIManager.CursorVisible(true);
         UIManager._isOpendUI = true;
         gameObject.SetActive(true);
     }
 
-    public void CloseMap()
+    public override void CloseControllableUI()
     {
         UIManager.CursorVisible(false);
         UIManager._isOpendUI = false;

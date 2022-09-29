@@ -26,6 +26,24 @@ public class Slot : MonoBehaviour
         SetAlpha(1);
     }
 
+    public void Clear()
+    {
+        _itemImage.sprite = null;
+        _itemKey = -1;
+        SetAlpha(0);
+    }
+
+    public void SetAlpha(int alpha)
+    {
+        Color color = _itemImage.color;
+        color.a = alpha;
+        _itemImage.color = color;
+
+        Color backColor = _itemBackground.color;
+        backColor.a = 145 / 255f * alpha;
+        _itemBackground.color = backColor;
+    }
+
     public void SetRegisteredText(GameObject itemObj)
     {
         if (_itemKey == -1)
@@ -50,23 +68,6 @@ public class Slot : MonoBehaviour
         }
     }
 
-    public void Clear()
-    {
-        _itemImage.sprite = null;
-        _itemKey = -1;
-        SetAlpha(0);
-    }
-
-    public void SetAlpha(int alpha)
-    {
-        Color color = _itemImage.color;
-        color.a = alpha;
-        _itemImage.color = color;
-
-        Color backColor = _itemBackground.color;
-        backColor.a = 145 / 255f * alpha;
-        _itemBackground.color = backColor;
-    }
 
     // 슬롯 클릭시 탈것 등록 버튼 호출
     public void OnRegistrationButton()

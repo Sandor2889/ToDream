@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
     #region Singleton
@@ -38,6 +39,9 @@ public class UIManager : MonoBehaviour
     private WorldMapUI _worldMapUI;
     private CursorManager _cursorManager;
 
+    private List<PopupUIBase> _popupUI = new List<PopupUIBase>();
+
+
     public QuestUI _QuestUI => _questUI;
     public QuestListUI _QuestListUI => _questListUI;
     public QButtonPool _QButtonPool => _qButtonPool;
@@ -56,7 +60,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-
+        
         _questUI = FindObjectOfType<QuestUI>(true);
         _questListUI = FindObjectOfType<QuestListUI>(true);
         _qButtonPool = FindObjectOfType<QButtonPool>(true);
@@ -75,41 +79,40 @@ public class UIManager : MonoBehaviour
         ControlUI();
     }
 
-
     // UI 컨트롤러
-    public void ControlUI()
+    private void ControlUI()
     {
         // 인벤토리 창
         if (Input.GetKeyDown(KeyCode.I))
         {
-            _inventoryUI.OpenInventory();
+            OpenOrClose(_inventoryUI);
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && _inventoryUI.gameObject.activeSelf)
-        {
-            _inventoryUI.CloseInventory();
-        }
-        
+
         // 퀘스트 창
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            _QuestListUI.OpenList();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && _questListUI.gameObject.activeSelf)
-        {
-            _questListUI.CloseList();
+            OpenOrClose(_questListUI);
         }
 
-        // Map
+        // 월드 맵
         if (Input.GetKeyDown(KeyCode.M))
         {
-            _worldMapUI.OpenMap();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && _worldMapUI.gameObject.activeSelf)
-        {
-            _worldMapUI.CloseMap();
+            OpenOrClose(_worldMapUI);
         }
 
-        // Quest Navigation
+        // esc 기능 - 가장 마지막에 킨 UI부터 종료
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            int lastIdx = _popupUI.Count - 1;   // 가장 최근에 Open한 UI 인덱스
+            if (lastIdx < 0) { return; }        // 예외처리 - 열려있는 UI가 없을 때
+
+            PopupUIBase lastUI = _popupUI[lastIdx];
+            lastUI.CloseControllableUI();
+            SetOrder(lastUI, false);
+            _popupUI.RemoveAt(lastIdx);
+        }
+
+        // 퀘스트 네비게이션
         if (Input.GetKeyDown(KeyCode.F) && !_questNav.gameObject.activeSelf)
         {
             _questNav.OnNav();
@@ -118,6 +121,37 @@ public class UIManager : MonoBehaviour
         {
             _questNav.OffNav();
         }
+    }
+
+    // PopupUI - 열었을 때 단축키로 다시 닫기 기능
+    private void OpenOrClose(PopupUIBase popupUI)
+    {
+        if (popupUI.gameObject.activeSelf)  // 닫기
+        {
+            _popupUI.Remove(popupUI);
+            SetOrder(popupUI, false);
+            popupUI.CloseControllableUI();
+        }
+        else   // 열기
+        {
+            _popupUI.Add(popupUI);
+            SetOrder(popupUI, true);
+            popupUI.OpenControllableUI();
+        }
+    }
+
+    // PopupUI 순서
+    private void SetOrder(PopupUIBase popupUI, bool active)
+    {
+        if (active)
+        {
+            // 켜져있는 모든 UI에대해 재정렬
+            for (int i = 0; i < _popupUI.Count; i++)
+            {
+                _popupUI[i]._canvas.sortingOrder = _popupUI.IndexOf(_popupUI[i]) + 1;
+            }
+        }
+        else { popupUI._canvas.sortingOrder = 0; } 
     }
 
     public static bool IsTalking()

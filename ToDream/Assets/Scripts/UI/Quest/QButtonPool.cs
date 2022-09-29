@@ -9,16 +9,16 @@ public class QButtonPool : MonoBehaviour
     [SerializeField] private ScrollRect _scrollRect;
     [SerializeField] private int _count;
 
-    public Queue<QButtenInList> _qButtons = new Queue<QButtenInList>();
+    public Queue<QButtonInList> _qButtons = new Queue<QButtonInList>();
 
     private void Awake()
     {
         InitObj(_count);
     }
 
-    private QButtenInList CreateNewObj()
+    private QButtonInList CreateNewObj()
     {
-        QButtenInList obj = Instantiate(_buttonObj).GetComponent<QButtenInList>();
+        QButtonInList obj = Instantiate(_buttonObj).GetComponent<QButtonInList>();
         obj.transform.SetParent(transform);
         obj.gameObject.SetActive(false);
         return obj;
@@ -32,11 +32,12 @@ public class QButtonPool : MonoBehaviour
         }
     }
 
-    public QButtenInList GetObj(Quest quest)
+    // 퀘스트 수락시 호출
+    public QButtonInList GetObj(Quest quest)
     {
-        if (_qButtons.Count > 0)
+        if (_qButtons.Count > 0)    // 수락 가능한 빈자리가 있다면 실행
         {
-            QButtenInList obj = _qButtons.Dequeue();
+            QButtonInList obj = _qButtons.Dequeue();
             obj._quest = quest;
             obj.SetText();
             obj.transform.SetParent(_scrollRect.content);
@@ -48,12 +49,11 @@ public class QButtonPool : MonoBehaviour
         else
         {
             // 퀘스트 수락 가능 한도제한 팝업 실행하기
-            Debug.Log("MAX");
             return null;
         }
     }
 
-    public void ReturnObj(QButtenInList qButton)
+    public void ReturnObj(QButtonInList qButton)
     {
         qButton._quest = null;
         qButton.transform.SetParent(transform);

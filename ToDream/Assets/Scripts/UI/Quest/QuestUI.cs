@@ -22,18 +22,22 @@ public class QuestUI : MonoBehaviour
     {
         Quest quest = UIManager._Instance._QuestUI._questGiver._CurrentQuest;
 
-        if (quest._questState != QuestState.Avaliable) { return; }
-        ActivateButton(true);
-        SetText(quest);
+        if (quest._questState != QuestState.Avaliable) { return; }  // 예외 처리
+
+        ActivateButton(true);        // 수락/거절 버튼 활성화
+        SetText(quest);              // 퀘스트 내용 업데이트
         gameObject.SetActive(true);
     }
 
     public void OpenQuestByList()
     {
-        UIManager UIMgr = UIManager._Instance;
-        Quest quest = UIMgr._QuestListUI._qButtons.Find(x => x._quest._questCode == UIMgr._QuestListUI._clickedQCode)._quest;
-        SetText(quest);
-        ActivateButton(false);
+        UIManager uiMgr = UIManager._Instance;
+        // QuestListUI에서 클릭한 퀘스트의 code와 수락한 퀘스트들 중 code가 일치 하는 것 찾기
+        Quest quest = uiMgr._QuestListUI._qButtons.Find(
+            x => x._quest._questCode == uiMgr._QuestListUI._clickedQCode)._quest;
+
+        ActivateButton(false);        // 포기/뒤로가기 버튼 활성화
+        SetText(quest);               // 퀘스트 내용 업데이트
         gameObject.SetActive(true);
     }
 
@@ -50,30 +54,42 @@ public class QuestUI : MonoBehaviour
 
     public void AcceptQuest()
     {
-       UIManager UIMgr =UIManager._Instance;
-        QuestGiver giver = UIMgr._QuestUI._questGiver;
+        UIManager uiMgr =UIManager._Instance;
+        QuestGiver giver = uiMgr._QuestUI._questGiver;
 
+        // QuestListUI에 등록
+        // 퀘스트 수락 가능 한도가 꽉찰 시 취소
+        QButtonInList qObj = uiMgr._QButtonPool.GetObj(giver._CurrentQuest);
+        if (qObj == null) 
+        {
+            Debug.Log("Quest is Full");
+            CloseQuest();
+            return;
+        }  
         giver._CurrentQuest.Accepted();
-        QuestManager._Instance._acceptedQuests.Add(giver._CurrentQuest);
-        UIMgr._QButtonPool.GetObj(giver._CurrentQuest);
+        qObj.SetText();
+        QuestManager._Instance._acceptedQuests.Add(giver._CurrentQuest);    // QuestManager에 등록
         CloseQuest();
 
-        if (UIMgr._DialogUI._dialogIdx < giver._CurrentQuest._talk.Count)
+        // 현재 진행된 대화 인덱스가 퀘스트의 총량 보다 작으면 동작 (퀘스트 수락 후 대화로 넘어감)
+        // 퀘스트 수락 후 대화가 없다면 대화 종료.
+        if (uiMgr._DialogUI._dialogIdx < giver._CurrentQuest._talk.Count)
         {
-            UIMgr._DialogUI.SetText(giver._npcName, giver._CurrentQuest._talk[UIMgr._DialogUI._dialogIdx]);
-            UIMgr._DialogUI._dialogIdx++;
+            uiMgr._DialogUI.SetText(giver._npcName, giver._CurrentQuest._talk[uiMgr._DialogUI._dialogIdx]);
+            uiMgr._DialogUI._dialogIdx++;
         }
         else
         {
-            UIMgr._DialogUI.CloseDialog();
+            uiMgr._DialogUI.CloseDialog();
         }
     }
 
     // 퀘스트를 수락전으로 되돌리기
     public void CancelQuest()
     {
-        UIManager UIMgr = UIManager._Instance;
-        QButtenInList qButton = UIMgr._QuestListUI._qButtons.Find(x => x._quest._questCode == UIMgr._QuestListUI._clickedQCode);
+        UIManager uiMgr = UIManager._Instance;
+        QButtonInList qButton = uiMgr._QuestListUI._qButtons.Find(
+            x => x._quest._questCode == uiMgr._QuestListUI._clickedQCode);
         Quest quest = qButton._quest;
 
 
@@ -85,7 +101,7 @@ public class QuestUI : MonoBehaviour
         quest.Avaliable();  // 퀘스트 상태 되돌리기
 
         QuestManager._Instance._acceptedQuests.Remove(quest);
-        UIMgr._QButtonPool.ReturnObj(qButton);
+        uiMgr._QButtonPool.ReturnObj(qButton);
         Back();
     }
 

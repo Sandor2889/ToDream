@@ -12,7 +12,7 @@ public enum Category
     Consumable
 }
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : PopupUIBase
 {
     [SerializeField] private VehicleRegistration _vehicleResgistration;
     [SerializeField] private Button[] _buttons;
@@ -73,8 +73,11 @@ public class InventoryUI : MonoBehaviour
         ClearSlotData();
         PressedCategory(category);
 
-        List<Item> copyList = _items.ToList<Item>();   // Item List 복제하여 활용
+        // Item List 복제하여 활용 (원본사용시 데이터가 바뀜)
+        List<Item> copyList = _items.ToList();   
         
+        // 1. copyList에서 같은 카테고리의 아이템을 찾아 슬롯에 넣어준다.
+        // 2. copyList에서 아이템을 제거한다.
         for (int i = 0; i < _slots.Length; i++)
         {
             Item item = copyList.Find(x => x._category == _category);
@@ -82,7 +85,6 @@ public class InventoryUI : MonoBehaviour
             if (item == null) { break; }
 
             _slots[i].SetItem(item._key);
-            
             copyList.Remove(item);
         }
 
@@ -142,7 +144,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public void OpenInventory()
+    public override void OpenControllableUI()
     {
         UIManager.CursorVisible(true);
         UIManager._isOpendUI = true;
@@ -150,7 +152,7 @@ public class InventoryUI : MonoBehaviour
         SortByCategory(_category);
     }
 
-    public void CloseInventory()
+    public override void CloseControllableUI()
     {
         UIManager.CursorVisible(false);
         UIManager._isOpendUI = false;

@@ -36,34 +36,26 @@ public class DialogUI : MonoBehaviour
 
     public void UpdateDialog()
     {
-        UIManager UIMgr = UIManager._Instance;
+        UIManager uiMgr = UIManager._Instance;
         QuestGiver giver = UIManager._Instance._QuestUI._questGiver;
 
-        // 퀘스트 수락 전 대화
+        // 퀘스트 창 Open 시점 (해당 Idx의 Text가 출력이 되야 하기 때문에 +1)
         if (_dialogIdx == giver._CurrentQuest._openQuestIdx + 1)
         {
-            UIMgr._QuestUI.OpenQuest();
+            uiMgr._QuestUI.OpenQuest();
         }
         // 퀘스트 수락 후 작별 인사
         else if (_dialogIdx >= giver._CurrentQuest._talk.Count)
         {
             CloseDialog();
         }
+        // 퀘스트 수락 전 대화 (dialogIdx == 0 ~ openQuestIdx - 1)
         else
         {
             string str = giver._CurrentQuest._talk[_dialogIdx];
             SetText(giver._npcName, str);
-
             _dialogIdx++;
         }
-    }
-
-    public void SetNextButton(bool enable, float alpha)
-    {
-        _nextButton.enabled = enable;
-        Color color = _nextButton.GetComponent<Image>().color;
-        color.a = alpha;
-        _nextButton.GetComponent<Image>().color = color;
     }
 
     public void SetText(NPCName npc, string msg)
