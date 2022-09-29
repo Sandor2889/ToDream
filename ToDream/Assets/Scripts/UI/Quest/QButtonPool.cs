@@ -39,7 +39,6 @@ public class QButtonPool : MonoBehaviour
         {
             QButtonInList obj = _qButtons.Dequeue();
             obj._quest = quest;
-            obj.SetText();
             obj.transform.SetParent(_scrollRect.content);
             obj.gameObject.SetActive(true);
 

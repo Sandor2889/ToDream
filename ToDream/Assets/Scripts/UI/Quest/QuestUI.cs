@@ -68,7 +68,8 @@ public class QuestUI : MonoBehaviour
         }  
         giver._CurrentQuest.Accepted();
         qObj.SetText();
-        QuestManager._Instance._acceptedQuests.Add(giver._CurrentQuest);    // QuestManager에 등록
+        // QuestManager의 수락한 퀘스트 List에 등록
+        QuestManager._Instance._acceptedQuests.Add(giver._CurrentQuest);    
         CloseQuest();
 
         // 현재 진행된 대화 인덱스가 퀘스트의 총량 보다 작으면 동작 (퀘스트 수락 후 대화로 넘어감)
