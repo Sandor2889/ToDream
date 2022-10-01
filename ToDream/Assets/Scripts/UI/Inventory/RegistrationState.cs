@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class RegistrationState : MonoBehaviour
 {
-    public bool _isRegistered;
+    public bool _isRegistered;  // 탈것 등록 여부
     public int _itemKey;
 }

@@ -46,14 +46,14 @@ public class Slot : MonoBehaviour
 
     public void SetRegisteredText(GameObject itemObj)
     {
-        if (_itemKey == -1)
+        if (_itemKey == -1) // -1: 빈 슬롯
         {
             _stateText.gameObject.SetActive(false);
         }
-        else
+        else  // null, 등록 상태, 슬롯의 key와 등록된 카테고리의 아이템 동일 여부 비교
         {
-            if (itemObj == null || 
-                !itemObj.GetComponent<RegistrationState>()._isRegistered || 
+            if (itemObj == null ||
+                !itemObj.GetComponent<RegistrationState>()._isRegistered ||
                 _itemKey != itemObj.GetComponent<RegistrationState>()._itemKey)
             {
                 _stateText.text = "OFF";
@@ -76,6 +76,15 @@ public class Slot : MonoBehaviour
 
         _registration._itemKey = _itemKey;
         _registration._buttonPanel.transform.position = gameObject.transform.position + _offset;
+
+        // 탈 것이 미등록 상태면 Release 버튼 활성화
+        GameObject obj;
+        _registration._registeredObjs.TryGetValue(_itemKey, out obj);
+        if (obj != null && obj.GetComponent<RegistrationState>()._isRegistered)
+        {
+            _registration.SetReleaseButtonInter(true);
+        }
+
         _registration.gameObject.SetActive(true);
     }
 }

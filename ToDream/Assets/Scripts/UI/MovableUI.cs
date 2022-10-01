@@ -24,7 +24,6 @@ public class MovableUI : MonoBehaviour, IBeginDragHandler, IDragHandler
         _moveBegin = eventData.position;
     }
 
-
     // 드래그 : 마우스 커서 위치로 이동
     void IDragHandler.OnDrag(PointerEventData eventData)
     {

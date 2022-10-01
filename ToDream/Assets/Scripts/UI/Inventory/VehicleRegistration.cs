@@ -5,14 +5,20 @@ using UnityEngine.UI;
 
 public class VehicleRegistration : MonoBehaviour
 {
-    private Dictionary<int, GameObject> _registeredObjs = new Dictionary<int, GameObject>();        // 씬에 배치된 아이템
+    public Dictionary<int, GameObject> _registeredObjs = new Dictionary<int, GameObject>();  // 씬에 배치된 아이템
 
     public GameObject _buttonPanel;
     public int _itemKey;
+    public Button _release;
 
     private void Awake()
     {
         VehicleWheelController._currentVehicles[0] = FindObjectOfType<CharacterController>(true).gameObject;
+    }
+
+    private void OnDisable()
+    {
+        SetReleaseButtonInter(false);
     }
 
     // 등록
@@ -36,7 +42,7 @@ public class VehicleRegistration : MonoBehaviour
             VehicleWheelController._currentVehicles[category + 1] = obj;
         }
 
-        // slot의 stateText - 현재 등록된 카테고리의 탈것과 다른것을 등록할 경우
+        // slot의 ON/OFF Text - 현재 등록된 카테고리의 탈것과 다른것을 등록할 경우
         if (preObj != null && preObj != obj)
         {
             preObj.GetComponent<RegistrationState>()._isRegistered = false;
@@ -49,8 +55,10 @@ public class VehicleRegistration : MonoBehaviour
     // 등록 해제
     public void Release()
     {
-        int category = (int)GameManager.GetDicValue(_itemKey)._category;
+        Item item = GameManager.GetDicValue(_itemKey);
+        int category = (int)item._category;
 
+        GetObjDicValue().GetComponent<RegistrationState>()._isRegistered = false;
         VehicleWheelController._currentVehicles[category + 1] = null;
         UIManager._Instance._InventoryUI.UpdateRegisteredSlot();
         OnBack();
@@ -59,5 +67,18 @@ public class VehicleRegistration : MonoBehaviour
     public void OnBack()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public GameObject GetObjDicValue()
+    {
+        GameObject obj;
+        _registeredObjs.TryGetValue(_itemKey, out obj);
+        return obj;
+    }
+
+    // 해제 버튼 상호작용 On/Off
+    public void SetReleaseButtonInter(bool enable)
+    {
+        _release.interactable = enable;     
     }
 }
