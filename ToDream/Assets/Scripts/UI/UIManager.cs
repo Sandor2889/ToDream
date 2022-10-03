@@ -82,6 +82,9 @@ public class UIManager : MonoBehaviour
     // UI 컨트롤러
     private void ControlUI()
     {
+        // 대화중일 땐 기능 막기
+        if (IsTalking()) { return; }
+
         // 인벤토리 창
         if (Input.GetKeyDown(KeyCode.I))
         {

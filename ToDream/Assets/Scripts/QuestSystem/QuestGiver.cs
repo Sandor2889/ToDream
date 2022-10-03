@@ -57,6 +57,7 @@ public class QuestGiver : MonoBehaviour
 
         if (_myQuests.Count <= 0) { return; }
 
+        // 각 Quest에 이벤트 등록
         foreach (var quest in _myQuests)
         {
             quest._nextQuest += NextQuestIdx;
