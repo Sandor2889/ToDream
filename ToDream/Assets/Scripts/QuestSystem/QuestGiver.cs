@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // NPC ¿Ã∏ß
+[System.Serializable]
 public enum NPCName
 {
     Mother,
