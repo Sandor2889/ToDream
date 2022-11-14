@@ -20,7 +20,7 @@ public class QuestUI : MonoBehaviour
 
     public void OpenQuest()
     {
-        Quest quest = UIManager._Instance._QuestUI._questGiver._CurrentQuest;
+        Quest quest = _questGiver._CurrentQuest;
 
         if (quest._questState != QuestState.Avaliable) { return; }  // 예외 처리
 
@@ -54,29 +54,28 @@ public class QuestUI : MonoBehaviour
 
     public void AcceptQuest()
     {
-        UIManager uiMgr =UIManager._Instance;
-        QuestGiver giver = uiMgr._QuestUI._questGiver;
-
         // QuestListUI에 등록
+        UIManager uiMgr =UIManager._Instance;
+        QButtonInList qObj = uiMgr._QButtonPool.GetObj(_questGiver._CurrentQuest);
+
         // 퀘스트 수락 가능 한도가 꽉찰 시 취소
-        QButtonInList qObj = uiMgr._QButtonPool.GetObj(giver._CurrentQuest);
         if (qObj == null) 
         {
             Debug.Log("Quest is Full");
             CloseQuest();
             return;
-        }  
-        giver._CurrentQuest.Accepted();
+        }
+        _questGiver._CurrentQuest.Accepted();
         qObj.SetText();
         // QuestManager의 수락한 퀘스트 List에 등록
-        QuestManager._Instance._acceptedQuests.Add(giver._CurrentQuest);    
+        QuestManager._Instance._acceptedQuests.Add(_questGiver._CurrentQuest);    
         CloseQuest();
 
         // 현재 진행된 대화 인덱스가 퀘스트의 총량 보다 작으면 동작 (퀘스트 수락 후 대화로 넘어감)
         // 퀘스트 수락 후 대화가 없다면 대화 종료.
-        if (uiMgr._DialogUI._dialogIdx < giver._CurrentQuest._talk.Count)
+        if (uiMgr._DialogUI._dialogIdx < _questGiver._CurrentQuest._talk.Count)
         {
-            uiMgr._DialogUI.SetText(giver._npcName, giver._CurrentQuest._talk[uiMgr._DialogUI._dialogIdx]);
+            uiMgr._DialogUI.SetText(_questGiver._npcName, _questGiver._CurrentQuest._talk[uiMgr._DialogUI._dialogIdx]);
             uiMgr._DialogUI._dialogIdx++;
         }
         else
